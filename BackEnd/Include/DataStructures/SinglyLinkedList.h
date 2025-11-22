@@ -86,6 +86,7 @@ namespace Singly{
         L->Head = nullptr;
         L->Size = 0;
     }
+    
 }
 
 #endif

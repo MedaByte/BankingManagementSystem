@@ -22,10 +22,7 @@ namespace Singly{
     
     template <typename T>
     List<T> Create(){
-        List<T> L;
-        L.Head = nullptr;
-        L.Size = 0;
-        return L;
+        return List<T>{nullptr, 0};
     }
 
     template <typename T>
@@ -40,14 +37,13 @@ namespace Singly{
             delete node;
             return false;
         }
+        std::cerr << "Error Allocating Memory!";
         return true;
     }
 
     template <typename T>
     void PushBack(List<T>* L, const T& value){
-        if (IsFull()){
-            return;
-        }
+        if (IsFull()) return;
 
         Node<T>* node = new (std::nothrow) Node<T>{value, nullptr};
 
@@ -65,14 +61,60 @@ namespace Singly{
     }
 
     template <typename T>
+    void PushFront(List<T>* L, const T& value){
+        if (IsFull()) return;
+
+        Node<T>* node = new (std::nothrow) Node<T>{value, nullptr};
+
+            node->Next = L->Head;
+            L->Head = node;
+        L->Size++;
+    }
+
+    template <typename T>
     void PopFront(List<T>* L){
-        if (L->Size == 0) return;
+        if (IsEmpty(*L)) return;
 
         Node<T>* tmp = L->Head;
         L->Head = L->Head->Next;
         delete tmp;
         L->Size--;
     }
+
+    template <typename T>
+    void PopBack(List<T>* L){
+        if (IsEmpty(*L)) return;
+        
+        if (L->Size == 1){
+            delete L->Head;
+            L->Head = nullptr;
+        }
+        else{
+            
+            Node<T>* curr = L->Head;
+            while (curr->Next->Next){
+                curr = curr->Next;
+            }
+            
+            delete curr->Next;
+            curr->Next = nullptr;
+        }
+        L->Size--;
+    }
+
+    template <typename T>
+    T GetAt(const List<T>& L, int pos){
+        if (pos < 1 || pos > L.Size) return T{};
+
+        Node<T>* curr = L->Head;
+
+        for (int i=1; i<pos; i++){
+            curr = curr->Next;
+        }
+
+        return curr->Data;
+    }
+
 
     template <typename T>
     void Clear(List<T>* L){
@@ -86,7 +128,7 @@ namespace Singly{
         L->Head = nullptr;
         L->Size = 0;
     }
-    
+
 }
 
 #endif

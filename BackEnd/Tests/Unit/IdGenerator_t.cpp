@@ -1,9 +1,14 @@
 #include "../../Include/Utils/IdGenerator.h"
+#include "../../Include/Utils/GetExeFolder.h"
+
 #include <iostream>
 
 int main() {
     try {
-        std::string dataFolder = "BackEnd/Data/";
+
+        std::string exeFolder = Utils::getExeFolder();
+        
+        std::string dataFolder = exeFolder + "/../../Data/";
 
         std::string accId1 = Utils::GenerateId(dataFolder + "last_account_id.txt", "ACC");
         std::cout << "Generated Account ID: " << accId1 << "\n";

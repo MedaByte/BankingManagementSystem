@@ -43,6 +43,10 @@ namespace Stack{
         Singly::Clear(&S->List);
     }
     
+    template <typename T>
+    void Display(const Stack<T>& S){
+        Singly::Display(S.List);
+    }
 }
 
 #endif

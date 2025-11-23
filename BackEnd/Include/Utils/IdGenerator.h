@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include <iostream>
 
 namespace Utils{
 
@@ -20,7 +21,8 @@ namespace Utils{
 
         std::ofstream outFile(filepath);
         if (!outFile){
-            throw std::runtime_error("Couldn't open Id File for writing:" + filepath + ", PR=" + prefix);
+            std::cout << "Couldn't open Id File for writing:" + filepath + ", PR=" + prefix;
+            return "";
         }
         outFile << NewId;
 

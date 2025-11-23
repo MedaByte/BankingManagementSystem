@@ -45,5 +45,10 @@ namespace Queue{
     void Clear(Queue<T>* Q){
         Singly::Clear(&Q->List);
     }
+
+    template <typename T>
+    void Display(const Queue<T>& Q){
+        Singly::Display(Q.List);
+    }
 }
 #endif

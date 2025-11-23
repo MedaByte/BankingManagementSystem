@@ -37,7 +37,7 @@ namespace Queue{
     }
 
     template <typename T>
-    T Front(const Queue<T>& Q){
+    T Back(const Queue<T>& Q){
         return Singly::GetAt(Q.List, Q.List->Size);
     }
 

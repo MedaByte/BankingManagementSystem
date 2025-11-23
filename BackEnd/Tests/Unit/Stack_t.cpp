@@ -27,6 +27,8 @@ void TestStack() {
     Pop(&stack);
     assert(IsEmpty(stack));
 
+    Pop(&stack);
+
     std::cout << "Stack tests passed!\n";
 }
 

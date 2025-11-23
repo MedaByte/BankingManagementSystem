@@ -115,18 +115,20 @@ namespace Doubly{
 
     template <typename T>
     void RemoveAt(List<T>* L, int pos){
-
+        std::cout << "test1";
         if (pos < 1 || pos > L->Size) return;
-
+        std::cout << "test2";
         if (pos == 1) {
+            std::cout << "test3";
             PopFront(L);
             return;
         }
         if (pos == L->Size){ 
+            std::cout << "test4";
             PopBack(L);
             return;
         }
-        
+        std::cout << "test5";
         Node<T>* curr = nullptr;
         if (pos < L->Size / 2){
             curr = L->Head;
@@ -134,10 +136,11 @@ namespace Doubly{
             for (int i=1; i<pos; i++){
                 curr = curr->Next;
             }
+            std::cout << "test6";
         }
         else{
             curr = L->Tail;
-            for (int i=L->Size; i>pos; i++){
+            for (int i=L->Size; i>pos; i--){
                 curr = curr->Prev;
             }
         }
@@ -194,7 +197,7 @@ namespace Doubly{
     void Display(const List<T>& L) {
         Node<T>* curr = L.Head;
         
-        std::cout << " nullptr <-";
+        std::cout << " nullptr <- ";
         while (curr) {
             std::cout << curr->Data;
             if (curr->Next) std::cout << " <-> ";

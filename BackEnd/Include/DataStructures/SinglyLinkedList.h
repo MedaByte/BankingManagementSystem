@@ -43,7 +43,7 @@ namespace Singly{
 
     template <typename T>
     void PushBack(List<T>* L, const T& value){
-        if (IsFull()) return;
+        if (IsFull<T>()) return;
 
         Node<T>* node = new (std::nothrow) Node<T>{value, nullptr};
 
@@ -62,7 +62,7 @@ namespace Singly{
 
     template <typename T>
     void PushFront(List<T>* L, const T& value){
-        if (IsFull()) return;
+        if (IsFull<T>()) return;
 
         Node<T>* node = new (std::nothrow) Node<T>{value, nullptr};
 
@@ -106,7 +106,7 @@ namespace Singly{
     T GetAt(const List<T>& L, int pos){
         if (pos < 1 || pos > L.Size) return T{};
 
-        Node<T>* curr = L->Head;
+        Node<T>* curr = L.Head;
 
         for (int i=1; i<pos; i++){
             curr = curr->Next;
@@ -128,6 +128,18 @@ namespace Singly{
         L->Head = nullptr;
         L->Size = 0;
     }
+
+    template <typename T>
+    void Display(const List<T>& L) {
+        Node<T>* curr = L.Head;
+        while (curr) {
+            std::cout << curr->Data;
+            if (curr->Next) std::cout << " -> ";
+            curr = curr->Next;
+        }
+        std::cout << " -> nullptr\n";
+    }
+
 
 }
 

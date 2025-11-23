@@ -9,7 +9,7 @@ namespace Stack{
     template <typename T>
     struct Stack
     {
-        Singly::List List;
+        Singly::List<T> List;
 
     };
 
@@ -20,14 +20,28 @@ namespace Stack{
 
     template <typename T>
     bool IsEmpty(const Stack<T>& S){
-        return Singly::IsEmpty(&S.List);
+        return Singly::IsEmpty(S.List);
     }
 
     template <typename T>
-    void Push(Stack<T>* S, T value){
-        Singly::PushFront(S->List, value);
+    void Push(Stack<T>* S,const T& value){
+        Singly::PushFront(&S->List, value);
     }
     
+    template <typename T>
+    void Pop(Stack<T>* S){
+        Singly::PopFront(&S->List);
+    }
+
+    template <typename T>
+    T Top(const Stack<T>& S){
+        return Singly::GetAt(S.List, 1);
+    }
+    
+    template <typename T>
+    void Clear(Stack<T>* S){
+        Singly::Clear(&S->List);
+    }
     
 }
 

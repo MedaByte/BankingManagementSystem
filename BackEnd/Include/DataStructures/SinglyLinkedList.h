@@ -140,6 +140,16 @@ namespace Singly{
         std::cout << " -> nullptr\n";
     }
 
+    template <typename T, typename Predicate>
+    Node<T>* Find(List<T>& L, Predicate pred) {
+        Node<T>* curr = L.Head;
+        while (curr) {
+            if (pred(curr->Data)) return curr;
+            curr = curr->Next;
+        }
+        return nullptr;
+}
+
 }
 
 #endif

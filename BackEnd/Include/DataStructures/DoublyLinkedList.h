@@ -186,7 +186,7 @@ namespace Doubly{
     Node<T>* FindByID(List<T>& L, int id) {
         Node<T>* curr = L.Head;
         while (curr) {
-            if (curr->Data.ID == id)
+            if (curr->Data.Id == id)
                 return curr;
             curr = curr->Next;
         }

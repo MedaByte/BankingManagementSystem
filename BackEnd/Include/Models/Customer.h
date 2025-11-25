@@ -1,18 +1,54 @@
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
-
-#include <string>
-#include "../DataStructures/SinglyLinkedList.h"
+#include <iostream>
+#include "../Utils/IdGenerator.h"
+#include "../Utils/OriginPath.h"
 #include "Account.h"
+#include "../DataStructures/SinglyLinkedList.h"
 
-struct Customer {
-	std::string Id;
-	std::string Name;
-	std::string LastName;
-	std::string Address;
-	std::string Phone;
+namespace Customer {
 
-	Singly::List<Account> Accounts;
-};
+    struct Customer {
+        std::string Id;
+        std::string Name;
+        std::string LastName;
+        std::string Address;
+        std::string Phone;
 
-#endif
+        Singly::List<Account::Account> Accounts;
+    };
+
+    inline Customer Create(
+        const std::string& Name,
+        const std::string& LastName,
+        const std::string& Address,
+        const std::string& Phone,
+        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "BackEnd/Data/last_customer_id.txt", "CUS")
+    ) {
+        return Customer{
+            Id,
+            Name,
+            LastName,
+            Address,
+            Phone,
+            Singly::Create<Account::Account>()
+        };
+    }
+
+    inline void AddAccount(Customer* C, const Account::Account& A) {
+        Singly::PushBack(&C->Accounts, A);
+    }
+
+    inline Account::Account* FindAccount(Customer* C, const std::string& AccountNumber) {
+        auto Node = Singly::Find(C->Accounts, [&](const Account::Account& A) { return A.AccountNumber == AccountNumber; });
+        if (Node) return &Node->Data;
+        return nullptr;
+    }
+
+    inline void Display(const Customer& C) {
+        std::cout << "Customer ID: " << C.Id << "\n";
+        std::cout << "Name: " << C.Name << " " << C.LastName << "\n";
+        std::cout << "Address: " << C.Address << "\n";
+        std::cout << "Phone: " << C.Phone << "\n";
+        std::cout << "Accounts: " << C.Accounts.Size << "\n";
+    }
+
+}

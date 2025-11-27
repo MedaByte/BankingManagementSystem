@@ -54,6 +54,7 @@ namespace AccountCSV {
             std::getline(ss, status, ',');
             std::getline(ss, balance, ',');
 
+            double bal = balance.empty() ? 0.0 : std::stod(balance);
             int d, m, y;
             sscanf(date.c_str(), "%d/%d/%d", &d, &m, &y);
 
@@ -65,7 +66,7 @@ namespace AccountCSV {
                 holder,
                 {d, m, y},
                 status,
-                std::stod(balance),
+                bal,
                 Doubly::Create<Loan::Loan>(),
                 Stack::Create<Transaction::Transaction>()
             };

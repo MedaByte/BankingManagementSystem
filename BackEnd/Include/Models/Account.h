@@ -57,23 +57,6 @@ namespace Account {
 			Stack::Create<Transaction::Transaction>()
 		};
 
-		std::ofstream outFile(Utils::GetOriginFolder() + "/BackEnd/Data/accounts.csv", std::ios::app);
-		if(outFile.is_open()){
-			outFile << NewAccount.AccountNumber <<","
-					<< NewAccount.HolderName << ","
-					<< NewAccount.AccountType << ","
-					<< NewAccount.IBAN << ","
-					<< NewAccount.BranchCode <<","
-					<< Date::GetDay(NewAccount.OpeningDate) << "/"
-					<< Date::GetMonth(NewAccount.OpeningDate) << "/"
-					<< NewAccount.OpeningDate.Year <<","
-					<< NewAccount.Status << ","
-					<< NewAccount.Balance <<"\n";
-			outFile.close();
-		} else {
-			std::cerr << "Error: Cannot open accounts.csv to save account.\n";
-		}
-
 		return NewAccount;
 	}
 

@@ -1,2 +1,4 @@
 AccountNumber,HolderName,AccountType,IBAN,BranchCode,OpeningDate,Status,Balance
-ACC0001,John Doe,Savings,IBAN12345,BR001,1/1/2025,Active,2000
+ACC0001,John Doe,Savings,TN001ACC0001,1,27/11/2025,Active,0
+ACC0002,John Doe,Savings,TN001ACC0002,1,27/11/2025,Active,0
+ACC0003,John Doe,Savings,TN001ACC0003,1,27/11/2025,Active,0

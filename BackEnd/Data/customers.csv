@@ -1,2 +1,4 @@
 CustomerID,Name,LastName,Address,Phone
-CUS0001,Jane,Doe,123 Street,1234567890
+CUS0001,Jane,Doe,Street 1,12345678
+CUS0002,Jane,Doe,Street 1,12345678
+CUS0003,Jane,Doe,Street 1,12345678

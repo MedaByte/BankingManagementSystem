@@ -42,19 +42,6 @@ namespace Employee {
             Status
         };
 
-        std::ofstream File(Utils::GetOriginFolder() + "/BackEnd/Data/employees.csv", std::ios::app);
-        File << NewEmployee.Id << ","
-            << NewEmployee.Name << ","
-            << NewEmployee.LastName << ","
-            << NewEmployee.Address << ","
-            << NewEmployee.Salary << ","
-            << Date::GetDay(NewEmployee.HireDate) << "/"
-            << Date::GetMonth(NewEmployee.HireDate) << "/"
-            << NewEmployee.HireDate.Year << ","
-            << NewEmployee.BranchCode << ","
-            << NewEmployee.Status << "\n";
-        File.close();
-
         return NewEmployee;
     }
 

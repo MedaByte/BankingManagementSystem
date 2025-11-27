@@ -1,2 +1,4 @@
 LoanID,Amount,InterestRate,StartDay/StartMonth/StartYear,EndDay/EndMonth/EndYear,Status
-LOAN0001,5000,5,1/1/2025,1/1/2026,Pending
+LOAN0001,1000,0.05,27/11/2025,27/11/2026,active
+LOAN0002,1000,0.05,27/11/2025,27/11/2026,active
+LOAN0003,1000,0.05,27/11/2025,27/11/2026,active

@@ -43,19 +43,6 @@ namespace Loan {
             Stack::Create<Transaction::Transaction>()
         };
 
-        std::ofstream File(Utils::GetOriginFolder() + "/BackEnd/Data/loans.csv", std::ios::app);
-        File << NewLoan.Id << ","
-            << NewLoan.Amount << ","
-            << NewLoan.InterestRate << ","
-            << Date::GetDay(NewLoan.StartDate) << "/"
-            << Date::GetMonth(NewLoan.StartDate) << "/"
-            << NewLoan.StartDate.Year << ","
-            << Date::GetDay(NewLoan.EndDate) << "/"
-            << Date::GetMonth(NewLoan.EndDate) << "/"
-            << NewLoan.EndDate.Year << ","
-            << NewLoan.Status << "\n";
-        File.close();
-
         return NewLoan;
     }
 

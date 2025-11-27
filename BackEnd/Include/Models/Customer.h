@@ -1,3 +1,6 @@
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+
 #include <iostream>
 #include "../Utils/IdGenerator.h"
 #include "../Utils/OriginPath.h"
@@ -65,3 +68,5 @@ namespace Customer {
     }
 
 }
+
+#endif

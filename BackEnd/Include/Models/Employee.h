@@ -27,11 +27,11 @@ namespace Employee {
         const std::string& Address,
         double Salary,
         const std::string& BranchCode,
-        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "BackEnd/Data/last_employee_id.txt", "EMP"),
+        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_employee_id.txt", "EMP"),
         const Date::Date& HireDate = Date::Now(),
         const std::string& Status = "active"
     ) {
-        return Employee{
+        Employee NewEmployee{
             Id,
             Name,
             LastName,
@@ -41,7 +41,23 @@ namespace Employee {
             BranchCode,
             Status
         };
+
+        std::ofstream File(Utils::GetOriginFolder() + "/BackEnd/Data/employees.csv", std::ios::app);
+        File << NewEmployee.Id << ","
+            << NewEmployee.Name << ","
+            << NewEmployee.LastName << ","
+            << NewEmployee.Address << ","
+            << NewEmployee.Salary << ","
+            << Date::GetDay(NewEmployee.HireDate) << "/"
+            << Date::GetMonth(NewEmployee.HireDate) << "/"
+            << NewEmployee.HireDate.Year << ","
+            << NewEmployee.BranchCode << ","
+            << NewEmployee.Status << "\n";
+        File.close();
+
+        return NewEmployee;
     }
+
 
     inline void ChangeSalary(Employee* E, double NewSalary) {
         E->Salary = NewSalary;

@@ -183,7 +183,7 @@ namespace Doubly{
     }
 
     template <typename T>
-    Node<T>* FindByID(List<T>& L, int id) {
+    Node<T>* FindByID(List<T>& L, std::string id) {
         Node<T>* curr = L.Head;
         while (curr) {
             if (curr->Data.Id == id)

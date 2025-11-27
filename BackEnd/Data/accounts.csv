@@ -1,0 +1,2 @@
+AccountNumber,HolderName,AccountType,IBAN,BranchCode,OpeningDate,Status,Balance
+ACC0005,CUS0005,checking,TN001ACC0005,1,27/11/2025,active,0

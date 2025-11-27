@@ -32,8 +32,26 @@ namespace Date{
         return Date{ LocalTime->tm_mday, LocalTime->tm_mon + 1, LocalTime->tm_year + 1900 };
     }
 
-    inline std::string ToString(const Date& D) {
-        return std::to_string(D.Year) + "-" + GetMonth(D) + "-" + GetDay(D);
+    inline Date FromString(const std::string& s) {
+        int Day = 0, Month = 0, Year = 0;
+        size_t firstSlash = s.find('/');
+        size_t secondSlash = s.find('/', firstSlash + 1);
+
+        if (firstSlash != std::string::npos && secondSlash != std::string::npos) {
+            Day = std::stoi(s.substr(0, firstSlash));
+            Month = std::stoi(s.substr(firstSlash + 1, secondSlash - firstSlash - 1));
+            Year = std::stoi(s.substr(secondSlash + 1));
+        }
+
+        return Date{Day, Month, Year};
+    }
+
+    inline std::string ToString(const Date& d) {
+        std::string sDay = (d.Day < 10 ? "0" : "") + std::to_string(d.Day);
+        std::string sMonth = (d.Month < 10 ? "0" : "") + std::to_string(d.Month);
+        std::string sYear = std::to_string(d.Year);
+
+        return sDay + "/" + sMonth + "/" + sYear;
     }
 
     inline bool IsLeapYear(int Year) {

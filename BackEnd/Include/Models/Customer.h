@@ -21,9 +21,9 @@ namespace Customer {
         const std::string& LastName,
         const std::string& Address,
         const std::string& Phone,
-        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "BackEnd/Data/last_customer_id.txt", "CUS")
+        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_customer_id.txt", "CUS")
     ) {
-        return Customer{
+        Customer NewCustomer{
             Id,
             Name,
             LastName,
@@ -31,8 +31,21 @@ namespace Customer {
             Phone,
             Singly::Create<Account::Account>()
         };
-    }
 
+        std::ofstream outFile(Utils::GetOriginFolder() + "/BackEnd/Data/customers.csv", std::ios::app);
+        if(outFile.is_open()){
+            outFile << NewCustomer.Id << ","
+                    << NewCustomer.Name << ","
+                    << NewCustomer.LastName << ","
+                    << NewCustomer.Address << ","
+                    << NewCustomer.Phone << "\n";
+            outFile.close();
+        } else {
+            std::cerr << "Error: Cannot open customers.csv to save customer.\n";
+        }
+
+        return NewCustomer;
+    }
     inline void AddAccount(Customer* C, const Account::Account& A) {
         Singly::PushBack(&C->Accounts, A);
     }

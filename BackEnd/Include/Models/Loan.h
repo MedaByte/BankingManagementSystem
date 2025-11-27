@@ -14,7 +14,7 @@
 namespace Loan {
 
     struct Loan {
-        std::string LoanID;
+        std::string Id;
         double Amount;
         double InterestRate;
         Date::Date StartDate;
@@ -24,17 +24,17 @@ namespace Loan {
     };
 
     inline Loan Create(
-        std::string LoanID = Utils::GenerateId(Utils::GetOriginFolder() + "BackEnd/Data/last_loan_id.txt", "LOAN"),
         double Amount,
         double InterestRate,
         int DurationInMonths,
-        const Date::Date& StartDate = Date::Now(),
-        const std::string& Status = "active"
-    ){
-
+        const std::string& Status = "active",
+        std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_loan_id.txt", "LOAN"),
+        const Date::Date& StartDate = Date::Now()
+    ) {
         Date::Date EndDate = Date::AddMonths(StartDate, DurationInMonths);
-        return Loan{
-            LoanID,
+
+        Loan NewLoan{
+            Id,
             Amount,
             InterestRate,
             StartDate,
@@ -42,7 +42,23 @@ namespace Loan {
             Status,
             Stack::Create<Transaction::Transaction>()
         };
+
+        std::ofstream File(Utils::GetOriginFolder() + "/BackEnd/Data/loans.csv", std::ios::app);
+        File << NewLoan.Id << ","
+            << NewLoan.Amount << ","
+            << NewLoan.InterestRate << ","
+            << Date::GetDay(NewLoan.StartDate) << "/"
+            << Date::GetMonth(NewLoan.StartDate) << "/"
+            << NewLoan.StartDate.Year << ","
+            << Date::GetDay(NewLoan.EndDate) << "/"
+            << Date::GetMonth(NewLoan.EndDate) << "/"
+            << NewLoan.EndDate.Year << ","
+            << NewLoan.Status << "\n";
+        File.close();
+
+        return NewLoan;
     }
+
 
     inline void AddPayment(Loan* L, const Transaction::Transaction& T){
         Stack::Push(&L->Payments, T);
@@ -63,7 +79,7 @@ namespace Loan {
     }
 
     inline void Display(const Loan& L){
-        std::cout << "LoanID: " << L.LoanID << "\n";
+        std::cout << "Id: " << L.Id << "\n";
         std::cout << "Amount: " << std::fixed << std::setprecision(2) << L.Amount << " TND\n";
         std::cout << "InterestRate: " << L.InterestRate * 100 << "%\n";
         std::cout << "StartDate: " << Date::GetDay(L.StartDate) << "/" 

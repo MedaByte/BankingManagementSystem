@@ -11,6 +11,7 @@
 #include "Loan.h"
 #include "Transaction.h"
 #include "Date.h"
+#include <fstream>
 
 namespace Account {
     struct Account {
@@ -34,15 +35,16 @@ namespace Account {
 
 	inline Account Create(
 		const std::string& HolderName,
-        const std::string& AccountType,
-        const std::string& BranchCode,
-		const std::string& AccountNumber  = Utils::GenerateId(Utils::GetOriginFolder() + "BackEnd/Data/last_account_id.txt", "ACC"),
+		const std::string& AccountType,
+		const std::string& BranchCode,
+		const std::string& Status,
+		const std::string& AccountNumber  = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_account_id.txt", "ACC"),
 		const Date::Date& OpeningDate = Date::Now(),
-		const std::string& Status = "active",
 		double Balance = 0.0
 	){
-        std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);
-		return Account{
+		std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);
+
+		Account NewAccount{
 			AccountNumber,
 			AccountType,
 			IBAN,
@@ -54,13 +56,32 @@ namespace Account {
 			Doubly::Create<Loan::Loan>(),
 			Stack::Create<Transaction::Transaction>()
 		};
+
+		std::ofstream outFile(Utils::GetOriginFolder() + "/BackEnd/Data/accounts.csv", std::ios::app);
+		if(outFile.is_open()){
+			outFile << NewAccount.AccountNumber <<","
+					<< NewAccount.HolderName << ","
+					<< NewAccount.AccountType << ","
+					<< NewAccount.IBAN << ","
+					<< NewAccount.BranchCode <<","
+					<< Date::GetDay(NewAccount.OpeningDate) << "/"
+					<< Date::GetMonth(NewAccount.OpeningDate) << "/"
+					<< NewAccount.OpeningDate.Year <<","
+					<< NewAccount.Status << ","
+					<< NewAccount.Balance <<"\n";
+			outFile.close();
+		} else {
+			std::cerr << "Error: Cannot open accounts.csv to save account.\n";
+		}
+
+		return NewAccount;
 	}
 
 	inline void AddLoan(Account* A, const Loan::Loan& L){
 		Doubly::PushBack(&A->Loans, L);
 	}
 
-	inline Loan::Loan* FindLoan(Account* A, int Id){
+	inline Loan::Loan* FindLoan(Account* A, std::string Id){
 		auto Loan = Doubly::FindByID(A->Loans, Id);
 		if (Loan) return &Loan->Data;
         std::cout << "Loan Not Found: " << Id;

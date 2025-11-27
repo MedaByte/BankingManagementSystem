@@ -34,8 +34,13 @@ namespace Stack{
     }
 
     template <typename T>
-    T Top(const Stack<T>& S){
-        return Singly::GetAt(S.List, 1);
+    T& Top(Stack<T>& S){
+        return S.List.Head->Data;
+    }
+
+    template <typename T>
+    const T& Top(const Stack<T>& S){
+        return S.List.Head->Data;
     }
     
     template <typename T>

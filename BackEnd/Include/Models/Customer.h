@@ -55,6 +55,10 @@ namespace Customer {
         std::cout << "Accounts: " << C.Accounts.Size << "\n";
     }
 
+    std::ostream& operator<<(std::ostream& os, const Customer& C){
+    os << "[" << C.Id << ", " << C.Name << "]";
+    return os;
+}
 }
 
 #endif

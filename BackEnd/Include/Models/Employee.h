@@ -73,6 +73,10 @@ namespace Employee {
         std::cout << "Status: " << E.Status << "\n";
     }
 
+    std::ostream& operator<<(std::ostream& os, const Employee& E){
+    os << "[" << E.Id << ", " << E.Name << ", " << E.Salary << "]";
+    return os;
+    }
 }
 
 #endif

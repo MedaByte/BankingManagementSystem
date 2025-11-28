@@ -77,6 +77,10 @@ namespace Loan {
         std::cout << "Number of Payments: " << L.Payments.List.Size << "\n";
     }
 
+    std::ostream& operator<<(std::ostream& os, const Loan& L){
+    os << "[" << L.Id << ", " << L.Amount << ", " << L.Status << "]";
+    return os;
+    }
 }
 
 #endif

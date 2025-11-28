@@ -93,7 +93,6 @@ namespace Account {
 		A->Status = NewStatus;
 	}
 
-	// Display account info
 	inline void Display(const Account& A){
 		std::cout << "AccountNumber: " << A.AccountNumber << "\n";
 		std::cout << "HolderName: " << A.HolderName << "\n";
@@ -109,6 +108,13 @@ namespace Account {
 		std::cout << "Daily Transactions: " << A.DailyTransactions.List.Size << "\n";
 	}
 
+	std::ostream& operator<<(std::ostream& os, const Account& A){
+    os << "[" << A.AccountNumber << ", " 
+		<< A.HolderName << ", " 
+		<< A.AccountType << ", " 
+		<< A.Balance << "]";
+    return os;
+}
 }
 
 #endif

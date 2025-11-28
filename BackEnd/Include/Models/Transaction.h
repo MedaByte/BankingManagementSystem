@@ -46,6 +46,11 @@ namespace Transaction {
         std::cout << "Date: " << Date::ToString(T.Date) << "\n";
     }
 
+    std::ostream& operator<<(std::ostream& os, const Transaction& T){
+    os << "[" << T.TransactionId << ", " << T.AccountNumber 
+        << ", " << T.Type << ", " << T.Amount << "]";
+    return os;
+}
 }
 
 #endif

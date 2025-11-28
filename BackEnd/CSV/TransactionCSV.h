@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
+#include <iomanip>
 #include "../Include/Models/Transaction.h"
 #include "../Include/DataStructures/SinglyLinkedList.h"
 #include "../Include/Utils/OriginPath.h"
@@ -44,14 +46,23 @@ namespace TransactionCSV {
             std::getline(ss, amountStr, ',');
             std::getline(ss, dateStr, ',');
 
-            int d, m, y;
+            double amount = 0.0;
+            try {
+                if (!amountStr.empty()) amount = std::stod(amountStr);
+            } catch(const std::exception& e) {
+                std::cerr << "Invalid transaction amount '" << amountStr 
+                            << "' for transaction ID " << id << ". Defaulting to 0.\n";
+                amount = 0.0;
+            }
+
+            int d = 0, m = 0, y = 0;
             sscanf(dateStr.c_str(), "%d/%d/%d", &d, &m, &y);
 
             Transaction::Transaction T{
                 id,
                 acc,
                 type,
-                std::stod(amountStr),
+                amount,
                 {d, m, y}
             };
 

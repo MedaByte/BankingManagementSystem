@@ -42,7 +42,6 @@ namespace AccountCSV {
         std::string Line;
         while(std::getline(File, Line)){
             std::stringstream ss(Line);
-
             std::string accNum, holder, type, iban, branch, date, status, balance;
 
             std::getline(ss, accNum, ',');
@@ -53,11 +52,19 @@ namespace AccountCSV {
             std::getline(ss, date, ',');
             std::getline(ss, status, ',');
             std::getline(ss, balance, ',');
+            double bal = 0.0;
+            try {
+                if (!balance.empty()) {
+                    bal = std::stod(balance);
+                }
+            } 
+            catch (const std::exception& e) {
+                std::cerr << "Invalid balance value '" << balance << "' in CSV. Setting to 0.\n";
+                bal = 0.0;
+            }
 
-            double bal = balance.empty() ? 0.0 : std::stod(balance);
             int d, m, y;
             sscanf(date.c_str(), "%d/%d/%d", &d, &m, &y);
-
             Account::Account A{
                 accNum,
                 type,

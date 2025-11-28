@@ -43,17 +43,28 @@ namespace EmployeeCSV {
             int d, m, y;
             sscanf(dateStr.c_str(), "%d/%d/%d", &d, &m, &y);
 
+            double salary = 0.0;
+            try {
+                if (!salaryStr.empty()) {
+                    salary = std::stod(salaryStr);
+                }
+            } 
+            catch (const std::exception& e) {
+                std::cerr << "Invalid Salary value '" << salaryStr << "' in CSV. Setting to 0.\n";
+                salary = 0.0;
+            }
+
             Employee::Employee E{
                 id,
                 name,
                 last,
                 address,
-                std::stod(salaryStr),
+                salary,
                 {d, m, y},
                 branch,
                 status
             };
-
+            std::cout << "test;";
             Singly::PushBack(&List, E);
         }
 

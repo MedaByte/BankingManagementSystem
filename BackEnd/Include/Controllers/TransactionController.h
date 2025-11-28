@@ -9,14 +9,11 @@
 namespace TransactionController {
 
     inline bool DoTransaction(const std::string& AccountNumber, const std::string& Type, double Amount){
-        
         auto Accounts = AccountCSV::ReadAll();
         bool Found = false;
 
         Singly::Node<Account::Account>* Curr = Accounts.Head;
-
         while(Curr != nullptr){
-            
             if(Curr->Data.AccountNumber == AccountNumber){
                 Found = true;
 
@@ -45,7 +42,6 @@ namespace TransactionController {
                 TransactionCSV::Write(T);
 
                 std::cout << "Transaction successful!\n";
-                Transaction::Display(T);
 
                 return true;
             }

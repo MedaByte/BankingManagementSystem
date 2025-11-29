@@ -15,8 +15,8 @@ namespace Utils {
     }
 
     inline void CreateFileIfMissing(const std::string& path, const std::string& header) {
-        if (!FileExists(path)) {
-            std::ofstream file(path);
+        
+            std::ofstream file(path, std::ios::trunc);
             if (file.is_open()) {
                 file << header;
                 file.close();
@@ -24,9 +24,7 @@ namespace Utils {
             } else {
                 std::cerr << "Error upon Creation: " << path << "\n";
             }
-        } else {
-            std::cout << "COOL -> " << path << " already exists\n";
-        }
+        
     }
 
     inline void InitializeCSVFiles() {

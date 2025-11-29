@@ -23,6 +23,7 @@ namespace Account {
         Date::Date OpeningDate;
         std::string Status;
         double Balance;
+		std::string CustomerId;
 
         Doubly::List<Loan::Loan> Loans;
         Stack::Stack<Transaction::Transaction> DailyTransactions;
@@ -38,12 +39,15 @@ namespace Account {
 		const std::string& AccountType,
 		const std::string& BranchCode,
 		const std::string& Status,
+		const std::string CustomerId,
 		const std::string& AccountNumber  = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_account_id.txt", "ACC"),
 		const Date::Date& OpeningDate = Date::Now(),
 		double Balance = 0.0
 	){
 		std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);
-
+		std::cout << OpeningDate.Day;
+		std::cout << OpeningDate.Month;
+		std::cout << OpeningDate.Year;
 		Account NewAccount{
 			AccountNumber,
 			AccountType,
@@ -53,6 +57,7 @@ namespace Account {
 			OpeningDate,
 			Status,
 			Balance,
+			CustomerId,
 			Doubly::Create<Loan::Loan>(),
 			Stack::Create<Transaction::Transaction>()
 		};
@@ -103,6 +108,7 @@ namespace Account {
 				    << "/" << Date::GetMonth(A.OpeningDate)
 				    << "/" << A.OpeningDate.Year << "\n";
 		std::cout << "Status: " << A.Status << "\n";
+		std::cout << "CustomerId: " << A.CustomerId << "\n";
 		std::cout << "Balance: " << std::fixed << std::setprecision(2) << A.Balance << " TND\n";
 		std::cout << "Loans: " << A.Loans.Size << "\n";
 		std::cout << "Daily Transactions: " << A.DailyTransactions.List.Size << "\n";

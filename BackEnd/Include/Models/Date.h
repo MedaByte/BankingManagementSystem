@@ -27,9 +27,15 @@ namespace Date{
     
     inline Date Now() {
         std::time_t t = std::time(nullptr);
-        std::tm* LocalTime = std::localtime(&t);
+        std::tm LocalTime;
 
-        return Date{ LocalTime->tm_mday, LocalTime->tm_mon + 1, LocalTime->tm_year + 1900 };
+        #ifdef _WIN32
+            localtime_s(&LocalTime, &t);
+        #else
+            localtime_r(&t, &localTime);
+        #endif
+
+        return Date{ LocalTime.tm_mday, LocalTime.tm_mon + 1, LocalTime.tm_year + 1900 };
     }
 
     inline Date FromString(const std::string& s) {

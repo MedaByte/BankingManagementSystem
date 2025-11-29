@@ -3,8 +3,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <iostream>
 #include "../Include/Models/Loan.h"
 #include "../Include/Utils/OriginPath.h"
 #include "../Include/DataStructures/SinglyLinkedList.h"
@@ -15,65 +13,57 @@ namespace LoanCSV {
         return Utils::GetOriginFolder() + "/BackEnd/Data/loans.csv";
     }
 
-    inline void Write(const Loan::Loan& L) {
+    inline void WriteHeader() {
         std::ofstream File(GetFilePath(), std::ios::app);
-        if(File.is_open()) {
-            File << L.Id << "," 
-                    << L.Amount << "," 
-                    << L.InterestRate << ","
-                    << L.StartDate.Day << "/" << L.StartDate.Month << "/" << L.StartDate.Year << ","
-                    << L.EndDate.Day << "/" << L.EndDate.Month << "/" << L.EndDate.Year << ","
-                    << L.Status << "\n";
-            File.close();
+        File.seekp(0, std::ios::end);
+        if (File.tellp() == 0) {
+            File << "Id,Amount,Rate,StartDate,EndDate,Status\n";
         }
     }
 
+    inline void Write(const Loan::Loan& L) {
+        WriteHeader();
+        std::ofstream File(GetFilePath(), std::ios::app);
+
+        File << L.Id << ","
+             << L.Amount << ","
+             << L.InterestRate << ","
+             << L.StartDate.Day << "/" << L.StartDate.Month << "/" << L.StartDate.Year << ","
+             << L.EndDate.Day << "/" << L.EndDate.Month << "/" << L.EndDate.Year << ","
+             << L.Status << "\n";
+    }
+
     inline Singly::List<Loan::Loan> ReadAll() {
-        Singly::List<Loan::Loan> list = Singly::Create<Loan::Loan>();
+        auto list = Singly::Create<Loan::Loan>();
 
         std::ifstream File(GetFilePath());
         if (!File.is_open()) return list;
 
         std::string Line;
+        std::getline(File, Line); // skip header
+
         while (std::getline(File, Line)) {
             std::stringstream ss(Line);
-
-            std::string id, amountStr, rateStr, startDateStr, endDateStr, status;
+            std::string id, amountStr, rateStr, sdStr, edStr, status;
 
             std::getline(ss, id, ',');
             std::getline(ss, amountStr, ',');
             std::getline(ss, rateStr, ',');
-            std::getline(ss, startDateStr, ',');
-            std::getline(ss, endDateStr, ',');
+            std::getline(ss, sdStr, ',');
+            std::getline(ss, edStr, ',');
             std::getline(ss, status, ',');
 
-            double amount = 0.0, rate = 0.0;
-            try {
-                if (!amountStr.empty()) amount = std::stod(amountStr);
-            }
-            catch(const std::exception& e) {
-                std::cerr << "Invalid amount '" << amountStr << "' for Loan ID " << id << ". Defaulting to 0.\n";
-                amount = 0.0;
-            }
+            double amount = amountStr.empty() ? 0.0 : std::stod(amountStr);
+            double rate   = rateStr.empty() ? 0.0 : std::stod(rateStr);
 
-            try {
-                if (!rateStr.empty()) rate = std::stod(rateStr);
-            }
-            catch(const std::exception& e) {
-                std::cerr << "Invalid interest rate '" << rateStr << "' for Loan ID " << id << ". Defaulting to 0.\n";
-                rate = 0.0;
-            }
+            int sd=0, sm=0, sy=0;
+            int ed=0, em=0, ey=0;
 
-            int sd = 0, sm = 0, sy = 0;
-            int ed = 0, em = 0, ey = 0;
-
-            sscanf(startDateStr.c_str(), "%d/%d/%d", &sd, &sm, &sy);
-            sscanf(endDateStr.c_str(), "%d/%d/%d", &ed, &em, &ey);
+            sscanf(sdStr.c_str(), "%d/%d/%d", &sd, &sm, &sy);
+            sscanf(edStr.c_str(), "%d/%d/%d", &ed, &em, &ey);
 
             Loan::Loan L{
-                id,
-                amount,
-                rate,
+                id, amount, rate,
                 {sd, sm, sy},
                 {ed, em, ey},
                 status
@@ -87,9 +77,7 @@ namespace LoanCSV {
 
     inline void Clear() {
         std::ofstream File(GetFilePath(), std::ios::trunc);
-        File.close();
     }
-
 }
 
 #endif

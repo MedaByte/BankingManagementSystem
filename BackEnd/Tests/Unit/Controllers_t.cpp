@@ -16,78 +16,77 @@ void PrintTest(bool cond, const std::string& name) {
 }
 
 int main() {
-    Utils::InitializeCSVFiles();
-
     // ============================================================
-    //  ACCOUNT CONTROLLER TESTS
+    // CUSTOMER + ACCOUNT TESTS
     // ============================================================
-    std::cout << "\n=== ACCOUNT CONTROLLER ===\n";
+    std::cout << "\n=== CUSTOMER + ACCOUNT CONTROLLER ===\n";
 
-    Account::Account A = Account::Create("John Doe", "Savings", "1", "Active");
-    AccountController::Create(A);
-
-    Account::Account A2;
-    bool f1 = AccountController::FindByNumber(A.AccountNumber, A2);
-    PrintTest(f1, "Find account by number");
-
-    bool balanceCorrect = (A2.Balance == A.Balance);
-    PrintTest(balanceCorrect, "Check initial balance");
-
-    // ============================================================
-    //  CUSTOMER CONTROLLER TESTS
-    // ============================================================
-    std::cout << "\n=== CUSTOMER CONTROLLER ===\n";
-
+    // Create customer
     Customer::Customer C = Customer::Create("Jane", "Doe", "Street 1", "12345678");
     CustomerController::Create(C);
 
+    // Create first account
+    Account::Account A1 = Account::Create("Jane Doe", "Savings", "1", "Active", C.Id);
+    CustomerController::AddAccount(&C, A1);
+
+    // Create second account
+    Account::Account A2 = Account::Create("Jane Doe", "Checking", "1", "Active", C.Id);
+    CustomerController::AddAccount(&C, A2);
+
+    // Verify in-memory accounts linked
+    std::cout << "++" << C.Accounts.Size << "++";
+    PrintTest(C.Accounts.Size == 2, "Customer has 2 accounts linked");
+
+    // Verify FindById
     Customer::Customer C2;
     bool f2 = CustomerController::FindById(C.Id, C2);
     PrintTest(f2, "Find customer by ID");
-
     PrintTest(C2.Name == "Jane", "Customer name correct");
 
+    std::cout << "++" << C2.Accounts.Size << "++";
+    PrintTest(C2.Accounts.Size == 2, "CSV read back shows 2 accounts for customer");
+
     // ============================================================
-    // EMPLOYEE CONTROLLER
+    // EMPLOYEE CONTROLLER TESTS
     // ============================================================
     std::cout << "\n=== EMPLOYEE CONTROLLER ===\n";
 
     Employee::Employee E = Employee::Create("Bob", "Smith", "Street 2", 2000, "1");
     EmployeeController::Create(E);
-
     EmployeeController::ChangeSalary(&E, 2600);
     PrintTest(E.Salary == 2600, "Change employee salary");
 
     // ============================================================
-    // LOAN CONTROLLER
+    // LOAN CONTROLLER TESTS
     // ============================================================
     std::cout << "\n=== LOAN CONTROLLER ===\n";
 
     Loan::Loan L = Loan::Create(5000, 0.06, 24);
     LoanController::Create(L);
-
     LoanController::ChangeStatus(&L, "Approved");
     PrintTest(L.Status == "Approved", "Change loan status");
 
     // ============================================================
-    // TRANSACTION CONTROLLER
+    // TRANSACTION CONTROLLER TESTS
     // ============================================================
     std::cout << "\n=== TRANSACTION CONTROLLER ===\n";
 
-    bool dep = TransactionController::DoTransaction(A.AccountNumber, "DEPOSIT", 1000);
+    bool dep = TransactionController::DoTransaction(A1.AccountNumber, "DEPOSIT", 1000);
     PrintTest(dep, "Deposit transaction");
 
-    bool dep2 = TransactionController::DoTransaction(A.AccountNumber, "WITHDRAW", 300);
+    bool dep2 = TransactionController::DoTransaction(A1.AccountNumber, "WITHDRAW", 300);
     PrintTest(dep2, "Withdraw transaction");
+    bool dep3 = TransactionController::DoTransaction(A1.AccountNumber, "WITHDRAW", 300);
+    PrintTest(dep3, "Withdraw transaction");
 
-    bool failWithdraw =
-        !TransactionController::DoTransaction(A.AccountNumber, "WITHDRAW", 999999);
+    bool failWithdraw = !TransactionController::DoTransaction(A1.AccountNumber, "WITHDRAW", 999999);
     PrintTest(failWithdraw, "Withdraw fails with insufficient balance");
+
+    Singly::Display(C.Accounts);
 
     // ============================================================
     // CSV READBACK TESTS
     // ============================================================
-
     std::cout << "\n=== CSV READBACK ===\n";
 
     auto accList = AccountCSV::ReadAll();
@@ -111,6 +110,5 @@ int main() {
     Singly::Display(trxList);
 
     std::cout << "\n\n===== ALL TESTS COMPLETED =====\n";
-
     return 0;
 }

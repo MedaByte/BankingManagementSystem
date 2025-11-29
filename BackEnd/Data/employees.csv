@@ -1,23 +1,2 @@
-Id,Name,LastName,Address,Salary,HireDay/HireMonth/HireYear,BranchCode,Status
-EMP0001,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0002,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0003,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0004,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0005,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0006,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0007,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0008,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0009,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0010,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0011,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0012,Bob,Smith,Street 2,2000,28/11/2025,1,active
-EMP0013,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0014,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0015,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0016,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0017,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0018,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0019,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0020,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0021,Bob,Smith,Street 2,2000,29/11/2025,1,active
-EMP0022,Bob,Smith,Street 2,2000,29/11/2025,1,active
+Id,Name,LastName,Address,Salary,HireDate,Branch,Status
+EMP0001,Bob,Smith,Street 2,2000,29/11/2025,1,active

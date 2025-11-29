@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <iostream>
 #include <iomanip>
 #include "../Include/Models/Transaction.h"
 #include "../Include/DataStructures/SinglyLinkedList.h"
@@ -15,28 +14,38 @@ namespace TransactionCSV {
         return Utils::GetOriginFolder() + "/BackEnd/Data/transactions.csv";
     }
 
-    inline void Write(const Transaction::Transaction& T){
+    inline void WriteHeader() {
         std::ofstream File(GetFilePath(), std::ios::app);
-        if(!File.is_open()) return;
-
-        File << T.TransactionId << ","
-                << T.AccountNumber << ","
-                << T.Type << ","
-                << std::fixed << std::setprecision(2) << T.Amount << ","
-                << Date::GetDay(T.Date) << "/"
-                << Date::GetMonth(T.Date) << "/"
-                << T.Date.Year << "\n";
-
-        File.close();
+        File.seekp(0, std::ios::end);
+        if (File.tellp() == 0) {
+            File << "Id,Account,Type,Amount,Date\n";
+        }
     }
 
-    inline Singly::List<Transaction::Transaction> ReadAll(){
-        auto List = Singly::Create<Transaction::Transaction>();
+    inline void Write(const Transaction::Transaction& T) {
+        WriteHeader();
+
+        std::ofstream File(GetFilePath(), std::ios::app);
+        if (!File.is_open()) return;
+
+        File << T.TransactionId << ","
+             << T.AccountNumber << ","
+             << T.Type << ","
+             << std::fixed << std::setprecision(2) << T.Amount << ","
+             << T.Date.Day << "/" << T.Date.Month << "/" << T.Date.Year
+             << "\n";
+    }
+
+    inline Singly::List<Transaction::Transaction> ReadAll() {
+        auto list = Singly::Create<Transaction::Transaction>();
+
         std::ifstream File(GetFilePath());
-        if(!File.is_open()) return List;
+        if (!File.is_open()) return list;
 
         std::string Line;
-        while(std::getline(File, Line)){
+        std::getline(File, Line); // skip header
+
+        while (std::getline(File, Line)) {
             std::stringstream ss(Line);
             std::string id, acc, type, amountStr, dateStr;
 
@@ -46,36 +55,23 @@ namespace TransactionCSV {
             std::getline(ss, amountStr, ',');
             std::getline(ss, dateStr, ',');
 
-            double amount = 0.0;
-            try {
-                if (!amountStr.empty()) amount = std::stod(amountStr);
-            } catch(const std::exception& e) {
-                std::cerr << "Invalid transaction amount '" << amountStr 
-                            << "' for transaction ID " << id << ". Defaulting to 0.\n";
-                amount = 0.0;
-            }
+            double amount = amountStr.empty() ? 0.0 : std::stod(amountStr);
 
-            int d = 0, m = 0, y = 0;
+            int d=0, m=0, y=0;
             sscanf(dateStr.c_str(), "%d/%d/%d", &d, &m, &y);
 
             Transaction::Transaction T{
-                id,
-                acc,
-                type,
-                amount,
-                {d, m, y}
+                id, acc, type, amount, {d, m, y}
             };
 
-            Singly::PushBack(&List, T);
+            Singly::PushBack(&list, T);
         }
 
-        File.close();
-        return List;
+        return list;
     }
 
-    inline void ClearAll() {
+    inline void Clear() {
         std::ofstream File(GetFilePath(), std::ios::trunc);
-        File.close();
     }
 }
 

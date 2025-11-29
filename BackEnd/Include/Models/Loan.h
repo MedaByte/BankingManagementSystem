@@ -66,21 +66,28 @@ namespace Loan {
     }
 
     inline void Display(const Loan& L){
-        std::cout << "Id: " << L.Id << "\n";
+        std::cout << "Loan ID: " << L.Id << "\n";
         std::cout << "Amount: " << std::fixed << std::setprecision(2) << L.Amount << " TND\n";
-        std::cout << "InterestRate: " << L.InterestRate * 100 << "%\n";
-        std::cout << "StartDate: " << Date::GetDay(L.StartDate) << "/" 
-                    << Date::GetMonth(L.StartDate) << "/" << L.StartDate.Year << "\n";
-        std::cout << "EndDate: " << Date::GetDay(L.EndDate) << "/" 
-                    << Date::GetMonth(L.EndDate) << "/" << L.EndDate.Year << "\n";
+        std::cout << "Interest Rate: " << L.InterestRate * 100 << "%\n";
+        std::cout << "Start Date: " 
+                << Date::GetDay(L.StartDate) << "/"
+                << Date::GetMonth(L.StartDate) << "/"
+                << L.StartDate.Year << "\n";
+        std::cout << "End Date: " 
+                << Date::GetDay(L.EndDate) << "/"
+                << Date::GetMonth(L.EndDate) << "/"
+                << L.EndDate.Year << "\n";
         std::cout << "Status: " << L.Status << "\n";
-        std::cout << "Number of Payments: " << L.Payments.List.Size << "\n";
+        std::cout << "Payments Count: " << L.Payments.List.Size << "\n";
     }
 
     std::ostream& operator<<(std::ostream& os, const Loan& L){
-    os << "[" << L.Id << ", " << L.Amount << ", " << L.Status << "]";
-    return os;
+        os << "[" << L.Id << ", " 
+        << L.Amount << " TND, " 
+        << (L.InterestRate * 100) << "%]";
+        return os;
     }
+
 }
 
 #endif

@@ -6,6 +6,7 @@
 #include "../Models/Customer.h"
 #include "../Models/Loan.h"
 #include "../Models/Transaction.h"
+#include "../../CSV/AccountCSV.h"
 
 namespace AccountController {
 
@@ -28,9 +29,12 @@ namespace AccountController {
     }
 
     // Change account status
-    inline void ChangeStatus(Account::Account* A, const std::string& newStatus) {
+    inline void ChangeStatus(Account::Account* A, const std::string& newStatus, Account::Account accounts[], int accountCount) {
         Account::ChangeStatus(A, newStatus);
         std::cout << "Account " << A->AccountNumber << " status changed to " << newStatus << "\n";
+
+        // write updated array to CSV
+        AccountCSV::Write(accounts, accountCount);
     }
 
     // Delete closed accounts from array and return count of deleted
@@ -45,6 +49,9 @@ namespace AccountController {
         }
         accountCount -= shift;
         std::cout << shift << " closed accounts deleted.\n";
+
+        // write updated array to CSV
+        AccountCSV::Write(accounts, accountCount);
     }
 
     // Add account to a customer
@@ -69,6 +76,9 @@ namespace AccountController {
         Customer::AddAccount(C, A);
 
         std::cout << "Account created successfully!\n";
+
+        // write updated array to CSV
+        AccountCSV::Write(accounts, accountCount);
     }
 }
 

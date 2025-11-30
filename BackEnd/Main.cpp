@@ -5,6 +5,9 @@
 #include "Include/Controllers/LoanController.h"
 #include "Include/Controllers/EmployeeController.h"
 #include "Include/Controllers/StatisticsController.h"
+#include "CSV/CustomerCSV.h"
+#include "CSV/AccountCSV.h"
+#include "CSV/EmployeeCSV.h"
 
 using namespace std;
 
@@ -39,25 +42,14 @@ void WaitForEnter() {
 
 // ---------------- Main ----------------
 int main() {
-    // Sample data
-    Customer::Customer& C = CustomerController::CreateCustomer(customers, customerCount, "Mohamed", "Mnasria", "Ariana", "25123456");
-    Account::Account& A = CustomerController::CreateAccount(accounts, accountCount, &C, "Savings", "123");
-
-    Customer::Customer& C1 = CustomerController::CreateCustomer(customers, customerCount, "MOE", "MOI", "BRUH", "8549");
-    Account::Account& A1 = CustomerController::CreateAccount(accounts, accountCount, &C1, "Checkings", "128888");
-
-    // Sample employee
-    EmployeeController::AddEmployee(employees, employeeCount);
+    // ---------------- Load CSVs ----------------
+    CustomerCSV::Load(customers, customerCount);
+    AccountCSV::Load(accounts, accountCount, customers, &customerCount);
+    EmployeeCSV::Load(employees, employeeCount);
 
     int choice = 0;
     do {
         system("cls");
-        cout << "\nCreated Customer and Account:\n";
-        if (customerCount > 0) Customer::Display(customers[0]);
-        if (customerCount > 1) Customer::Display(customers[1]);
-        if (accountCount > 0) Account::Display(accounts[0]);
-        if (accountCount > 1) Account::Display(accounts[1]);
-
         cout << "===================== Banking Management System =====================\n";
         cout << "1. Customer Section\n";
         cout << "2. Employee Section\n";

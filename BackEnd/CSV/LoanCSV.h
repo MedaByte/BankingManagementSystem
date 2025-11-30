@@ -1,11 +1,14 @@
-#ifndef LOANCSV_H
-#define LOANCSV_H
+#ifndef LOANCsv_H
+#define LOANCsv_H
 
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <iostream>
 #include "../Models/Loan.h"
-#include "../Models/Date.h"
 #include "../Utils/OriginPath.h"
+#include "../Models/Account.h"
+#include "../Models/Date.h"
 
 namespace LoanCSV {
 
@@ -13,49 +16,112 @@ namespace LoanCSV {
         return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
-    inline void Load(Loan::Loan loans[], int& count, const std::string& filename = "loans.csv") {
+    inline std::string trim(const std::string& s) {
+        size_t a = s.find_first_not_of(" \t\r\n");
+        if (a == std::string::npos) return "";
+        size_t b = s.find_last_not_of(" \t\r\n");
+        return s.substr(a, b - a + 1);
+    }
+
+    // Load loans; optionally link to accounts[] if accounts != nullptr
+    inline void Load(Loan::Loan loans[], int& count, Account::Account* accounts = nullptr, int accountCount = 0, const std::string& filename = "loans.csv") {
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
 
         std::string line;
         count = 0;
 
-        while (std::getline(file, line)) {
-            std::stringstream ss(line);
-            std::string tmp;
-
-            Loan::Loan L;
-
-            std::getline(ss, L.Id, ',');
-            std::getline(ss, L.AccountId, ',');
-
-            std::getline(ss, tmp, ',');
-            L.Amount = std::stod(tmp);
-
-            std::getline(ss, tmp, ',');
-            L.InterestRate = std::stod(tmp);
-
-            std::getline(ss, tmp, ',');
-            L.PaidAmount = std::stod(tmp);
-
-            std::getline(ss, tmp, ',');
-            L.RemainingAmount = std::stod(tmp);
-
-            std::getline(ss, tmp, ',');
-            L.StartDate = Date::FromString(tmp);
-
-            std::getline(ss, tmp, ',');
-            L.EndDate = Date::FromString(tmp);
-
-            std::getline(ss, L.Status, ',');
-
-            // Payments stack cannot be loaded — initialize empty
-            L.Payments = Stack::Create<Transaction::Transaction>();
-
-            loans[count++] = L;
+        if (!std::getline(file, line)) return;
+        std::istringstream peek(line);
+        std::string firstTok;
+        std::getline(peek, firstTok, ',');
+        bool isHeader = (firstTok.find_first_not_of("0123456789") != std::string::npos);
+        if (!isHeader) {
+            file.clear();
+            file.seekg(0);
         }
+
+        while (std::getline(file, line)) {
+            if (trim(line).empty()) continue;
+            std::istringstream ss(line);
+
+            std::string id, accountId, amountStr, interestStr, paidStr, remainingStr, startStr, endStr, status;
+            std::getline(ss, id, ',');
+            std::getline(ss, accountId, ',');
+            std::getline(ss, amountStr, ',');
+            std::getline(ss, interestStr, ',');
+            std::getline(ss, paidStr, ',');
+            std::getline(ss, remainingStr, ',');
+            std::getline(ss, startStr, ',');
+            std::getline(ss, endStr, ',');
+            std::getline(ss, status, ',');
+
+            id = trim(id);
+            accountId = trim(accountId);
+            amountStr = trim(amountStr);
+            interestStr = trim(interestStr);
+            paidStr = trim(paidStr);
+            remainingStr = trim(remainingStr);
+            startStr = trim(startStr);
+            endStr = trim(endStr);
+            status = trim(status);
+
+            double amount = 0, interest = 0, paid = 0, remaining = 0;
+            try { amount = std::stod(amountStr); } catch(...) { amount = 0; }
+            try { interest = std::stod(interestStr); } catch(...) { interest = 0; }
+            try { paid = std::stod(paidStr); } catch(...) { paid = 0; }
+            try { remaining = std::stod(remainingStr); } catch(...) { remaining = amount; }
+
+            Date::Date startDate = Date::FromString(startStr);
+            Date::Date endDate = Date::FromString(endStr);
+
+            // Use Create with Duration=0 and then adjust fields (or construct by hand)
+            loans[count] = Loan::Create(accountId, amount, interest, 0, status, id, startDate);
+            loans[count].PaidAmount = paid;
+            loans[count].RemainingAmount = remaining;
+            loans[count].EndDate = endDate;
+
+            // link to account if provided
+            if (accounts != nullptr) {
+                for (int i = 0; i < accountCount; ++i) {
+                    if (accounts[i].AccountNumber == accountId) {
+                        Account::AddLoan(&accounts[i], loans[count]);
+                        break;
+                    }
+                }
+            }
+
+            ++count;
+            if (count >= 100000) break;
+        }
+
+        file.close();
     }
 
-}
+    inline void Write(Loan::Loan loans[], int count, const std::string& filename = "loans.csv") {
+        std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);
+        if (!file.is_open()) {
+            std::cerr << "Unable to open loans file for writing\n";
+            return;
+        }
+
+        file << "Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status\n";
+        for (int i = 0; i < count; ++i) {
+            const auto& L = loans[i];
+            file << L.Id << ","
+                    << L.AccountId << ","
+                    << L.Amount << ","
+                    << L.InterestRate << ","
+                    << L.PaidAmount << ","
+                    << L.RemainingAmount << ","
+                    << Date::ToString(L.StartDate) << ","
+                    << Date::ToString(L.EndDate) << ","
+                    << L.Status << "\n";
+        }
+
+        file.close();
+    }
+
+} // namespace LoanCSV
 
 #endif

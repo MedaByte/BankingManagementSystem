@@ -1,0 +1,2 @@
+AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId
+ACC0002,SAVINGS,TN002ACC0002,2,MouniraDRIDI,01/12/2025,active,0,CUS0001

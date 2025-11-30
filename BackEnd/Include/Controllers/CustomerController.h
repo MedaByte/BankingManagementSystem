@@ -7,15 +7,15 @@
 #include "../Models/Account.h"
 #include "../Models/Loan.h"
 #include "../Models/Transaction.h"
+#include "../../CSV/CustomerCSV.h"
+#include "../../CSV/AccountCSV.h"
 
 namespace CustomerController {
 
     // ---------------- Find a customer by ID ----------------
     inline Customer::Customer* FindCustomer(Customer::Customer customers[], int customerCount, const std::string& Id) {
-        for(int i = 0; i < customerCount; i++) {
-            if(customers[i].Id == Id)
-                return &customers[i];
-        }
+        for (int i = 0; i < customerCount; ++i)
+            if (customers[i].Id == Id) return &customers[i];
         return nullptr;
     }
 
@@ -28,16 +28,16 @@ namespace CustomerController {
         const std::string& address,
         const std::string& phone
     ) {
-        if(customerCount >= 100) {
+        if (customerCount >= 100) {
             std::cout << "Customer limit reached!\n";
             throw std::runtime_error("Overflow");
         }
 
-        // Create customer
         Customer::Customer C = Customer::Create(name, lastName, address, phone);
-
-        // Add to array
         customers[customerCount] = C;
+
+        // Write full array to CSV
+        CustomerCSV::Write(customers, customerCount + 1);
 
         return customers[customerCount++];
     }
@@ -48,14 +48,15 @@ namespace CustomerController {
         int& accountCount,
         Customer::Customer* C,
         const std::string& type,
-        const std::string& pin
+        const std::string& pin,
+        Customer::Customer customers[],
+        int customerCount
     ) {
-        if(accountCount >= 200) {
+        if (accountCount >= 200) {
             std::cout << "Account limit reached!\n";
             throw std::runtime_error("Overflow");
         }
 
-        // Create account (auto-generated ID)
         Account::Account A = Account::Create(
             C->Name + " " + C->LastName,
             type,
@@ -64,11 +65,13 @@ namespace CustomerController {
             C->Id
         );
 
-        // Link to customer
         Customer::AddAccount(C, A);
-
-        // Add to array
         accounts[accountCount] = A;
+
+        // Write full accounts array to CSV
+        AccountCSV::Write(accounts, accountCount + 1);
+        // Also write customers to CSV to persist the updated accounts links
+        CustomerCSV::Write(customers, customerCount);
 
         return accounts[accountCount++];
     }
@@ -77,7 +80,7 @@ namespace CustomerController {
     inline void ViewAccounts(Customer::Customer* C) {
         std::cout << "--- Accounts for " << C->Name << " " << C->LastName << " ---\n";
         auto node = C->Accounts.Head;
-        while(node) {
+        while (node) {
             Account::Display(node->Data);
             std::cout << "-----------------------\n";
             node = node->Next;
@@ -88,9 +91,9 @@ namespace CustomerController {
     inline void ViewLoans(Customer::Customer* C) {
         std::cout << "--- Loans for " << C->Name << " " << C->LastName << " ---\n";
         auto accNode = C->Accounts.Head;
-        while(accNode) {
+        while (accNode) {
             auto loanNode = accNode->Data.Loans.Head;
-            while(loanNode) {
+            while (loanNode) {
                 Loan::Display(loanNode->Data);
                 std::cout << "-----------------------\n";
                 loanNode = loanNode->Next;
@@ -101,7 +104,7 @@ namespace CustomerController {
 
     // ---------------- Request a loan ----------------
     inline void RequestLoan(Customer::Customer* C, Loan::Loan loanRequests[], int& loanRequestCount) {
-        if(loanRequestCount >= 50) {
+        if (loanRequestCount >= 50) {
             std::cout << "Loan request limit reached!\n";
             return;
         }
@@ -113,7 +116,7 @@ namespace CustomerController {
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
         Account::Account* account = Customer::FindAccount(C, accNum);
-        if(!account) {
+        if (!account) {
             std::cout << "Account not found!\n";
             return;
         }
@@ -139,7 +142,7 @@ namespace CustomerController {
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
         Account::Account* account = Customer::FindAccount(C, accNum);
-        if(!account) {
+        if (!account) {
             std::cout << "Account not found!\n";
             return;
         }
@@ -161,7 +164,7 @@ namespace CustomerController {
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
         Account::Account* account = Customer::FindAccount(C, accNum);
-        if(!account) {
+        if (!account) {
             std::cout << "Account not found!\n";
             return;
         }
@@ -169,7 +172,7 @@ namespace CustomerController {
         std::cout << "Enter withdrawal amount: ";
         std::cin >> amount;
 
-        if(amount > account->Balance) {
+        if (amount > account->Balance) {
             std::cout << "Insufficient balance!\n";
             return;
         }
@@ -180,21 +183,20 @@ namespace CustomerController {
         std::cout << "Withdrawal successful! New Balance: " << account->Balance << " TND\n";
     }
 
-
     // ---------------- View daily transactions ----------------
     inline void ViewTransactions(Customer::Customer* C) {
         std::string accNum;
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
         Account::Account* account = Customer::FindAccount(C, accNum);
-        if(!account) {
+        if (!account) {
             std::cout << "Account not found!\n";
             return;
         }
 
         std::cout << "--- Transactions ---\n";
         auto node = account->DailyTransactions.List.Head;
-        while(node) {
+        while (node) {
             Transaction::Display(node->Data);
             std::cout << "-----------------\n";
             node = node->Next;
@@ -207,12 +209,12 @@ namespace CustomerController {
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
         Account::Account* account = Customer::FindAccount(C, accNum);
-        if(!account) {
+        if (!account) {
             std::cout << "Account not found!\n";
             return;
         }
 
-        if(Stack::IsEmpty(account->DailyTransactions)) {
+        if (Stack::IsEmpty(account->DailyTransactions)) {
             std::cout << "No transactions to undo!\n";
             return;
         }

@@ -6,12 +6,13 @@
 #include "../Models/Account.h"
 #include "../Models/Loan.h"
 #include "../Models/Transaction.h"
+#include "../../CSV/AccountCSV.h"
+#include "../../CSV/EmployeeCSV.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
 
 namespace EmployeeController {
-
 
     // ---------------- Employee Management ----------------
     inline void AddEmployee(Employee::Employee employees[], int& employeeCount) {
@@ -30,6 +31,8 @@ namespace EmployeeController {
         std::cout << "Enter Branch Code: "; std::cin >> branch;
 
         employees[employeeCount++] = Employee::Create(name, lastName, address, salary, branch);
+
+        EmployeeCSV::Write(employees, employeeCount);
         std::cout << "Employee added successfully.\n";
     }
 
@@ -57,6 +60,7 @@ namespace EmployeeController {
                 employees[i].BranchCode = branch;
                 employees[i].Status = status;
 
+                EmployeeCSV::Write(employees, employeeCount);
                 std::cout << "Employee updated successfully.\n";
                 return;
             }
@@ -74,6 +78,8 @@ namespace EmployeeController {
                 for (int j = i; j < employeeCount - 1; ++j)
                     employees[j] = employees[j + 1];
                 employeeCount--;
+
+                EmployeeCSV::Write(employees, employeeCount);
                 std::cout << "Employee deleted successfully.\n";
                 return;
             }
@@ -87,7 +93,6 @@ namespace EmployeeController {
             return;
         }
 
-        // Sort alphabetically by LastName
         std::sort(employees, employees + employeeCount, [](const Employee::Employee& a, const Employee::Employee& b) {
             return a.LastName < b.LastName;
         });
@@ -118,14 +123,16 @@ namespace EmployeeController {
         std::cout << "Enter Account Type: "; std::cin >> type;
         std::cout << "Enter Branch Code: "; std::cin >> branch;
         std::cout << "Enter Status: "; std::cin >> status;
-        std::cout << "Enter Initial Balance: "; std::cin >> balance;
 
-        accounts[accountCount] = Account::Create(holderName, type, branch, status, customerID, "", Date::Now(), balance);
+        accounts[accountCount] = Account::Create(holderName, type, branch, status, customerID);
         Account::Account* accPtr = &accounts[accountCount];
         accountCount++;
 
         Customer::AddAccount(customer, *accPtr);
         std::cout << "Account added successfully.\n";
+
+        // Write to CSV immediately
+        AccountCSV::Write(accounts, accountCount);
     }
 
     inline void ViewAccounts(Account::Account accounts[], int accountCount) {
@@ -146,6 +153,8 @@ namespace EmployeeController {
             if (accounts[i].AccountNumber == accNumber) {
                 Account::ChangeStatus(&accounts[i], status);
                 std::cout << "Status updated successfully.\n";
+                // Update CSV immediately
+                AccountCSV::Write(accounts, accountCount);
                 return;
             }
         }
@@ -162,6 +171,7 @@ namespace EmployeeController {
             }
         }
         std::cout << "Closed accounts deleted successfully.\n";
+        AccountCSV::Write(accounts, accountCount); // Update CSV
     }
 
     // ---------------- Loan Management ----------------
@@ -254,7 +264,6 @@ namespace EmployeeController {
     inline void FinalizeTransactions(Account::Account accounts[], int accountCount) {
         for (int i = 0; i < accountCount; ++i) {
             while (!Stack::IsEmpty(accounts[i].DailyTransactions)) {
-                auto t = Stack::Top(accounts[i].DailyTransactions);
                 Stack::Pop(&accounts[i].DailyTransactions);
             }
         }
@@ -262,29 +271,20 @@ namespace EmployeeController {
     }
 
     inline void FindEarliestAndLatestEmployees(Employee::Employee employees[], int employeeCount) {
-    if (employeeCount == 0) {
-        std::cout << "No employees available.\n";
-        return;
-    }
-
-    Employee::Employee* earliest = &employees[0];
-    Employee::Employee* latest   = &employees[0];
-
-    for (int i = 1; i < employeeCount; i++) {
-        // Earlier date -> Compare = -1
-        if (Date::CompareDates(employees[i].HireDate, earliest->HireDate) == -1) {
-            earliest = &employees[i];
-        }
-        // Later date -> Compare = 1
-        else if (Date::CompareDates(employees[i].HireDate, latest->HireDate) == 1) {
-            latest = &employees[i];
+        if (employeeCount == 0) {
+            std::cout << "No employees available.\n";
+            return;
         }
 
-        else{
-            latest = &employees[i];
+        Employee::Employee* earliest = &employees[0];
+        Employee::Employee* latest   = &employees[0];
+
+        for (int i = 1; i < employeeCount; i++) {
+            if (Date::CompareDates(employees[i].HireDate, earliest->HireDate) == -1)
+                earliest = &employees[i];
+            else if (Date::CompareDates(employees[i].HireDate, latest->HireDate) == 1)
+                latest = &employees[i];
         }
-        
-    }
 
         std::cout << "\n=== Earliest Hired Employee ===\n";
         Employee::Display(*earliest);
@@ -292,7 +292,6 @@ namespace EmployeeController {
         std::cout << "\n=== Latest Hired Employee ===\n";
         Employee::Display(*latest);
     }
-
 
 }
 

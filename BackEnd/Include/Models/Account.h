@@ -45,9 +45,6 @@ namespace Account {
 		double Balance = 0.0
 	){
 		std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);
-		std::cout << OpeningDate.Day;
-		std::cout << OpeningDate.Month;
-		std::cout << OpeningDate.Year;
 		Account NewAccount{
 			AccountNumber,
 			AccountType,

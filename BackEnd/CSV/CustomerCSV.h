@@ -1,72 +1,39 @@
-#ifndef CUSTOMER_CSV_H
-#define CUSTOMER_CSV_H
+#ifndef CUSTOMERCSV_H
+#define CUSTOMERCSV_H
 
 #include <fstream>
 #include <sstream>
-#include <string>
-#include "../Include/Models/Customer.h"
-#include "../Include/Utils/OriginPath.h"
-#include "../Include/DataStructures/SinglyLinkedList.h"
+#include "../Models/Customer.h"
+#include "../Utils/OriginPath.h"
 
 namespace CustomerCSV {
 
     inline std::string GetFilePath() {
-        return Utils::GetOriginFolder() + "/BackEnd/Data/customers.csv";
+        return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
-    inline void WriteHeader() {
-        std::ofstream File(GetFilePath(), std::ios::app);
-        File.seekp(0, std::ios::end);
-        if (File.tellp() == 0) {
-            File << "Id,Name,LastName,Address,Phone\n";
+    inline void Load(Customer::Customer customers[], int& count, const std::string& filename = "customers.csv") {
+        std::ifstream file(GetFilePath() + filename);
+        if (!file.is_open()) return;
+
+        std::string line;
+        count = 0;
+
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+
+            Customer::Customer C;
+
+            std::getline(ss, C.Id, ',');
+            std::getline(ss, C.Name, ',');
+            std::getline(ss, C.LastName, ',');
+            std::getline(ss, C.Address, ',');
+            std::getline(ss, C.Phone, ',');
+
+            C.Accounts = Singly::Create<Account::Account>();
+
+            customers[count++] = C;
         }
-    }
-
-    inline void Write(const Customer::Customer& C) {
-        WriteHeader();
-
-        std::ofstream File(GetFilePath(), std::ios::app);
-        if(!File.is_open()) return;
-
-        File << C.Id << ","
-                << C.Name << ","
-                << C.LastName << ","
-                << C.Address << ","
-                << C.Phone << "\n";
-    }
-
-    inline Singly::List<Customer::Customer> ReadAll() {
-        auto list = Singly::Create<Customer::Customer>();
-
-        std::ifstream File(GetFilePath());
-        if (!File.is_open()) return list;
-
-        std::string Line;
-        std::getline(File, Line); // skip header
-
-        while (std::getline(File, Line)) {
-            std::stringstream ss(Line);
-
-            std::string id, name, last, address, phone;
-            std::getline(ss, id, ',');
-            std::getline(ss, name, ',');
-            std::getline(ss, last, ',');
-            std::getline(ss, address, ',');
-            std::getline(ss, phone, ',');
-
-            Customer::Customer C{
-                id, name, last, address, phone,
-                Singly::Create<Account::Account>()
-            };
-
-            Singly::PushBack(&list, C);
-        }
-
-        return list;
-    }
-
-    inline void Clear() {
-        std::ofstream File(GetFilePath(), std::ios::trunc);
     }
 }
 

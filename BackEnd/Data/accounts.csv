@@ -1,3 +1,0 @@
-AccountNumber,CustomerId,HolderName,AccountType,IBAN,BranchCode,OpeningDate,Status,Balance
-ACC0001,CUS0001,Jane Doe,Savings,TN001ACC0001,1,29/11/2025,Active,400
-ACC0002,CUS0001,Jane Doe,Checking,TN001ACC0002,1,29/11/2025,Active,0

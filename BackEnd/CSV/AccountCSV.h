@@ -1,104 +1,52 @@
-#ifndef ACCOUNT_CSV_H
-#define ACCOUNT_CSV_H
+#ifndef ACCOUNTCSV_H
+#define ACCOUNTCSV_H
 
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <iostream>
-#include "../Include/Models/Account.h"
-#include "../Include/DataStructures/SinglyLinkedList.h"
-#include "../Include/Utils/OriginPath.h"
+#include "../Models/Account.h"
+#include "../Models/Date.h"
+#include "../Utils/OriginPath.h"
 
 namespace AccountCSV {
 
     inline std::string GetFilePath() {
-        return Utils::GetOriginFolder() + "/BackEnd/Data/accounts.csv";
+        return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
-    inline void WriteHeader(std::ofstream& File) {
-        File << "AccountNumber,CustomerId,HolderName,AccountType,IBAN,BranchCode,"
-                << "OpeningDate,Status,Balance\n";
-    }
+    inline void Load(Account::Account accounts[], int& count, const std::string& filename = "accounts.csv") {
+        std::ifstream file(GetFilePath() + filename);
+        if (!file.is_open()) return;
 
-    inline bool FileIsEmpty(const std::string& path) {
-        std::ifstream f(path);
-        return f.peek() == std::ifstream::traits_type::eof();
-    }
+        std::string line;
+        count = 0;
 
-    inline void Write(const Account::Account& A) {
-        std::string path = GetFilePath();
-        std::ofstream File(path, std::ios::app);
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            std::string tmp;
 
-        if (!File.is_open()) {
-            std::cerr << "Cannot open accounts.csv\n";
-            return;
+            Account::Account A;
+
+            std::getline(ss, A.AccountNumber, ',');
+            std::getline(ss, A.AccountType, ',');
+            std::getline(ss, A.IBAN, ',');
+            std::getline(ss, A.BranchCode, ',');
+            std::getline(ss, A.HolderName, ',');
+
+            std::getline(ss, tmp, ',');
+            A.OpeningDate = Date::FromString(tmp);
+
+            std::getline(ss, A.Status, ',');
+
+            std::getline(ss, tmp, ',');
+            A.Balance = std::stod(tmp);
+
+            std::getline(ss, A.CustomerId, ',');
+
+            A.Loans = Doubly::Create<Loan::Loan>();
+            A.DailyTransactions = Stack::Create<Transaction::Transaction>();
+
+            accounts[count++] = A;
         }
-
-        // Write header only once
-        if (FileIsEmpty(path)) {
-            WriteHeader(File);
-        }
-
-        File << A.AccountNumber << ","
-                << A.CustomerId << ","
-                << A.HolderName << ","
-                << A.AccountType << ","
-                << A.IBAN << ","
-                << A.BranchCode << ","
-                << A.OpeningDate.Day << "/"
-                << A.OpeningDate.Month << "/"
-                << A.OpeningDate.Year << ","
-                << A.Status << ","
-                << A.Balance << "\n";
-    }
-
-    inline Singly::List<Account::Account> ReadAll() {
-        Singly::List<Account::Account> List = Singly::Create<Account::Account>();
-
-        std::ifstream File(GetFilePath());
-        if (!File.is_open()) return List;
-
-        std::string Line;
-        std::getline(File, Line); // skip header
-
-        while (std::getline(File, Line)) {
-            if (Line.empty()) continue;
-
-            std::stringstream ss(Line);
-            std::string accNum, customerId, holder, type, iban, branch, date, status, balance;
-
-            std::getline(ss, accNum, ',');
-            std::getline(ss, customerId, ',');
-            std::getline(ss, holder, ',');
-            std::getline(ss, type, ',');
-            std::getline(ss, iban, ',');
-            std::getline(ss, branch, ',');
-            std::getline(ss, date, ',');
-            std::getline(ss, status, ',');
-            std::getline(ss, balance, ',');
-
-            int d = 1, m = 1, y = 2000;
-            sscanf(date.c_str(), "%d/%d/%d", &d, &m, &y);
-
-            double bal = 0.0;
-            try { if (!balance.empty()) bal = std::stod(balance); } catch(...) { bal = 0.0; }
-
-            Account::Account A{
-                accNum, type, iban, branch, holder,
-                {d, m, y}, status, bal, customerId,
-                Doubly::Create<Loan::Loan>(),
-                Stack::Create<Transaction::Transaction>()
-            };
-
-            Singly::PushBack(&List, A);
-        }
-
-        return List;
-    }
-
-    inline void Clear() {
-        std::ofstream File(GetFilePath(), std::ios::trunc);
-        File.close();
     }
 }
 

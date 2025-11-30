@@ -194,6 +194,25 @@ namespace Doubly{
     }
 
     template <typename T>
+    void RemoveByNode(List<T>* L, Node<T>* node) {
+        if (!L || !node) return;
+
+        if (node == L->Head) {
+            PopFront(L);
+            return;
+        }
+        if (node == L->Tail) {
+            PopBack(L);
+            return;
+        }
+
+        node->Prev->Next = node->Next;
+        node->Next->Prev = node->Prev;
+
+        delete node;
+        L->Size--;
+    }
+    template <typename T>
     void Display(const List<T>& L) {
         Node<T>* curr = L.Head;
         

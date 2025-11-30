@@ -95,6 +95,19 @@ namespace Date{
         
         return R;
     }
+
+    inline int CompareDates(const Date& D1, const Date& D2){
+        auto toInt = [](const Date& d) {
+            return d.Year * 10000 + d.Month * 100 + d.Day;
+        };
+
+        int val1 = toInt(D1);
+        int val2 = toInt(D2);
+
+        if (val1 < val2) return -1;
+        if (val1 > val2) return 1;
+        return 0;
+    }
 }
 
 #endif

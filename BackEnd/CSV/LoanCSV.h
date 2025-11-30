@@ -1,83 +1,61 @@
-#ifndef LOAN_CSV_H
-#define LOAN_CSV_H
+#ifndef LOANCSV_H
+#define LOANCSV_H
 
 #include <fstream>
 #include <sstream>
-#include "../Include/Models/Loan.h"
-#include "../Include/Utils/OriginPath.h"
-#include "../Include/DataStructures/SinglyLinkedList.h"
+#include "../Models/Loan.h"
+#include "../Models/Date.h"
+#include "../Utils/OriginPath.h"
 
 namespace LoanCSV {
 
     inline std::string GetFilePath() {
-        return Utils::GetOriginFolder() + "/BackEnd/Data/loans.csv";
+        return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
-    inline void WriteHeader() {
-        std::ofstream File(GetFilePath(), std::ios::app);
-        File.seekp(0, std::ios::end);
-        if (File.tellp() == 0) {
-            File << "Id,Amount,Rate,StartDate,EndDate,Status\n";
+    inline void Load(Loan::Loan loans[], int& count, const std::string& filename = "loans.csv") {
+        std::ifstream file(GetFilePath() + filename);
+        if (!file.is_open()) return;
+
+        std::string line;
+        count = 0;
+
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            std::string tmp;
+
+            Loan::Loan L;
+
+            std::getline(ss, L.Id, ',');
+            std::getline(ss, L.AccountId, ',');
+
+            std::getline(ss, tmp, ',');
+            L.Amount = std::stod(tmp);
+
+            std::getline(ss, tmp, ',');
+            L.InterestRate = std::stod(tmp);
+
+            std::getline(ss, tmp, ',');
+            L.PaidAmount = std::stod(tmp);
+
+            std::getline(ss, tmp, ',');
+            L.RemainingAmount = std::stod(tmp);
+
+            std::getline(ss, tmp, ',');
+            L.StartDate = Date::FromString(tmp);
+
+            std::getline(ss, tmp, ',');
+            L.EndDate = Date::FromString(tmp);
+
+            std::getline(ss, L.Status, ',');
+
+            // Payments stack cannot be loaded — initialize empty
+            L.Payments = Stack::Create<Transaction::Transaction>();
+
+            loans[count++] = L;
         }
     }
 
-    inline void Write(const Loan::Loan& L) {
-        WriteHeader();
-        std::ofstream File(GetFilePath(), std::ios::app);
-
-        File << L.Id << ","
-             << L.Amount << ","
-             << L.InterestRate << ","
-             << L.StartDate.Day << "/" << L.StartDate.Month << "/" << L.StartDate.Year << ","
-             << L.EndDate.Day << "/" << L.EndDate.Month << "/" << L.EndDate.Year << ","
-             << L.Status << "\n";
-    }
-
-    inline Singly::List<Loan::Loan> ReadAll() {
-        auto list = Singly::Create<Loan::Loan>();
-
-        std::ifstream File(GetFilePath());
-        if (!File.is_open()) return list;
-
-        std::string Line;
-        std::getline(File, Line); // skip header
-
-        while (std::getline(File, Line)) {
-            std::stringstream ss(Line);
-            std::string id, amountStr, rateStr, sdStr, edStr, status;
-
-            std::getline(ss, id, ',');
-            std::getline(ss, amountStr, ',');
-            std::getline(ss, rateStr, ',');
-            std::getline(ss, sdStr, ',');
-            std::getline(ss, edStr, ',');
-            std::getline(ss, status, ',');
-
-            double amount = amountStr.empty() ? 0.0 : std::stod(amountStr);
-            double rate   = rateStr.empty() ? 0.0 : std::stod(rateStr);
-
-            int sd=0, sm=0, sy=0;
-            int ed=0, em=0, ey=0;
-
-            sscanf(sdStr.c_str(), "%d/%d/%d", &sd, &sm, &sy);
-            sscanf(edStr.c_str(), "%d/%d/%d", &ed, &em, &ey);
-
-            Loan::Loan L{
-                id, amount, rate,
-                {sd, sm, sy},
-                {ed, em, ey},
-                status
-            };
-
-            Singly::PushBack(&list, L);
-        }
-
-        return list;
-    }
-
-    inline void Clear() {
-        std::ofstream File(GetFilePath(), std::ios::trunc);
-    }
 }
 
 #endif

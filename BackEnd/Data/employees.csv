@@ -1,2 +1,5 @@
 Id,Name,LastName,Address,Salary,HireDate,BranchCode,Status
 EMP0001,Yassine,Ouesleti,1,8,01/12/2025,1,active
+EMP0005,BANZIN,CARALHO,SP,58,02/12/2025,1,active
+EMP0006,AMEN,Fayech,RJ,64,02/12/2025,1,active
+EMP0007,OUAEBF,AEF,FAE,5,02/12/2025,5,active

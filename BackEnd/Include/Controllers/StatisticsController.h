@@ -16,11 +16,8 @@ namespace StatisticsController {
     inline void TotalLoans(Customer::Customer customers[], int customerCount) {
         int total = 0;
         for (int i = 0; i < customerCount; i++) {
-            std::cout << customers[i].Name << customers[i].LastName; 
             auto accountNode = customers[i].Accounts.Head;
             while (accountNode) {
-                std::cout << accountNode->Data.Loans.Size;
-                Doubly::Display(accountNode->Data.Loans);
                 total += accountNode->Data.Loans.Size;
                 accountNode = accountNode->Next;
             }
@@ -136,8 +133,10 @@ namespace StatisticsController {
         Customer::Customer* richest = nullptr;
         for (int i = 0; i < customerCount; i++) {
             auto accountNode = customers[i].Accounts.Head;
+            std::cout << customers[i].Id;
             double total = 0;
             while (accountNode) {
+                std::cout << accountNode->Data;
                 total += accountNode->Data.Balance;
                 accountNode = accountNode->Next;
             }

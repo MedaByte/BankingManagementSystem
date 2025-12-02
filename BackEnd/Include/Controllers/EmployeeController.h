@@ -8,6 +8,7 @@
 #include "../Models/Transaction.h"
 #include "../../CSV/AccountCSV.h"
 #include "../../CSV/EmployeeCSV.h"
+#include "../../CSV/TransactionCSV.h" 
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -232,7 +233,10 @@ namespace EmployeeController {
     }
 
     // ---------------- Loan Requests ----------------
-    inline void ManageLoanRequests(Customer::Customer customers[], int customerCount, Loan::Loan loanRequests[], int& loanRequestCount) {
+    inline void ManageLoanRequests(Customer::Customer customers[], int customerCount,
+                                    Loan::Loan loanRequests[], int& loanRequestCount,
+                                    Transaction::Transaction transactions[], int& transactionCount,
+                                    Account::Account accounts[], int& accountCount) {
         for (int i = 0; i < loanRequestCount; ) {
             Loan::Loan& request = loanRequests[i];
             std::string decision;
@@ -247,6 +251,14 @@ namespace EmployeeController {
                     if (acc) {
                         Account::AddLoan(acc, request);
                         acc->Balance += request.Amount;
+                        Transaction::Transaction T = Transaction::Create(acc->AccountNumber, "loanDeposit", request.Amount);
+                        transactions[transactionCount++] = T;
+                        for (int an=0; an< accountCount; ++an){
+                            if (accounts[an].CustomerId == customers[j].Id && accounts[an].AccountNumber == acc->AccountNumber){
+                                accounts[an] = *acc;
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
@@ -257,16 +269,23 @@ namespace EmployeeController {
                 loanRequestCount--;
             } else i++;
         }
+        TransactionCSV::Write(transactions, transactionCount);
+        AccountCSV::Write(accounts, accountCount);
         std::cout << "Loan requests processed.\n";
     }
 
     // ---------------- Finalize Daily Transactions ----------------
-    inline void FinalizeTransactions(Account::Account accounts[], int accountCount) {
+    inline void FinalizeTransactions(Account::Account accounts[], int accountCount, Transaction::Transaction transactions[], int& transactionCount) {
         for (int i = 0; i < accountCount; ++i) {
             while (!Stack::IsEmpty(accounts[i].DailyTransactions)) {
-                Stack::Pop(&accounts[i].DailyTransactions);
+                Stack::Clear(&accounts[i].DailyTransactions);
             }
         }
+
+        transactions = {};
+        transactionCount = 0;
+        
+        TransactionCSV::Write(transactions, transactionCount);
         std::cout << "Daily transactions finalized.\n";
     }
 

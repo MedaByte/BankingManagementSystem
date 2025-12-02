@@ -9,6 +9,7 @@
 #include "CSV/AccountCSV.h"
 #include "CSV/EmployeeCSV.h"
 
+#include "Include/DataStructures/Stack.h"
 using namespace std;
 
 // ---------------- Constants ----------------
@@ -16,18 +17,21 @@ const int MAX_CUSTOMERS = 100;
 const int MAX_EMPLOYEES = 50;
 const int MAX_ACCOUNTS = 200;
 const int MAX_LOAN_REQUESTS = 50;
+const int MAX_TRANSACTIONS = 5000;
 
 // ---------------- Arrays ----------------
 Customer::Customer customers[MAX_CUSTOMERS];
 Employee::Employee employees[MAX_EMPLOYEES];
 Account::Account accounts[MAX_ACCOUNTS];
 Loan::Loan loanRequests[MAX_LOAN_REQUESTS];
+Transaction::Transaction transactions[MAX_TRANSACTIONS];
 
 // ---------------- Counters ----------------
 int customerCount = 0;
 int employeeCount = 0;
 int accountCount = 0;
 int loanRequestCount = 0;
+int transactionCount = 0;
 
 // ---------------- Function Declarations ----------------
 void CustomerMenu();
@@ -46,10 +50,12 @@ int main() {
     CustomerCSV::Load(customers, customerCount);
     AccountCSV::Load(accounts, accountCount, customers, &customerCount);
     EmployeeCSV::Load(employees, employeeCount);
-
+    TransactionCSV::Load(transactions, transactionCount, accounts, accountCount, customers, customerCount);
+    
     int choice = 0;
     do {
         system("cls");
+
         cout << "===================== Banking Management System =====================\n";
         cout << "1. Customer Section\n";
         cout << "2. Employee Section\n";
@@ -100,10 +106,10 @@ void CustomerMenu() {
             case 1: CustomerController::ViewAccounts(customer); WaitForEnter(); break;
             case 2: CustomerController::ViewLoans(customer); WaitForEnter(); break;
             case 3: CustomerController::RequestLoan(customer, loanRequests, loanRequestCount); WaitForEnter(); break;
-            case 4: CustomerController::Deposit(customer); WaitForEnter(); break;
-            case 5: CustomerController::Withdraw(customer); WaitForEnter(); break;
+            case 4: CustomerController::Deposit(customer, accounts, accountCount, transactions, transactionCount); WaitForEnter(); break;
+            case 5: CustomerController::Withdraw(customer, accounts, accountCount, transactions, transactionCount); WaitForEnter(); break;
             case 6: CustomerController::ViewTransactions(customer); WaitForEnter(); break;
-            case 7: CustomerController::UndoTransaction(customer); WaitForEnter(); break;
+            case 7: CustomerController::UndoTransaction(customer, accounts, accountCount, transactions, transactionCount); WaitForEnter(); break;
             case 8: cout << "Logging out...\n"; break;
             default: cout << "Invalid choice!\n"; WaitForEnter();
         }
@@ -153,8 +159,8 @@ void EmployeeMenu() {
             case 9: EmployeeController::ViewCustomerLoans(customers, customerCount); WaitForEnter(); break;
             case 10: EmployeeController::ChangeLoanStatus(customers, customerCount); WaitForEnter(); break;
             case 11: EmployeeController::DeleteCompletedLoans(customers, customerCount); WaitForEnter(); break;
-            case 12: EmployeeController::ManageLoanRequests(customers, customerCount, loanRequests, loanRequestCount); WaitForEnter(); break;
-            case 13: EmployeeController::FinalizeTransactions(accounts, accountCount); WaitForEnter(); break;
+            case 12: EmployeeController::ManageLoanRequests(customers, customerCount, loanRequests, loanRequestCount, transactions, transactionCount, accounts, accountCount); WaitForEnter(); break;
+            case 13: EmployeeController::FinalizeTransactions(accounts, accountCount, transactions, transactionCount); WaitForEnter(); break;
             case 14: EmployeeController::FindEarliestAndLatestEmployees(employees, employeeCount); WaitForEnter(); break;
             case 15: cout << "Logging out...\n"; break;
             default: cout << "Invalid choice!\n"; WaitForEnter();

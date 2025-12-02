@@ -114,7 +114,6 @@ namespace AccountCSV {
         }
 
         // Header
-        std::cout << "writing niggass";
         file << "AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId\n";
         for (int i = 0; i < count; ++i) {
             const auto& A = accounts[i];

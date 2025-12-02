@@ -7,8 +7,10 @@
 #include "../Models/Account.h"
 #include "../Models/Loan.h"
 #include "../Models/Transaction.h"
+#include "../DataStructures/Stack.h"
 #include "../../CSV/CustomerCSV.h"
-#include "../../CSV/AccountCSV.h"
+#include "../../CSV/AccountCSV.h" 
+#include "../../CSV/TransactionCSV.h" 
 
 namespace CustomerController {
 
@@ -135,7 +137,12 @@ namespace CustomerController {
     }
 
     // ---------------- Deposit money ----------------
-    inline void Deposit(Customer::Customer* C) {
+    inline void Deposit(Customer::Customer* C,
+                        Account::Account accounts[], 
+                        int accountCount,
+                        Transaction::Transaction transactions[],
+                        int& transactionCount){
+        
         std::string accNum;
         double amount;
 
@@ -151,13 +158,32 @@ namespace CustomerController {
         std::cin >> amount;
 
         Transaction::Transaction T = Transaction::Create(accNum, "deposit", amount);
+        transactions[transactionCount++] = T;
         Account::AddTransaction(account, T);
+        
 
+        for (int i=0; i<accountCount; ++i){
+            if (accounts[i].CustomerId == account->CustomerId && accounts[i].AccountNumber == accNum){
+                accounts[i] = *account;
+                Stack::Push(&accounts[i].DailyTransactions, T);
+
+            }
+        }
+
+
+        TransactionCSV::Write(transactions, transactionCount);
+
+        AccountCSV::Write(accounts, accountCount);
         std::cout << "Deposit successful! New Balance: " << account->Balance << " TND\n";
     }
 
     // ---------------- Withdraw money ----------------
-    inline void Withdraw(Customer::Customer* C) {
+    inline void Withdraw(Customer::Customer* C,
+                        Account::Account accounts[], 
+                        int accountCount,
+                        Transaction::Transaction transactions[],
+                        int& transactionCount) {
+        
         std::string accNum;
         double amount;
 
@@ -177,11 +203,32 @@ namespace CustomerController {
             return;
         }
 
+        // Update balance
+        account->Balance -= amount;
+
+        // Create transaction
         Transaction::Transaction T = Transaction::Create(accNum, "withdrawal", amount);
-        Account::AddTransaction(account, T);
+        transactions[transactionCount++] = T;
+
+        // Add transaction to customer's account
+        Stack::Push(&account->DailyTransactions, T);
+
+        // Update global accounts array
+        for (int i = 0; i < accountCount; ++i) {
+            if (accounts[i].AccountNumber == accNum) {
+                accounts[i] = *account; // copy updated balance and stack
+                break;
+            }
+    
+        }
+
+        // Persist changes
+        TransactionCSV::Write(transactions, transactionCount);
+        AccountCSV::Write(accounts, accountCount);
 
         std::cout << "Withdrawal successful! New Balance: " << account->Balance << " TND\n";
-    }
+}
+
 
     // ---------------- View daily transactions ----------------
     inline void ViewTransactions(Customer::Customer* C) {
@@ -204,10 +251,16 @@ namespace CustomerController {
     }
 
     // ---------------- Undo last transaction ----------------
-    inline void UndoTransaction(Customer::Customer* C) {
+    inline void UndoTransaction(Customer::Customer* C,
+                                Account::Account accounts[], 
+                                int accountCount,
+                                Transaction::Transaction transactions[],
+                                int& transactionCount) {
+
         std::string accNum;
         std::cout << "Enter Account Number: ";
         std::cin >> accNum;
+
         Account::Account* account = Customer::FindAccount(C, accNum);
         if (!account) {
             std::cout << "Account not found!\n";
@@ -219,9 +272,52 @@ namespace CustomerController {
             return;
         }
 
-        Account::UndoLastTransaction(account);
-        std::cout << "Last transaction undone successfully.\n";
+        // Pop last transaction from customer's account
+        Transaction::Transaction lastTx = Stack::Top(account->DailyTransactions);
+        Stack::Pop(&account->DailyTransactions);
+
+        // Reverse its effect on balance
+        if (lastTx.Type == "deposit") {
+            account->Balance -= lastTx.Amount;
+        } else if (lastTx.Type == "withdrawal") {
+            account->Balance += lastTx.Amount;
+        } else {
+            std::cout << "Unknown transaction type!\n";
+            return;
+        }
+
+        // Update global accounts array
+        for (int i = 0; i < accountCount; ++i) {
+            if (accounts[i].AccountNumber == accNum) {
+                accounts[i] = *account; // copy updated balance and stack
+                break;
+            }
+        }
+
+        // Remove last transaction from global transactions array
+        bool removed = false;
+        for (int i = transactionCount - 1; i >= 0; --i) {
+            if (transactions[i].TransactionId == lastTx.TransactionId) {
+                for (int j = i; j < transactionCount - 1; ++j) {
+                    transactions[j] = transactions[j + 1];
+                }
+                --transactionCount;
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed) {
+            std::cout << "Warning: transaction not found in global array!\n";
+        }
+
+        // Persist changes
+        TransactionCSV::Write(transactions, transactionCount);
+        AccountCSV::Write(accounts, accountCount);
+
+        std::cout << "Last transaction undone successfully! New Balance: " << account->Balance << " TND\n";
     }
+
 
 }
 

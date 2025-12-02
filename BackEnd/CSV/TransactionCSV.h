@@ -5,9 +5,10 @@
 #include <sstream>
 #include <string>
 #include <iostream>
-#include "../Models/Transaction.h"
-#include "../Utils/OriginPath.h"
-#include "../Models/Account.h"
+#include "../Include/DataStructures/Stack.h"
+#include "../Include/Models/Transaction.h"
+#include "../Include/Models/Account.h"
+#include "../Include/Utils/OriginPath.h"
 
 namespace TransactionCSV {
 
@@ -23,7 +24,10 @@ namespace TransactionCSV {
     }
 
     // Load transactions; optionally link to accounts array (push on DailyTransactions)
-    inline void Load(Transaction::Transaction transactions[], int& count, Account::Account* accounts = nullptr, int accountCount = 0, const std::string& filename = "transactions.csv") {
+    inline void Load(Transaction::Transaction transactions[], int& count,
+                    Account::Account accounts[], int accountCount,
+                    Customer::Customer customers[], int customerCount,
+                    const std::string& filename = "transactions.csv") {
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
 
@@ -65,14 +69,27 @@ namespace TransactionCSV {
             transactions[count] = Transaction::Create(accNum, type, amount, d, txId);
 
             // link to account if provided
-            if (accounts != nullptr) {
-                for (int i = 0; i < accountCount; ++i) {
-                    if (accounts[i].AccountNumber == accNum) {
-                        Account::AddTransaction(&accounts[i], transactions[count]);
-                        break;
+            for (int i = 0; i < accountCount; ++i) {
+                if (accounts[i].AccountNumber == accNum) {
+                    Stack::Push(&accounts[i].DailyTransactions, transactions[count]);
+                    for (int j = 0; j<customerCount; ++j){
+                        if (customers[j].Id == accounts[i].CustomerId){
+                            auto accNode = customers[j].Accounts.Head;
+                            while (accNode) {
+                                if (accNode->Data.AccountNumber == accNum) {
+                                    // Replace account with updated one
+                                    accNode->Data = accounts[i];
+
+                                    break;
+                                }
+                                accNode = accNode->Next;
+                            }
+                            break;
+                        }
                     }
                 }
             }
+
 
             ++count;
             if (count >= 100000) break;

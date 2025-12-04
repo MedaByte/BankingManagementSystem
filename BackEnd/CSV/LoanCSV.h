@@ -5,10 +5,10 @@
 #include <sstream>
 #include <string>
 #include <iostream>
-#include "../Models/Loan.h"
-#include "../Utils/OriginPath.h"
-#include "../Models/Account.h"
-#include "../Models/Date.h"
+#include "../Include/Models/Loan.h"
+#include "../Include/Utils/OriginPath.h"
+#include "../Include/Models/Account.h"
+#include "../Include/Models/Date.h"
 
 namespace LoanCSV {
 

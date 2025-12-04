@@ -1,5 +1,7 @@
 Id,Name,LastName,Address,Salary,HireDate,BranchCode,Status
-EMP0001,Yassine,Ouesleti,1,8,01/12/2025,1,active
-EMP0005,BANZIN,CARALHO,SP,58,02/12/2025,1,active
-EMP0006,AMEN,Fayech,RJ,64,02/12/2025,1,active
-EMP0007,OUAEBF,AEF,FAE,5,02/12/2025,5,active
+EMP0001,Yassine,Ouesleti,Ariana,2800,01/12/2025,1,active
+EMP0002,Mounira,Dridi,Tunis,3100,01/12/2025,2,active
+EMP0004,Geovanna,Silva,SP,4800,02/12/2025,1,active
+EMP0005,Bruno,Santana,RJ,4200,02/12/2025,2,active
+EMP0006,Letícia,Moraes,SP,3900,02/12/2025,4,inactive
+EMP0008,joao,silva,BR,9550,04/12/2025,1,active

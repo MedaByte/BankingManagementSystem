@@ -17,6 +17,7 @@ const int MAX_CUSTOMERS = 100;
 const int MAX_EMPLOYEES = 50;
 const int MAX_ACCOUNTS = 200;
 const int MAX_LOAN_REQUESTS = 50;
+const int MAX_LOANS = 50;
 const int MAX_TRANSACTIONS = 5000;
 
 // ---------------- Arrays ----------------
@@ -24,6 +25,7 @@ Customer::Customer customers[MAX_CUSTOMERS];
 Employee::Employee employees[MAX_EMPLOYEES];
 Account::Account accounts[MAX_ACCOUNTS];
 Loan::Loan loanRequests[MAX_LOAN_REQUESTS];
+Loan::Loan loans[MAX_LOANS];
 Transaction::Transaction transactions[MAX_TRANSACTIONS];
 
 // ---------------- Counters ----------------
@@ -31,6 +33,7 @@ int customerCount = 0;
 int employeeCount = 0;
 int accountCount = 0;
 int loanRequestCount = 0;
+int loanCount = 0;
 int transactionCount = 0;
 
 // ---------------- Function Declarations ----------------
@@ -50,6 +53,7 @@ int main() {
     CustomerCSV::Load(customers, customerCount);
     AccountCSV::Load(accounts, accountCount, customers, &customerCount);
     EmployeeCSV::Load(employees, employeeCount);
+    LoanCSV::Load(loans, loanCount, accounts, accountCount);
     TransactionCSV::Load(transactions, transactionCount, accounts, accountCount, customers, customerCount);
     
     int choice = 0;
@@ -157,9 +161,9 @@ void EmployeeMenu() {
             case 7: EmployeeController::ChangeAccountStatus(accounts, accountCount); WaitForEnter(); break;
             case 8: EmployeeController::DeleteClosedAccounts(accounts, accountCount); WaitForEnter(); break;
             case 9: EmployeeController::ViewCustomerLoans(customers, customerCount); WaitForEnter(); break;
-            case 10: EmployeeController::ChangeLoanStatus(customers, customerCount); WaitForEnter(); break;
-            case 11: EmployeeController::DeleteCompletedLoans(customers, customerCount); WaitForEnter(); break;
-            case 12: EmployeeController::ManageLoanRequests(customers, customerCount, loanRequests, loanRequestCount, transactions, transactionCount, accounts, accountCount); WaitForEnter(); break;
+            case 10: EmployeeController::ChangeLoanStatus(customers, customerCount, loans, loanCount); WaitForEnter(); break;
+            case 11: EmployeeController::DeleteCompletedLoans(customers, customerCount, accounts, accountCount, loans, loanCount); WaitForEnter(); break;
+            case 12: EmployeeController::ManageLoanRequests(customers, customerCount, loanRequests, loanRequestCount, loans, loanCount, transactions, transactionCount, accounts, accountCount); WaitForEnter(); break;
             case 13: EmployeeController::FinalizeTransactions(accounts, accountCount, transactions, transactionCount); WaitForEnter(); break;
             case 14: EmployeeController::FindEarliestAndLatestEmployees(employees, employeeCount); WaitForEnter(); break;
             case 15: cout << "Logging out...\n"; break;

@@ -1,6 +1,7 @@
 #ifndef EMPLOYEE_CONTROLLER_H
 #define EMPLOYEE_CONTROLLER_H
 
+#include "../DataStructures/SinglyLinkedList.h"
 #include "../Models/Employee.h"
 #include "../Models/Customer.h"
 #include "../Models/Account.h"
@@ -9,6 +10,7 @@
 #include "../../CSV/AccountCSV.h"
 #include "../../CSV/EmployeeCSV.h"
 #include "../../CSV/TransactionCSV.h" 
+#include "../../CSV/LoanCSV.h" 
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -194,49 +196,80 @@ namespace EmployeeController {
         }
     }
 
-    inline void ChangeLoanStatus(Customer::Customer customers[], int customerCount) {
+    inline void ChangeLoanStatus(Customer::Customer customers[], int customerCount,
+                                Loan::Loan loans[], int loanCount) {
         std::string custID, loanID, status;
         std::cout << "Enter Customer ID: "; std::cin >> custID;
         std::cout << "Enter Loan ID: "; std::cin >> loanID;
         std::cout << "Enter new Status: "; std::cin >> status;
 
+        bool updated = false;
         Customer::Customer* customer = nullptr;
         for (int i = 0; i < customerCount; ++i) {
             if (customers[i].Id == custID) { customer = &customers[i]; break; }
         }
         if (!customer) { std::cout << "Customer not found!\n"; return; }
 
-        for (auto node = customer->Accounts.Head; node; node = node->Next) {
-            Loan::Loan* loan = Account::FindLoan(&node->Data, loanID);
-            if (loan) {
-                Loan::ChangeStatus(loan, status);
-                std::cout << "Loan status updated successfully.\n";
-                return;
-            }
+            for (auto node = customer->Accounts.Head; node; node = node->Next) {
+                Loan::Loan* loan = Account::FindLoan(&node->Data, loanID);
+                
+                for (int i=0; i<loanCount; ++i){
+                    if (loans[i].Id == loanID){
+                        loans[i].Status = status;
+                        updated = true;
+                        break;
+                    }
+                }
+                if (loan) {
+                    Loan::ChangeStatus(loan, status);
+                    LoanCSV::Write(loans, loanCount);
+                    std::cout << "Loan status updated successfully.\n";
+                    return;
+                }
         }
-        std::cout << "Loan not found!\n";
+        if (!updated)
+        {
+            std::cout << "loan not found";
+        }
     }
 
-    inline void DeleteCompletedLoans(Customer::Customer customers[], int customerCount) {
+    inline void DeleteCompletedLoans(Customer::Customer customers[], int customerCount,
+                                    Account::Account accounts[], int accountCount,
+                                    Loan::Loan loans[], int& loanCount
+                                    ) {
+
+        Singly::List<Account::Account> tmp = Singly::Create<Account::Account>();
         for (int i = 0; i < customerCount; ++i) {
             for (auto node = customers[i].Accounts.Head; node; node = node->Next) {
                 for (auto loanNode = node->Data.Loans.Head; loanNode; ) {
                     if (loanNode->Data.Status == "completed") {
-                        auto toDelete = loanNode;
+                        auto* toDelete = loanNode;
                         loanNode = loanNode->Next;
                         Doubly::RemoveByNode(&node->Data.Loans, toDelete);
                     } else loanNode = loanNode->Next;
                 }
             }
         }
-        std::cout << "Completed loans deleted successfully.\n";
+
+        int writeIndex = 0;
+        for (int readIndex = 0; readIndex < loanCount; ++readIndex) {
+
+            if (loans[readIndex].Status != "completed") {
+                loans[writeIndex++] = loans[readIndex];
+            }
+        }
+        loanCount = writeIndex;
+
+        LoanCSV::Write(loans, loanCount);
     }
 
     // ---------------- Loan Requests ----------------
     inline void ManageLoanRequests(Customer::Customer customers[], int customerCount,
                                     Loan::Loan loanRequests[], int& loanRequestCount,
+                                    Loan::Loan loans[], int& loanCount,
                                     Transaction::Transaction transactions[], int& transactionCount,
-                                    Account::Account accounts[], int& accountCount) {
+                                    Account::Account accounts[], int& accountCount
+                                ) {
         for (int i = 0; i < loanRequestCount; ) {
             Loan::Loan& request = loanRequests[i];
             std::string decision;
@@ -253,6 +286,7 @@ namespace EmployeeController {
                         acc->Balance += request.Amount;
                         Transaction::Transaction T = Transaction::Create(acc->AccountNumber, "loanDeposit", request.Amount);
                         transactions[transactionCount++] = T;
+                        loans[loanCount++] = request;
                         for (int an=0; an< accountCount; ++an){
                             if (accounts[an].CustomerId == customers[j].Id && accounts[an].AccountNumber == acc->AccountNumber){
                                 accounts[an] = *acc;
@@ -271,6 +305,7 @@ namespace EmployeeController {
         }
         TransactionCSV::Write(transactions, transactionCount);
         AccountCSV::Write(accounts, accountCount);
+        LoanCSV::Write(loans, loanCount);
         std::cout << "Loan requests processed.\n";
     }
 

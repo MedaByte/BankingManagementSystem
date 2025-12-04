@@ -27,19 +27,18 @@ namespace StatisticsController {
 
     // Number of loans by type
     inline void LoansByType(Customer::Customer customers[], int customerCount) {
-        int car = 0, home = 0, student = 0, business = 0;
+        int car = 0, home = 0, student = 0, business = 0, general = 0;
         for (int i = 0; i < customerCount; i++) {
             auto accountNode = customers[i].Accounts.Head;
             while (accountNode) {
                 auto loanNode = accountNode->Data.Loans.Head;
                 while (loanNode) {
-                    std::string type = loanNode->Data.AccountId; // actually you need a Type field in Loan
-                    // Assuming you have LoanType inside Loan:
-                    // std::string type = loanNode->Data.LoanType;
+                    std::string type = loanNode->Data.type;
                     if (type == "car") car++;
                     else if (type == "home") home++;
                     else if (type == "student") student++;
                     else if (type == "business") business++;
+                    else if (type == "general") general++;
                     loanNode = loanNode->Next;
                 }
                 accountNode = accountNode->Next;
@@ -49,6 +48,7 @@ namespace StatisticsController {
         std::cout << "Home Loans: " << home << "\n";
         std::cout << "Student Loans: " << student << "\n";
         std::cout << "Business Loans: " << business << "\n";
+        std::cout << "general Loans: " << general << "\n";
     }
 
     // Number of loans by status
@@ -94,9 +94,9 @@ namespace StatisticsController {
                     if (L.Status == "active") {
                         // Simple date comparison
                         if ((L.StartDate.Year > start.Year || (L.StartDate.Year == start.Year && L.StartDate.Month > start.Month) ||
-                             (L.StartDate.Year == start.Year && L.StartDate.Month == start.Month && L.StartDate.Day >= start.Day)) &&
+                                (L.StartDate.Year == start.Year && L.StartDate.Month == start.Month && L.StartDate.Day >= start.Day)) &&
                             (L.EndDate.Year < end.Year || (L.EndDate.Year == end.Year && L.EndDate.Month < end.Month) ||
-                             (L.EndDate.Year == end.Year && L.EndDate.Month == end.Month && L.EndDate.Day <= end.Day))) {
+                                (L.EndDate.Year == end.Year && L.EndDate.Month == end.Month && L.EndDate.Day <= end.Day))) {
                             count++;
                         }
                     }
@@ -136,7 +136,6 @@ namespace StatisticsController {
             std::cout << customers[i].Id;
             double total = 0;
             while (accountNode) {
-                std::cout << accountNode->Data;
                 total += accountNode->Data.Balance;
                 accountNode = accountNode->Next;
             }

@@ -22,6 +22,7 @@ namespace Loan {
         Date::Date StartDate;
         Date::Date EndDate;
         std::string Status;
+        std::string type;
 
         Stack::Stack<Transaction::Transaction> Payments;
     };
@@ -33,7 +34,8 @@ namespace Loan {
         int DurationInMonths,
         const std::string& Status = "active",
         std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_loan_id.txt", "LOAN"),
-        const Date::Date& StartDate = Date::Now()
+        const Date::Date& StartDate = Date::Now(),
+        std::string type = "general"
     ) {
         Date::Date EndDate = Date::AddMonths(StartDate, DurationInMonths);
 
@@ -47,6 +49,7 @@ namespace Loan {
             StartDate,
             EndDate,
             Status,
+            type,
             Stack::Create<Transaction::Transaction>()
         };
 

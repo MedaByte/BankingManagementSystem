@@ -11,14 +11,14 @@
 namespace Employee {
 
     struct Employee {
-        std::string Id;
-        std::string Name;
-        std::string LastName;
-        std::string Address;
-        double Salary;
-        Date::Date HireDate;
-        std::string BranchCode;
-        std::string Status;
+        std::string Id;        // Employee ID | ID do employee
+        std::string Name;      // First name | Primeiro nome
+        std::string LastName;  // Last name | Último nome
+        std::string Address;   // Address | Endereço
+        double Salary;         // Salary | Salário
+        Date::Date HireDate;   // Hire date | Data de contratação
+        std::string BranchCode;// Branch code | Código da branch
+        std::string Status;    // Status (active/inactive) | Status (ativo/inativo)
     };
 
     inline Employee Create(
@@ -42,24 +42,27 @@ namespace Employee {
             Status
         };
 
-        return NewEmployee;
+        return NewEmployee; // Return new employee | Retornar novo employee
     }
-
 
     inline void ChangeSalary(Employee* E, double NewSalary) {
         E->Salary = NewSalary;
+        // Update salary | Atualizar salário
     }
 
     inline void ChangeAddress(Employee* E, const std::string& NewAddress) {
         E->Address = NewAddress;
+        // Update address | Atualizar endereço
     }
 
     inline void ChangeBranch(Employee* E, const std::string& NewBranch) {
         E->BranchCode = NewBranch;
+        // Update branch | Atualizar branch
     }
 
     inline void ChangeStatus(Employee* E, const std::string& NewStatus) {
         E->Status = NewStatus;
+        // Update status | Atualizar status
     }
 
     inline void Display(const Employee& E) {
@@ -71,12 +74,14 @@ namespace Employee {
                     << Date::GetMonth(E.HireDate) << "/" << E.HireDate.Year << "\n";
         std::cout << "Branch Code: " << E.BranchCode << "\n";
         std::cout << "Status: " << E.Status << "\n";
+        // Display employee info | Mostrar informações do employee
     }
 
-    std::ostream& operator<<(std::ostream& os, const Employee& E){
-    os << "[" << E.Id << ", " << E.Name << ", " << E.Salary << "]";
-    return os;
+    std::ostream& operator<<(std::ostream& os, const Employee& E) {
+        os << "[" << E.Id << ", " << E.Name << ", " << E.Salary << "]";
+        return os; // Formatted print | Impressão formatada
     }
+
 }
 
 #endif

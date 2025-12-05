@@ -1,3 +1,2 @@
 Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status
-LOAN0001,ACC0005,10000,0.3,0,10000,04/12/2025,04/01/2027,active
-LOAN0003,ACC0005,6000,0.5,0,6000,04/12/2025,04/06/2028,active
+LOAN0001,ACC0002,50,65,0,50,05/12/2025,05/03/2027,active

@@ -18,6 +18,8 @@
 namespace EmployeeController {
 
     // ---------------- Employee Management ----------------
+
+    // Add a new employee | Adicionar um novo empregado
     inline void AddEmployee(Employee::Employee employees[], int& employeeCount) {
         if (employeeCount >= 50) { // MAX_EMPLOYEES
             std::cout << "Employee array full!\n";
@@ -34,11 +36,11 @@ namespace EmployeeController {
         std::cout << "Enter Branch Code: "; std::cin >> branch;
 
         employees[employeeCount++] = Employee::Create(name, lastName, address, salary, branch);
-
-        EmployeeCSV::Write(employees, employeeCount);
+        EmployeeCSV::Write(employees, employeeCount); // Persist employees | Persistir empregados
         std::cout << "Employee added successfully.\n";
     }
 
+    // Edit employee information | Editar informações de um empregado
     inline void EditEmployee(Employee::Employee employees[], int employeeCount) {
         std::string id;
         std::cout << "Enter Employee ID to edit: ";
@@ -63,7 +65,7 @@ namespace EmployeeController {
                 employees[i].BranchCode = branch;
                 employees[i].Status = status;
 
-                EmployeeCSV::Write(employees, employeeCount);
+                EmployeeCSV::Write(employees, employeeCount); // Update CSV | Atualizar CSV
                 std::cout << "Employee updated successfully.\n";
                 return;
             }
@@ -71,6 +73,7 @@ namespace EmployeeController {
         std::cout << "Employee not found!\n";
     }
 
+    // Delete an employee | Deletar um empregado
     inline void DeleteEmployee(Employee::Employee employees[], int& employeeCount) {
         std::string id;
         std::cout << "Enter Employee ID to delete: ";
@@ -82,7 +85,7 @@ namespace EmployeeController {
                     employees[j] = employees[j + 1];
                 employeeCount--;
 
-                EmployeeCSV::Write(employees, employeeCount);
+                EmployeeCSV::Write(employees, employeeCount); // Update CSV | Atualizar CSV
                 std::cout << "Employee deleted successfully.\n";
                 return;
             }
@@ -90,6 +93,7 @@ namespace EmployeeController {
         std::cout << "Employee not found!\n";
     }
 
+    // View all employees sorted by last name | Mostrar todos os empregados ordenados pelo sobrenome
     inline void ViewEmployees(Employee::Employee employees[], int employeeCount) {
         if (employeeCount == 0) {
             std::cout << "No employees!\n";
@@ -107,6 +111,8 @@ namespace EmployeeController {
     }
 
     // ---------------- Account Management ----------------
+
+    // Add a customer account | Adicionar uma conta para cliente
     inline void AddCustomerAccount(Customer::Customer customers[], int customerCount, Account::Account accounts[], int& accountCount) {
         std::string customerID;
         std::cout << "Enter Customer ID: ";
@@ -121,7 +127,6 @@ namespace EmployeeController {
         if (accountCount >= 200) { std::cout << "Account array full!\n"; return; }
 
         std::string holderName, type, branch, status;
-        double balance;
         std::cout << "Enter Account Holder Name: "; std::cin >> holderName;
         std::cout << "Enter Account Type: "; std::cin >> type;
         std::cout << "Enter Branch Code: "; std::cin >> branch;
@@ -132,12 +137,11 @@ namespace EmployeeController {
         accountCount++;
 
         Customer::AddAccount(customer, *accPtr);
+        AccountCSV::Write(accounts, accountCount); // Persist account | Persistir conta
         std::cout << "Account added successfully.\n";
-
-        // Write to CSV immediately
-        AccountCSV::Write(accounts, accountCount);
     }
 
+    // View all accounts | Mostrar todas as contas
     inline void ViewAccounts(Account::Account accounts[], int accountCount) {
         for (int i = 0; i < accountCount; ++i) {
             Account::Display(accounts[i]);
@@ -145,6 +149,7 @@ namespace EmployeeController {
         }
     }
 
+    // Change account status | Alterar status da conta
     inline void ChangeAccountStatus(Account::Account accounts[], int accountCount) {
         std::string accNumber, status;
         std::cout << "Enter Account Number: ";
@@ -155,15 +160,15 @@ namespace EmployeeController {
         for (int i = 0; i < accountCount; ++i) {
             if (accounts[i].AccountNumber == accNumber) {
                 Account::ChangeStatus(&accounts[i], status);
+                AccountCSV::Write(accounts, accountCount); // Persist status change | Persistir alteração
                 std::cout << "Status updated successfully.\n";
-                // Update CSV immediately
-                AccountCSV::Write(accounts, accountCount);
                 return;
             }
         }
         std::cout << "Account not found!\n";
     }
 
+    // Delete all closed accounts | Deletar todas as contas fechadas
     inline void DeleteClosedAccounts(Account::Account accounts[], int& accountCount) {
         for (int i = 0; i < accountCount; ) {
             if (accounts[i].Status == "closed") {
@@ -173,11 +178,13 @@ namespace EmployeeController {
                 ++i;
             }
         }
+        AccountCSV::Write(accounts, accountCount); // Update CSV | Atualizar CSV
         std::cout << "Closed accounts deleted successfully.\n";
-        AccountCSV::Write(accounts, accountCount); // Update CSV
     }
 
     // ---------------- Loan Management ----------------
+
+    // View customer loans | Visualizar loans de cliente
     inline void ViewCustomerLoans(Customer::Customer customers[], int customerCount) {
         std::string custID;
         std::cout << "Enter Customer ID: "; std::cin >> custID;
@@ -196,56 +203,49 @@ namespace EmployeeController {
         }
     }
 
+    // Change loan status | Alterar status de um loan
     inline void ChangeLoanStatus(Customer::Customer customers[], int customerCount,
-                                Loan::Loan loans[], int loanCount) {
+                                 Loan::Loan loans[], int loanCount) {
         std::string custID, loanID, status;
         std::cout << "Enter Customer ID: "; std::cin >> custID;
         std::cout << "Enter Loan ID: "; std::cin >> loanID;
         std::cout << "Enter new Status: "; std::cin >> status;
 
-        bool updated = false;
         Customer::Customer* customer = nullptr;
         for (int i = 0; i < customerCount; ++i) {
             if (customers[i].Id == custID) { customer = &customers[i]; break; }
         }
         if (!customer) { std::cout << "Customer not found!\n"; return; }
 
-            for (auto node = customer->Accounts.Head; node; node = node->Next) {
-                Loan::Loan* loan = Account::FindLoan(&node->Data, loanID);
-                
+        for (auto node = customer->Accounts.Head; node; node = node->Next) {
+            Loan::Loan* loan = Account::FindLoan(&node->Data, loanID);
+            if (loan) {
+                Loan::ChangeStatus(loan, status);
                 for (int i=0; i<loanCount; ++i){
                     if (loans[i].Id == loanID){
                         loans[i].Status = status;
-                        updated = true;
                         break;
                     }
                 }
-                if (loan) {
-                    Loan::ChangeStatus(loan, status);
-                    LoanCSV::Write(loans, loanCount);
-                    std::cout << "Loan status updated successfully.\n";
-                    return;
-                }
+                LoanCSV::Write(loans, loanCount); // Persist loan status | Persistir status do loan
+                std::cout << "Loan status updated successfully.\n";
+                return;
+            }
         }
-        if (!updated)
-        {
-            std::cout << "loan not found";
-        }
+        std::cout << "Loan not found!\n";
     }
 
+    // Delete completed loans | Deletar loans completos
     inline void DeleteCompletedLoans(Customer::Customer customers[], int customerCount,
-                                    Account::Account accounts[], int accountCount,
-                                    Loan::Loan loans[], int& loanCount
-                                    ) {
-
-        Singly::List<Account::Account> tmp = Singly::Create<Account::Account>();
+                                     Account::Account accounts[], int accountCount,
+                                     Loan::Loan loans[], int& loanCount) {
         for (int i = 0; i < customerCount; ++i) {
-            for (auto node = customers[i].Accounts.Head; node; node = node->Next) {
-                for (auto loanNode = node->Data.Loans.Head; loanNode; ) {
+            for (auto accNode = customers[i].Accounts.Head; accNode; accNode = accNode->Next) {
+                for (auto loanNode = accNode->Data.Loans.Head; loanNode; ) {
                     if (loanNode->Data.Status == "completed") {
                         auto* toDelete = loanNode;
                         loanNode = loanNode->Next;
-                        Doubly::RemoveByNode(&node->Data.Loans, toDelete);
+                        Doubly::RemoveByNode(&accNode->Data.Loans, toDelete); // Remove from account | Remover da conta
                     } else loanNode = loanNode->Next;
                 }
             }
@@ -253,23 +253,20 @@ namespace EmployeeController {
 
         int writeIndex = 0;
         for (int readIndex = 0; readIndex < loanCount; ++readIndex) {
-
             if (loans[readIndex].Status != "completed") {
                 loans[writeIndex++] = loans[readIndex];
             }
         }
         loanCount = writeIndex;
-
-        LoanCSV::Write(loans, loanCount);
+        LoanCSV::Write(loans, loanCount); // Update CSV | Atualizar CSV
     }
 
-    // ---------------- Loan Requests ----------------
+    // Manage loan requests | Gerenciar solicitações de loan
     inline void ManageLoanRequests(Customer::Customer customers[], int customerCount,
-                                    Loan::Loan loanRequests[], int& loanRequestCount,
-                                    Loan::Loan loans[], int& loanCount,
-                                    Transaction::Transaction transactions[], int& transactionCount,
-                                    Account::Account accounts[], int& accountCount
-                                ) {
+                                   Loan::Loan loanRequests[], int& loanRequestCount,
+                                   Loan::Loan loans[], int& loanCount,
+                                   Transaction::Transaction transactions[], int& transactionCount,
+                                   Account::Account accounts[], int& accountCount) {
         for (int i = 0; i < loanRequestCount; ) {
             Loan::Loan& request = loanRequests[i];
             std::string decision;
@@ -309,21 +306,22 @@ namespace EmployeeController {
         std::cout << "Loan requests processed.\n";
     }
 
-    // ---------------- Finalize Daily Transactions ----------------
+    // Finalize daily transactions | Finalizar transações diárias
     inline void FinalizeTransactions(Account::Account accounts[], int accountCount, Transaction::Transaction transactions[], int& transactionCount) {
         for (int i = 0; i < accountCount; ++i) {
             while (!Stack::IsEmpty(accounts[i].DailyTransactions)) {
-                Stack::Clear(&accounts[i].DailyTransactions);
+                Stack::Clear(&accounts[i].DailyTransactions); // Clear stack | Limpar stack
             }
         }
 
         transactions = {};
         transactionCount = 0;
         
-        TransactionCSV::Write(transactions, transactionCount);
+        TransactionCSV::Write(transactions, transactionCount); // Update CSV | Atualizar CSV
         std::cout << "Daily transactions finalized.\n";
     }
 
+    // Find earliest and latest hired employees | Encontrar empregados mais antigos e mais recentes
     inline void FindEarliestAndLatestEmployees(Employee::Employee employees[], int employeeCount) {
         if (employeeCount == 0) {
             std::cout << "No employees available.\n";

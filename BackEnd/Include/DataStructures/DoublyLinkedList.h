@@ -4,193 +4,203 @@
 #include <iostream>
 #include <new>
 
-namespace Doubly{
+namespace Doubly {
 
     template <typename T>
-    struct Node
-    {
+    struct Node {
         T Data;
         Node<T>* Next;
         Node<T>* Prev;
     };
 
     template <typename T>
-    struct List
-    {
+    struct List {
         Node<T>* Head;
         Node<T>* Tail;
         int Size;
     };
     
     template <typename T>
-    List<T> Create(){
+    List<T> Create() {
         return List<T>{nullptr, nullptr, 0};
     }
 
     template <typename T>
-    bool IsEmpty(const List<T>& L){
-        return L.Size == 0;
+    bool IsEmpty(const List<T>& L) {
+        return L.Size == 0; 
+        // Check if list contains no elements | Verifica se a lista não contém elementos
     }
 
     template <typename T>
-    bool IsFull(){
+    bool IsFull() {
         Node<T>* node = new (std::nothrow) Node<T>{};
-        if (node){
+        if (node) {
             delete node;
-            return false;
+            return false; 
         }
-        std::cerr << "Error Allocating Memory!";
+        std::cerr << "Error Allocating Memory!"; 
+        // Memory allocation failed | Falha ao alocar memória
         return true;
     }
 
     template <typename T>
-    void PushBack(List<T>* L, const T& value){
+    void PushBack(List<T>* L, const T& value) {
         if (IsFull<T>()) return;
+
         Node<T>* node = new (std::nothrow) Node<T>{value, nullptr, nullptr};
 
-        if (L->Size == 0){
-            L->Head = node;
+        if (L->Size == 0) {
+            L->Head = node; 
             L->Tail = node;
-        }
-        else{
+            // First element inserted | Primeiro elemento inserido
+        } else {
             node->Prev = L->Tail;
             L->Tail->Next = node;
             L->Tail = node;
+            // Insert at end | Inserir no final
         }
         L->Size++;
     }
 
     template <typename T>
-    void PushFront(List<T>* L, const T& value){
+    void PushFront(List<T>* L, const T& value) {
         if (IsFull<T>()) return;
+
         Node<T>* node = new (std::nothrow) Node<T>{value, nullptr, nullptr};
 
-        if (L->Size == 0){
+        if (L->Size == 0) {
             L->Head = node;
             L->Tail = node;
-        }
-        else{
+            // First element | Primeiro elemento
+        } else {
             node->Next = L->Head;
             L->Head->Prev = node;
             L->Head = node;
+            // Insert at beginning | Inserir no início
         }
         L->Size++;
     }
 
-
     template <typename T>
-    void PopFront(List<T>* L){
+    void PopFront(List<T>* L) {
         if (IsEmpty(*L)) return;
 
         Node<T>* tmp = L->Head;
-
         L->Head = L->Head->Next;
 
-        if (L->Head) L->Head->Prev = nullptr;
-        else L->Tail = nullptr;
+        if (L->Head)
+            L->Head->Prev = nullptr;
+        else
+            L->Tail = nullptr;
 
         delete tmp;
-
         L->Size--;
+        // Remove first element | Remove o primeiro elemento
     }
 
     template <typename T>
-    void PopBack(List<T>* L){
+    void PopBack(List<T>* L) {
         if (IsEmpty(*L)) return;
-        
-        if (L->Size == 1){
+
+        if (L->Size == 1) {
             delete L->Head;
             L->Head = nullptr;
             L->Tail = nullptr;
-        }
-        else{
+            // List becomes empty | Lista fica vazia
+        } else {
             Node<T>* tmp = L->Tail;
             L->Tail = tmp->Prev;
             L->Tail->Next = nullptr;
             delete tmp;
+            // Remove last element | Remove o último elemento
         }
         L->Size--;
     }
 
-
     template <typename T>
-    void RemoveAt(List<T>* L, int pos){
-        std::cout << "test1";
-        if (pos < 1 || pos > L->Size) return;
-        std::cout << "test2";
+    void RemoveAt(List<T>* L, int pos) {
+
+        if (pos < 1 || pos > L->Size) return; 
+
         if (pos == 1) {
-            std::cout << "test3";
+
             PopFront(L);
             return;
         }
-        if (pos == L->Size){ 
-            std::cout << "test4";
+        if (pos == L->Size) {
+
             PopBack(L);
             return;
         }
-        std::cout << "test5";
+
+
         Node<T>* curr = nullptr;
-        if (pos < L->Size / 2){
+
+        if (pos < L->Size / 2) {
             curr = L->Head;
-            
-            for (int i=1; i<pos; i++){
+            for (int i = 1; i < pos; i++) {
                 curr = curr->Next;
             }
             std::cout << "test6";
-        }
-        else{
+        } else {
             curr = L->Tail;
-            for (int i=L->Size; i>pos; i--){
+            for (int i = L->Size; i > pos; i--) {
                 curr = curr->Prev;
             }
         }
-        
+
         curr->Prev->Next = curr->Next;
         curr->Next->Prev = curr->Prev;
 
         delete curr;
-        
-
         L->Size--;
+        // Remove element at specific position | Remove elemento em posição específica
     }
 
     template <typename T>
-    T GetAt(const List<T>& L, int pos){
+    T GetAt(const List<T>& L, int pos) {
         if (pos < 1 || pos > L.Size) return T{};
+        // Return default if invalid | Retorna padrão se inválido
 
         Node<T>* curr = L.Head;
 
-
-        for (int i=1; i<pos; i++){
+        for (int i = 1; i < pos; i++) {
             curr = curr->Next;
         }
 
         return curr->Data;
+        // Get element at position | Pega elemento na posição
     }
 
     template <typename T>
-    void Clear(List<T>* L){
+    void Clear(List<T>* L) {
         Node<T>* curr = L->Head;
 
-        while(curr){
+        while (curr) {
             Node<T>* tmp = curr;
             curr = curr->Next;
             delete tmp;
         }
+
         L->Head = nullptr;
         L->Tail = nullptr;
         L->Size = 0;
+        // Delete all nodes | Deleta todos os nodes
     }
 
     template <typename T>
     Node<T>* FindByID(List<T>& L, std::string id) {
         Node<T>* curr = L.Head;
+
         while (curr) {
             if (curr->Data.Id == id)
-                return curr;
+                return curr; 
+                // Found by ID | Encontrado pelo ID
             curr = curr->Next;
         }
+
         return nullptr;
+        // Not found | Não encontrado
     }
 
     template <typename T>
@@ -211,11 +221,13 @@ namespace Doubly{
 
         delete node;
         L->Size--;
+        // Remove given node | Remove o node fornecido
     }
+
     template <typename T>
     void Display(const List<T>& L) {
         Node<T>* curr = L.Head;
-        
+
         std::cout << " nullptr <- ";
         while (curr) {
             std::cout << curr->Data;
@@ -223,6 +235,7 @@ namespace Doubly{
             curr = curr->Next;
         }
         std::cout << " -> nullptr\n";
+        // Display list visually | Mostra a lista visualmente
     }
 
 }

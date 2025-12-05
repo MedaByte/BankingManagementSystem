@@ -12,10 +12,12 @@
 
 namespace TransactionCSV {
 
+    // Get CSV file path | Pega o caminho do arquivo CSV
     inline std::string GetFilePath() {
         return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
+    // Trim whitespace | Remove espaços em branco
     inline std::string trim(const std::string& s) {
         size_t a = s.find_first_not_of(" \t\r\n");
         if (a == std::string::npos) return "";
@@ -23,17 +25,19 @@ namespace TransactionCSV {
         return s.substr(a, b - a + 1);
     }
 
-    // Load transactions; optionally link to accounts array (push on DailyTransactions)
+    // Load transactions from CSV and link to accounts/customers | Carrega transactions do CSV e liga a accounts/customers
     inline void Load(Transaction::Transaction transactions[], int& count,
-                    Account::Account accounts[], int accountCount,
-                    Customer::Customer customers[], int customerCount,
-                    const std::string& filename = "transactions.csv") {
+                     Account::Account accounts[], int accountCount,
+                     Customer::Customer customers[], int customerCount,
+                     const std::string& filename = "transactions.csv") {
+
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
 
         std::string line;
         count = 0;
 
+        // Check header | Verifica header
         if (!std::getline(file, line)) return;
         std::istringstream peek(line);
         std::string firstTok;
@@ -66,20 +70,19 @@ namespace TransactionCSV {
 
             Date::Date d = Date::FromString(dateStr);
 
+            // Create transaction object | Cria objeto transaction
             transactions[count] = Transaction::Create(accNum, type, amount, d, txId);
 
-            // link to account if provided
+            // Link transaction to account's stack and update customer account | Liga transaction ao stack do account e atualiza customer
             for (int i = 0; i < accountCount; ++i) {
                 if (accounts[i].AccountNumber == accNum) {
                     Stack::Push(&accounts[i].DailyTransactions, transactions[count]);
-                    for (int j = 0; j<customerCount; ++j){
-                        if (customers[j].Id == accounts[i].CustomerId){
+                    for (int j = 0; j < customerCount; ++j) {
+                        if (customers[j].Id == accounts[i].CustomerId) {
                             auto accNode = customers[j].Accounts.Head;
                             while (accNode) {
                                 if (accNode->Data.AccountNumber == accNum) {
-                                    // Replace account with updated one
-                                    accNode->Data = accounts[i];
-
+                                    accNode->Data = accounts[i]; // Update account | Atualiza account
                                     break;
                                 }
                                 accNode = accNode->Next;
@@ -90,21 +93,22 @@ namespace TransactionCSV {
                 }
             }
 
-
             ++count;
-            if (count >= 100000) break;
+            if (count >= 100000) break; // Safety limit | Limite de segurança
         }
 
         file.close();
     }
 
+    // Write transactions to CSV | Escreve transactions no CSV
     inline void Write(Transaction::Transaction transactions[], int count, const std::string& filename = "transactions.csv") {
         std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);
         if (!file.is_open()) {
-            std::cerr << "Unable to open transactions file for writing\n";
+            std::cerr << "Unable to open transactions file for writing\n"; // Erro ao abrir arquivo
             return;
         }
 
+        // Header | Cabeçalho
         file << "TransactionId,AccountNumber,Type,Amount,Date\n";
         for (int i = 0; i < count; ++i) {
             const auto& T = transactions[i];

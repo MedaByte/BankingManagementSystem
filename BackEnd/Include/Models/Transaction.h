@@ -11,11 +11,11 @@
 namespace Transaction {
 
     struct Transaction {
-        std::string TransactionId;
-        std::string AccountNumber;
-        std::string Type;
-        double Amount;
-        Date::Date Date;
+        std::string TransactionId;     // Unique transaction ID | ID único da transação
+        std::string AccountNumber;     // Account linked to transaction | Conta associada à transação
+        std::string Type;              // Type: deposit, withdrawal, etc | Tipo: depósito, saque, etc
+        double Amount;                 // Transaction amount | Quantia da transação
+        Date::Date Date;               // Transaction date | Data da transação
     };
 
     inline Transaction Create(
@@ -28,6 +28,7 @@ namespace Transaction {
             "TRANS"
         )
     ) {
+        // Create a new transaction | Criar uma nova transação
         return Transaction{
             TransactionId,
             AccountNumber,
@@ -44,13 +45,15 @@ namespace Transaction {
         std::cout << "Amount: " << std::fixed << std::setprecision(2)
                     << T.Amount << " TND\n";
         std::cout << "Date: " << Date::ToString(T.Date) << "\n";
+        // Display transaction details | Mostrar detalhes da transação
     }
 
     std::ostream& operator<<(std::ostream& os, const Transaction& T){
-    os << "[" << T.TransactionId << ", " << T.AccountNumber 
-        << ", " << T.Type << ", " << T.Amount << "]";
-    return os;
-}
+        os << "[" << T.TransactionId << ", " << T.AccountNumber 
+            << ", " << T.Type << ", " << T.Amount << "]";
+        return os;
+        // Formatted print | Impressão formatada
+    }
 }
 
 #endif

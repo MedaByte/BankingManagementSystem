@@ -1,1 +1,3 @@
 TransactionId,AccountNumber,Type,Amount,Date
+TRANS0003,ACC0001,deposit,432,05/12/2025
+TRANS0004,ACC0002,loanDeposit,50,05/12/2025

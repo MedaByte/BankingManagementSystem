@@ -10,13 +10,13 @@
 namespace Customer {
 
     struct Customer {
-        std::string Id;
-        std::string Name;
-        std::string LastName;
-        std::string Address;
-        std::string Phone;
+        std::string Id;        // Customer ID | ID do customer
+        std::string Name;      // First name | Primeiro nome
+        std::string LastName;  // Last name | Último nome
+        std::string Address;   // Address | Endereço
+        std::string Phone;     // Phone | Telefone
 
-        Singly::List<Account::Account> Accounts;
+        Singly::List<Account::Account> Accounts; // List of accounts | Lista de accounts
     };
 
     inline Customer Create(
@@ -32,19 +32,25 @@ namespace Customer {
             LastName,
             Address,
             Phone,
-            Singly::Create<Account::Account>()
+            Singly::Create<Account::Account>()  // Init accounts list | Inicializar lista de accounts
         };
 
-        return NewCustomer;
+        return NewCustomer; // Return new customer | Retornar novo customer
     }
+
     inline void AddAccount(Customer* C, const Account::Account& A) {
         Singly::PushBack(&C->Accounts, A);
+        // Add account | Adicionar account
     }
 
     inline Account::Account* FindAccount(Customer* C, const std::string& AccountNumber) {
-        auto Node = Singly::Find(C->Accounts, [&](const Account::Account& A) { return A.AccountNumber == AccountNumber; });
-        if (Node) return &Node->Data;
-        return nullptr;
+        auto Node = Singly::Find(
+            C->Accounts,
+            [&](const Account::Account& A) { return A.AccountNumber == AccountNumber; }
+        );
+
+        if (Node) return &Node->Data; // Found | Encontrado
+        return nullptr;               // Not found | Não encontrado
     }
 
     inline void Display(const Customer& C) {
@@ -53,12 +59,14 @@ namespace Customer {
         std::cout << "Address: " << C.Address << "\n";
         std::cout << "Phone: " << C.Phone << "\n";
         std::cout << "Accounts: " << C.Accounts.Size << "\n";
+        // Display customer info | Mostrar informações do customer
     }
 
-    std::ostream& operator<<(std::ostream& os, const Customer& C){
-    os << "[" << C.Id << ", " << C.Name << "]";
-    return os;
-}
+    std::ostream& operator<<(std::ostream& os, const Customer& C) {
+        os << "[" << C.Id << ", " << C.Name << "]";
+        return os; // Formatted print | Impressão formatada
+    }
+
 }
 
 #endif

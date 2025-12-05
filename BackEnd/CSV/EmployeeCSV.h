@@ -11,10 +11,12 @@
 
 namespace EmployeeCSV {
 
+    // Get CSV file path | Pega o caminho do arquivo CSV
     inline std::string GetFilePath() {
         return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
+    // Trim whitespace from string | Remove espaços em branco da string
     inline std::string trim(const std::string& s) {
         size_t a = s.find_first_not_of(" \t\r\n");
         if (a == std::string::npos) return "";
@@ -22,6 +24,7 @@ namespace EmployeeCSV {
         return s.substr(a, b - a + 1);
     }
 
+    // Load employees from CSV | Carrega employees do CSV
     inline void Load(Employee::Employee employees[], int& count, const std::string& filename = "employees.csv") {
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
@@ -29,6 +32,7 @@ namespace EmployeeCSV {
         std::string line;
         count = 0;
 
+        // Check header | Verifica header
         if (!std::getline(file, line)) return;
         std::istringstream peek(line);
         std::string firstTok;
@@ -69,19 +73,21 @@ namespace EmployeeCSV {
 
             employees[count] = Employee::Create(name, lastName, address, salary, branchCode, id, hireDate, status);
             ++count;
-            if (count >= 10000) break;
+            if (count >= 10000) break; // Safety limit | Limite de segurança
         }
 
         file.close();
     }
 
+    // Write employees to CSV | Escreve employees no CSV
     inline void Write(Employee::Employee employees[], int count, const std::string& filename = "employees.csv") {
         std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);
         if (!file.is_open()) {
-            std::cerr << "Unable to open employees file for writing\n";
+            std::cerr << "Unable to open employees file for writing\n"; // Erro ao abrir arquivo
             return;
         }
 
+        // Header | Cabeçalho
         file << "Id,Name,LastName,Address,Salary,HireDate,BranchCode,Status\n";
         for (int i = 0; i < count; ++i) {
             const auto& E = employees[i];

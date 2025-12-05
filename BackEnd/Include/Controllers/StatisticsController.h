@@ -12,7 +12,7 @@
 
 namespace StatisticsController {
 
-    // Total number of loans
+    // Total number of loans | Total de loans
     inline void TotalLoans(Customer::Customer customers[], int customerCount) {
         int total = 0;
         for (int i = 0; i < customerCount; i++) {
@@ -25,7 +25,7 @@ namespace StatisticsController {
         std::cout << "Total Loans: " << total << "\n";
     }
 
-    // Number of loans by type
+    // Number of loans by type | Número de loans por tipo
     inline void LoansByType(Customer::Customer customers[], int customerCount) {
         int car = 0, home = 0, student = 0, business = 0, general = 0;
         for (int i = 0; i < customerCount; i++) {
@@ -48,10 +48,10 @@ namespace StatisticsController {
         std::cout << "Home Loans: " << home << "\n";
         std::cout << "Student Loans: " << student << "\n";
         std::cout << "Business Loans: " << business << "\n";
-        std::cout << "general Loans: " << general << "\n";
+        std::cout << "General Loans: " << general << "\n";
     }
 
-    // Number of loans by status
+    // Number of loans by status | Número de loans por status
     inline void LoansByStatus(Customer::Customer customers[], int customerCount) {
         int active = 0, completed = 0, overdue = 0;
         for (int i = 0; i < customerCount; i++) {
@@ -73,7 +73,7 @@ namespace StatisticsController {
         std::cout << "Overdue Loans: " << overdue << "\n";
     }
 
-    // Active loans in date range
+    // Active loans in date range | Loans ativos dentro de um intervalo de datas
     inline void ActiveLoansInDateRange(Customer::Customer customers[], int customerCount) {
         int day1, month1, year1, day2, month2, year2;
         std::cout << "Enter start date (dd mm yyyy): ";
@@ -92,11 +92,10 @@ namespace StatisticsController {
                 while (loanNode) {
                     Loan::Loan& L = loanNode->Data;
                     if (L.Status == "active") {
-                        // Simple date comparison
                         if ((L.StartDate.Year > start.Year || (L.StartDate.Year == start.Year && L.StartDate.Month > start.Month) ||
-                                (L.StartDate.Year == start.Year && L.StartDate.Month == start.Month && L.StartDate.Day >= start.Day)) &&
+                            (L.StartDate.Year == start.Year && L.StartDate.Month == start.Month && L.StartDate.Day >= start.Day)) &&
                             (L.EndDate.Year < end.Year || (L.EndDate.Year == end.Year && L.EndDate.Month < end.Month) ||
-                                (L.EndDate.Year == end.Year && L.EndDate.Month == end.Month && L.EndDate.Day <= end.Day))) {
+                            (L.EndDate.Year == end.Year && L.EndDate.Month == end.Month && L.EndDate.Day <= end.Day))) {
                             count++;
                         }
                     }
@@ -108,7 +107,7 @@ namespace StatisticsController {
         std::cout << "Active loans in the given date range: " << count << "\n";
     }
 
-    // Customer with highest number of loans
+    // Customer with highest number of loans | Customer com mais loans
     inline void CustomerMostLoans(Customer::Customer customers[], int customerCount) {
         int maxLoans = -1;
         Customer::Customer* best = nullptr;
@@ -127,13 +126,12 @@ namespace StatisticsController {
         if (best) std::cout << "Customer with most loans: " << best->Name << " " << best->LastName << " (" << maxLoans << " loans)\n";
     }
 
-    // Customer with highest balance
+    // Customer with highest balance | Customer com maior saldo
     inline void CustomerHighestBalance(Customer::Customer customers[], int customerCount) {
         double maxBalance = -1;
         Customer::Customer* richest = nullptr;
         for (int i = 0; i < customerCount; i++) {
             auto accountNode = customers[i].Accounts.Head;
-            std::cout << customers[i].Id;
             double total = 0;
             while (accountNode) {
                 total += accountNode->Data.Balance;
@@ -147,7 +145,7 @@ namespace StatisticsController {
         if (richest) std::cout << "Customer with highest balance: " << richest->Name << " " << richest->LastName << " (" << maxBalance << " TND)\n";
     }
 
-    // Customer with lowest balance
+    // Customer with lowest balance | Customer com menor saldo
     inline void CustomerLowestBalance(Customer::Customer customers[], int customerCount) {
         double minBalance = 1e9;
         Customer::Customer* poorest = nullptr;
@@ -166,12 +164,12 @@ namespace StatisticsController {
         if (poorest) std::cout << "Customer with lowest balance: " << poorest->Name << " " << poorest->LastName << " (" << minBalance << " TND)\n";
     }
 
-    // Total number of employees
+    // Total number of employees | Total de employees
     inline void TotalEmployees(Employee::Employee employees[], int employeeCount) {
         std::cout << "Total employees: " << employeeCount << "\n";
     }
 
-    // Number of employees per branch
+    // Number of employees per branch | Número de employees por branch
     inline void EmployeesPerBranch(Employee::Employee employees[], int employeeCount) {
         struct BranchCount { std::string Branch; int Count; };
         BranchCount branches[50];
@@ -199,6 +197,7 @@ namespace StatisticsController {
             std::cout << "Branch " << branches[i].Branch << ": " << branches[i].Count << "\n";
         }
     }
+
 }
 
 #endif

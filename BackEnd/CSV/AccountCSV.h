@@ -5,7 +5,6 @@
 #include <sstream>
 #include <string>
 #include <iostream>
-#include <vector>
 #include "../Include/Models/Account.h"
 #include "../Include/Models/Date.h"
 #include "../Include/Utils/OriginPath.h"
@@ -13,11 +12,12 @@
 
 namespace AccountCSV {
 
+    // Get CSV file path | Obter o caminho do arquivo CSV
     inline std::string GetFilePath() {
         return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
-    // Helper: trim
+    // Trim whitespace | Remover espaços em branco
     inline std::string trim(const std::string& s) {
         size_t a = s.find_first_not_of(" \t\r\n");
         if (a == std::string::npos) return "";
@@ -25,7 +25,7 @@ namespace AccountCSV {
         return s.substr(a, b - a + 1);
     }
 
-    // Load accounts. Optionally link accounts to customers if customers != nullptr and customerCountPtr != nullptr
+    // Load accounts from CSV | Carregar contas do CSV
     inline void Load(
         Account::Account accounts[],
         int& count,
@@ -39,24 +39,21 @@ namespace AccountCSV {
         std::string line;
         count = 0;
 
-        // Optionally read header line
+        // Check header
         if (!std::getline(file, line)) return;
-        // If first line looks like header (contains non-digit field names), skip it.
         std::istringstream peek(line);
         std::string firstTok;
         std::getline(peek, firstTok, ',');
         bool isHeader = (firstTok.find_first_not_of("0123456789") != std::string::npos);
         if (!isHeader) {
-            // first line is data -> process it below
             file.clear();
             file.seekg(0);
         }
 
         while (std::getline(file, line)) {
             if (trim(line).empty()) continue;
-            std::istringstream ss(line);
-            std::string token;
 
+            std::istringstream ss(line);
             std::string accountNumber, accountType, iban, branchCode, holderName, openingDateStr, status, balanceStr, customerId;
 
             std::getline(ss, accountNumber, ',');
@@ -84,24 +81,25 @@ namespace AccountCSV {
             try { balance = std::stod(balanceStr); } catch(...) { balance = 0.0; }
 
             accounts[count] = Account::Create(holderName, accountType, branchCode, status, customerId, accountNumber, openingDate, balance);
-            ++count;
-
-            // link to customer if provided
+            
+            // Link to customer if provided | Vincular à conta do cliente, se fornecido
             if (customers != nullptr && customerCountPtr != nullptr) {
                 for (int i = 0; i < *customerCountPtr; ++i) {
                     if (customers[i].Id == customerId) {
-                        Customer::AddAccount(&customers[i], accounts[count - 1]);
+                        Customer::AddAccount(&customers[i], accounts[count]);
                         break;
                     }
                 }
             }
-            if (count >= 10000) break; // safety
+
+            ++count;
+            if (count >= 10000) break; // safety | segurança
         }
 
         file.close();
     }
 
-    // Write accounts array to CSV (overwrite)
+    // Write accounts to CSV (overwrite) | Escrever contas no CSV (sobrescrever)
     inline void Write(
         Account::Account accounts[],
         int count,
@@ -113,8 +111,9 @@ namespace AccountCSV {
             return;
         }
 
-        // Header
+        // Header | Cabeçalho
         file << "AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId\n";
+
         for (int i = 0; i < count; ++i) {
             const auto& A = accounts[i];
             file << A.AccountNumber << ","

@@ -12,10 +12,12 @@
 
 namespace LoanCSV {
 
+    // Get CSV file path | Pega o caminho do arquivo CSV
     inline std::string GetFilePath() {
         return Utils::GetOriginFolder() + "/BackEnd/Data/";
     }
 
+    // Trim whitespace | Remove espaços em branco
     inline std::string trim(const std::string& s) {
         size_t a = s.find_first_not_of(" \t\r\n");
         if (a == std::string::npos) return "";
@@ -23,7 +25,7 @@ namespace LoanCSV {
         return s.substr(a, b - a + 1);
     }
 
-    // Load loans; optionally link to accounts[] if accounts != nullptr
+    // Load loans from CSV | Carrega loans do CSV
     inline void Load(Loan::Loan loans[], int& count, Account::Account* accounts = nullptr, int accountCount = 0, const std::string& filename = "loans.csv") {
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
@@ -31,6 +33,7 @@ namespace LoanCSV {
         std::string line;
         count = 0;
 
+        // Check header | Verifica header
         if (!std::getline(file, line)) return;
         std::istringstream peek(line);
         std::string firstTok;
@@ -75,13 +78,13 @@ namespace LoanCSV {
             Date::Date startDate = Date::FromString(startStr);
             Date::Date endDate = Date::FromString(endStr);
 
-            // Use Create with Duration=0 and then adjust fields (or construct by hand)
+            // Create loan object | Cria objeto loan
             loans[count] = Loan::Create(accountId, amount, interest, 0, status, id, startDate);
             loans[count].PaidAmount = paid;
             loans[count].RemainingAmount = remaining;
             loans[count].EndDate = endDate;
 
-            // link to account if provided
+            // Link to account if provided | Liga ao account se fornecido
             if (accounts != nullptr) {
                 for (int i = 0; i < accountCount; ++i) {
                     if (accounts[i].AccountNumber == accountId) {
@@ -92,19 +95,21 @@ namespace LoanCSV {
             }
 
             ++count;
-            if (count >= 100000) break;
+            if (count >= 100000) break; // Safety limit | Limite de segurança
         }
 
         file.close();
     }
 
+    // Write loans to CSV | Escreve loans no CSV
     inline void Write(Loan::Loan loans[], int count, const std::string& filename = "loans.csv") {
         std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);
         if (!file.is_open()) {
-            std::cerr << "Unable to open loans file for writing\n";
+            std::cerr << "Unable to open loans file for writing\n"; // Erro ao abrir arquivo
             return;
         }
 
+        // Header | Cabeçalho
         file << "Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status\n";
         for (int i = 0; i < count; ++i) {
             const auto& L = loans[i];

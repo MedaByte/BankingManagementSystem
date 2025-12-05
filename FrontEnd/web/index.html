@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Visit www.pixelrocket.store to learn how to become a frontend web developer</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&amp;display=swap" rel="stylesheet"/>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,300,500&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
+  </head>
+  <body class="antialiased bg-body text-body font-body">
+    <div>
+      <section class="relative overflow-hidden" x-data="{ mobileNavOpen: false }">
+        <div class="container px-4 mx-auto">
+          <div class="flex items-center justify-between pt-6 -m-2">
+            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);" alt=""/></a></div>
+              </div>
+            </div>
+            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto hidden lg:block">
+                  <ul class="flex items-center mr-12">
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="pricing.html"></a></li>
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="blog.html"></a></li>
+                    <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html"></a></li>
+                  </ul>
+                </div>
+                <div class="w-auto hidden lg:block">
+                  <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300" href="about.html">About Us</a></div>
+                </div>
+                <div class="w-auto lg:hidden">
+                  <button class="relative z-10 inline-block" x-on:click="mobileNavOpen = !mobileNavOpen">
+                    <svg class="text-green-500" width="51" height="51" viewbox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="56" height="56" rx="28" fill="currentColor"></rect>
+                      <path d="M37 32H19M37 24H19" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hidden fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50" :class="{'block': mobileNavOpen, 'hidden': !mobileNavOpen}">
+          <div class="fixed inset-0 bg-black opacity-60" x-on:click="mobileNavOpen = !mobileNavOpen"></div>
+          <nav class="relative z-10 px-9 pt-8 h-full bg-black overflow-y-auto">
+            <div class="flex flex-wrap justify-between h-full">
+              <div class="w-full">
+                <div class="flex items-center justify-between -m-2">
+                  <div class="w-auto p-2"><a class="inline-block" href="#"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);"  alt=""/></a></div>
+                  <div class="w-auto p-2">
+                    <button class="inline-block text-white" x-on:click="mobileNavOpen = !mobileNavOpen">
+                      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col justify-center py-16 w-full">
+                <ul>
+                  <li class="mb-8 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="about.html">About</a></li>
+                  <li class="mb-8 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="pricing.html">Pricing</a></li>
+                  <li class="mb-8 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="blog.html">Blog</a></li>
+                  <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html">Contact</a></li>
+                </ul>
+              </div>
+              <div class="flex flex-col justify-end w-full pb-8"><a class="inline-block px-8 py-4 text-center text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300" href="login.html">Login</a></div>
+            </div>
+          </nav>
+        </div>
+        <div class="relative pt-20 lg:pt-28">
+          <div class="relative z-10 container px-4 mx-auto">
+            <div class="relative mb-24 text-center md:max-w-4xl mx-auto"><img class="absolute top-44 -left-36" src="template-assets/images/headers/star2.svg" alt=""/><img class="absolute top-10 -right-36" src="template-assets/images/headers/star2.svg" alt=""/><span class="inline-block mb-2.5 text-sm text-green-400 font-medium tracking-tighter">Best Bank System</span>
+              <h1 class="font-heading mb-10 text-7xl lg:text-8xl xl:text-10xl text-white tracking-tighter">Welcom to the Banking Management System</h1><a onclick="(document.getElementById('interference-container')).scrollIntoView({ behavior: 'smooth', block: 'center' })" class="inline-block px-8 py-4 tracking-tighter bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300" style="cursor: pointer;">Start now</a>
+            </div>
+            <div class="relative max-w-max mx-auto"><img src="template-assets/images/headers/card-half.png" alt=""/><img class="absolute top-7 -right-64" src="template-assets/images/headers/star.svg" alt=""/></div>
+          </div>
+        </div><img class="absolute top-0 left-48" src="template-assets/images/headers/layer-blur.svg" alt=""/><img class="absolute bottom-0 right-0" src="template-assets/images/headers/lines2.svg" alt=""/>
+      </section>
+      <section class="pt-20 pb-24 bg-blueGray-950">
+        <div class="container px-4 mx-auto">
+          <div class="text-center"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Choose us</span>
+            <h2 class="font-heading mb-6 text-7xl lg:text-8xl text-white tracking-8xl md:max-w-md mx-auto">Please chose the Interference</h2>
+            <p class="mb-20 text-gray-300 md:max-w-md mx-auto">HIDE Bank is a complete digital banking environment for managing accounts, loans, and transactions. Designed for clarity and reliability, it supports both customers and employees seamlessly.</p>
+          </div>
+          <div class="flex flex-wrap -m-4" id="interference-container">
+            <div style="cursor: pointer;" class="w-full md:w-1/2 lg:w-1/3 p-4" onclick="window.location.href = 'customerlogin.html'">
+              <div class="relative mb-8 overflow-hidden rounded-5xl"><img class="w-full transform hover:scale-125 transition duration-1000" src="template-assets/images/cards/bg-image1.png" alt=""/>
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-card p-8"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Features</span>                  <a class="group inline-block max-w-sm" href="#">
+                    <h3 class="mb-4 text-3xl text-white tracking-3xl hover:underline">Customer Interference/Customer space</h3></a>                  <a class="group inline-flex items-center" href="#"><span class="mr-3.5 text-white font-medium">Learn more</span>
+                    <svg class="transform group-hover:rotate-90 transition duration-300" width="13" height="12" viewbox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.5 0.75L1 11.25" stroke="white" stroke-width="1.43182" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M11.5 10.3781V0.75H1.87187" stroke="white" stroke-width="1.43182" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg></a></div>
+              </div>
+            </div>
+
+            <div  style="cursor: pointer;" class="w-full md:w-1/2 lg:w-1/3 p-4" onclick="window.location.href = 'Employeelogin.html'">
+              <div class="relative mb-8 overflow-hidden rounded-5xl"><img class="w-full transform hover:scale-125 transition duration-1000" src="template-assets/images/cards/bg-image3.png" alt=""/>
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-card p-8"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Progress</span>                  <a class="group inline-block max-w-sm" href="#">
+                    <h3 class="mb-4 text-3xl text-white tracking-3xl hover:underline">Employee Interference/Employee space</h3></a>                  <a class="group inline-flex items-center" href="#"><span class="mr-3.5 text-white font-medium">Learn more</span>
+                    <svg class="transform group-hover:rotate-90 transition duration-300" width="13" height="12" viewbox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.5 0.75L1 11.25" stroke="white" stroke-width="1.43182" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M11.5 10.3781V0.75H1.87187" stroke="white" stroke-width="1.43182" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg></a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="relative py-24 overflow-hidden">
+        <div class="container px-4 mx-auto">
+          <div class="mb-20 md:max-w-xl text-center mx-auto"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Core Card</span>
+            <h2 class="font-heading text-7xl lg:text-8xl text-white tracking-tighter-xl">Features</h2>
+          </div>
+          <div class="relative mb-10 py-20 px-16 bg-gradient-radial-dark overflow-hidden border border-gray-900 border-opacity-30 rounded-5xl">
+            <div class="max-w-6xl mx-auto">
+              <div class="relative z-10 flex flex-wrap items-center -m-8">
+                <div class="w-full md:w-1/2 p-8">
+                  <div class="max-w-md mx-auto text-center">
+                    <h2 class="mb-6 text-7xl text-white tracking-tighter-xl">General Features</h2>
+                    <p class="text-white text-opacity-60">Multi-user system (customers + employees) . Each user role has its own secure space . Realistic banking operations . Secure Access for Every User</p>
+                  </div>
+                </div>
+                <div class="w-full md:w-1/2 p-8"><img class="mx-auto md:mr-0" src="template-assets/images/features/dashboard.png" alt=""/></div>
+              </div>
+            </div><img class="absolute bottom-0 left-0" src="template-assets/images/features/bg-gray.png" alt=""/>
+          </div>
+          <div class="flex flex-wrap -m-5">
+            <div class="w-full md:w-1/2 p-5">
+              <div class="relative px-16 pt-14 pb-16 h-full bg-gradient-radial-dark overflow-hidden border border-gray-900 border-opacity-30 rounded-5xl"><img class="mb-14" src="template-assets/images/features/cards.png" alt=""/>
+                <div class="relative z-10 max-w-sm text-center mx-auto">
+                  <h2 class="mb-6 text-7xl text-white tracking-tighter">Customers features</h2>
+
+                  <div class="head-title">
+                    Secure Login:
+                  </div>
+                  <div class="normal-text">access to personal banking space</div>
+
+                  
+                  <div class="head-title">Account Overview:</div>
+                  <div class="normal-text">view IBAN, balance, type, and account status</div>
+
+                  <div class="head-title">Transaction Tracking:</div>
+                  <div class="normal-text">check all past operations stored as a daily stack</div>
+
+                  <div class="head-title">Money Withdrawal:</div>
+                  <div class="normal-text">withdraw using 10, 20, and 50 TND bills</div>
+
+                  <div class="head-title">Money Deposit:</div>
+                  <div class="normal-text">deposit any amount safely and instantly</div>
+
+
+                  <div class="head-title">Loans Aplliement</div>
+                  <div class="normal-text">Aplly for loans + view loan details, status, payments, and balance</div>
+                
+                
+                
+                </div><img class="absolute bottom-0 right-0" src="template-assets/images/features/bg-gray-2.png" alt=""/>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 p-5">
+              <div class="relative px-16 pt-14 pb-16 h-full bg-gradient-radial-dark overflow-hidden border border-gray-900 border-opacity-30 rounded-5xl">
+                <div class="mb-14 max-w-sm mx-auto">
+                  <div class="flex flex-wrap justify-center">
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/figma.svg" alt=""/></div>
+                    </div>
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/notion.svg" alt=""/></div>
+                    </div>
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/slack.svg" alt=""/></div>
+                    </div>
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/spotify.svg" alt=""/></div>
+                    </div>
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/twitter.svg" alt=""/></div>
+                    </div>
+                    <div class="w-auto p-2">
+                      <div class="flex items-center justify-center w-24 h-24 bg-gradient-radial-dark border border-gray-900 border-opacity-30 rounded-5xl"><img src="template-assets/logos/brands/desktop.svg" alt=""/></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="relative z-10 max-w-sm text-center mx-auto">
+                  <h2 class="mb-6 text-7xl text-white tracking-tighter">Employee features</h2>
+
+
+                  <div class="head-title" style="font-size: calc(1.15vh + 1.15vw);">Employee Management:</div>
+                  <div class="normal-text">add, update, remove, and list employees</div>
+
+                  <div class="head-title">Account Administration:</div>
+                  <div class="normal-text">create customer accounts and manage their status</div>
+
+                  <div class="head-title">Loan Processing:</div>
+                  <div class="normal-text">approve or decline loan requests using FIFO system</div>
+
+                  <div class="head-title">Loan Supervision:</div>
+                  <div class="normal-text">view all loans and update their status</div>
+
+                  <div class="head-title">Accounts Management:</div>
+                  <div class="normal-text">activate, deactivate, or close customer accounts as needed</div>
+
+                  <div class="head-title">Data Management:</div>
+                  <div class="normal-text">update customer data such as name, address, and contact details</div>
+                
+                </div><img class="absolute bottom-0 right-0" src="template-assets/images/features/bg-gray-2.png" alt=""/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="relative py-24 overflow-hidden">
+        <div class="container px-4 mx-auto">
+          <div class="flex flex-wrap items-center -m-8">
+            <div class="w-full md:w-1/2 p-8">
+              <div class="relative z-10 md:max-w-md"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Secure Access</span>
+                <h2 class="font-heading mb-6 text-6xl md:text-7xl text-white tracking-tighter-xl">Secure Access for all</h2>
+                <p class="mb-8 text-white text-opacity-60">Modern banking requires clarity, control, and reliability. Our system gives customers a secure personal space while empowering employees with precise tools to manage accounts, loans, and daily operations effortlessly.</p>
+                <ul>
+                  <li class="inline-flex mb-3.5"><img class="mr-3.5" src="template-assets/images/features/checked.svg" alt=""/><span class="text-white">Instant access to balances, transactions, and loan status</span></li>
+                  <li class="inline-flex mb-3.5"><img class="mr-3.5" src="template-assets/images/features/checked.svg" alt=""/><span class="text-white">Smart accounts and loans management for employees</span></li>
+                  <li class="inline-flex"><img class="mr-3.5" src="template-assets/images/features/checked.svg" alt=""/><span class="text-white">financial actions with built-in security and tracking systems</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 p-8"><img class="mx-auto" src="template-assets/images/features/card2.png" alt=""/></div>
+          </div>
+        </div><img class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" src="template-assets/images/features/bg-blur.png" alt=""/>
+      </section>
+      <section class="relative py-24 overflow-hidden" x-data="{ showContent: false }">
+        <div class="container px-4 mx-auto">
+          <div class="text-center"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">24/7 Serves</span>
+            <h2 class="font-heading mb-6 text-7xl lg:text-8xl text-white tracking-8xl md:max-w-md mx-auto">Hide Bank is built to serve you</h2>
+            <p class="mb-20 text-gray-300 md:max-w-md mx-auto">HIDE Bank is a next-generation financial platform built for secure account management and smart loan processing. It delivers a smooth, role-based experience for both customers and employees./p>
+          </div>
+          
+        </div>
+      </section>
+      
+      <section class="py-12">
+        <div class="container px-4 mx-auto">
+          <div class="relative pt-20 px-4 bg-gray-900 bg-opacity-20 overflow-hidden rounded-6xl">
+            <div class="text-center md:max-w-xl mx-auto removed pb-20"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Hide Bank</span>
+              <h2 class="font-heading mb-6 text-7xl text-white tracking-8xl">Hide&nbsp Bank &nbsp:&nbsp a&nbsp Bank&nbsp ment &nbspto&nbsp serve &nbspYou</h2><a class="mb-8 text-gray-300 relative z-10" href="https://www.pixelrocket.store">Contact The devaloper Team Via email if some details remain unclear</a><img class="absolute -bottom-24 right-0 z-0" src="template-assets/images/application-section/lines2.png" alt=""/>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-gray-50 overflow-hidden">
+        <div class="py-14 bg-black rounded-b-7xl"></div>
+        <div class="py-24">
+          <div class="container px-4 mx-auto">
+            <div class="flex flex-wrap justify-center -m-8 mb-28">
+              <div class="w-full md:w-1/2 lg:w-4/12 p-8">
+                <div class="md:max-w-xs"><img class="mb-7" src="images/logo-dark.svg" alt=""/>
+                  <p class="text-gray-400 font-medium">Hide Bank is a strategic branding agency focused on brand creation, rebrands, and brand</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">About</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">Company</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:flex-1 p-8">
+                <div class="flex flex-wrap -m-2">
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/twitter.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Twitter for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/instagram.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Instagram for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/tiktok.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on TikTok for updates</p>
+                        </div>
+                      </div></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap justify-between -m-2">
+              <div class="w-auto p-2">
+                <p class="inline-block text-sm font-medium text-black text-opacity-60">© 2023 Hide Bank</p>
+              </div>
+              <div class="w-auto p-2">
+                <div class="flex flex-wrap items-center -m-2 sm:-m-7">
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Terms of Use</a></div>
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Privacy Policy</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

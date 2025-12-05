@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Visit www.pixelrocket.store to learn how to become a frontend web developer</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&amp;display=swap" rel="stylesheet"/>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,300,500&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
+  </head>
+  <body class="antialiased bg-body text-body font-body">
+    <div>
+      <section x-data="{ mobileNavOpen: false }">
+        <div class="container px-4 mx-auto headder">
+          <div class="flex items-center justify-between pt-5 pb-2.5 -m-2" style="padding: 0 calc(2.5vh + 2.5vw); padding-top:calc(1vh + 1vw) ;padding-bottom: calc(1vh + 1vw);">            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);"  alt=""/></a></div>
+              </div>
+            </div>
+            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto hidden lg:block">
+                  <ul class="flex items-center mr-12">
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="pricing.html"></a></li>
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="blog.html"></a></li>
+                    <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html"></a></li>
+                  </ul>
+                </div>
+                <div class="w-auto hidden lg:block">
+                  <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300" href="about.html">About Us</a></div>
+                </div>
+                <div class="w-auto lg:hidden">
+                  <button class="relative z-10 inline-block" x-on:click="mobileNavOpen = !mobileNavOpen">
+                    <svg class="text-green-500" width="51" height="51" viewbox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="56" height="56" rx="28" fill="currentColor"></rect>
+                      <path d="M37 32H19M37 24H19" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="customers-interference-main-section">
+
+          <!-- <div class="customer-name">Mahdi Turki</div>
+          <div class="display-account-name">Account holder name : md123</div>
+          <div class="balance-container">Balance :&nbsp 1500 TDN</div> -->
+          <div class="upper-section">
+            <div class="customer-up-conatiner pad">
+              <div class="upper-part">
+                Balance : 
+              </div>
+              <div id="account-balance"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;"><div style="color: rgb(204 255 0);">Branch :</div>&nbsp&nbsp<div id="account-branch"></div></div>
+            </div>
+
+            <div class="customer-up-conatiner pad ">
+              <div class="upper-part">
+                Account Type : 
+              </div>
+              <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-type"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp<div id="account-status"></div></div>
+              
+            </div>
+
+            <div class="customer-up-conatiner pad">
+
+              <div class="upper-part">
+                Account holder name : 
+              </div>
+              <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-name"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);font-size: calc(1vh + 1vw);">Ac number :</div>&nbsp<div id="account-number"></div></div>
+              
+            </div>
+
+            <div class="customer-up-conatiner">
+              <img class="coverAll" src="/images/card.png">
+              <img class="top-right-icon" src="/images/card icon.png">
+              <div class="Account-name-display">Accound Holder Name : &nbsp<div id="accountName"></div></div>
+              <div class="Account-name-display" style="top: 32.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">IBAN :</div>
+              <div class="Account-name-display" style="top: 45%;font-size: calc(1.5vh + 1.5vw);" id="IBAN">**** **** **** **** ****</div>
+              <div class="Account-name-display" style="top: 62.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">Account Owner :</div>
+              <div class="Account-name-display" style="top: 75%;" id="customerId"></div>
+              <div class="Account-name-display" style="left: 65%; top: 62.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">Opening Date :</div>
+              <div class="Account-name-display" style="left: 65%;top: 75%;" id="accoutOpenDate"></div>
+            
+            </div>
+          </div>
+
+
+          <div class="Lower-section">
+
+            <div class="T-container">
+
+              <div class="transaction-title">
+                Customer Transactions
+              </div>
+
+              <div class="add-new-transaction"  onclick="afficheTransactionAddRequest('test test test','Add New Transition')"><!--change funciton-->
+                Finalize Day
+              </div>
+
+              <div id="direct-transaction-container">
+
+                
+
+
+
+              </div>
+
+            </div>
+
+
+            
+
+            <div class="T-container">
+              <div class="transaction-title">
+                Customer Loans
+              </div>
+              
+              <div class="add-new-transaction"  onclick="showOnlyRequestsOrAllOrLoans(event.target)">
+                show Only Request
+              </div>
+
+              <div id="direct-Loan-container">
+
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      <section class="py-12">
+        <div class="container px-4 mx-auto">
+          <div class="relative pt-20 px-4 bg-gray-900 bg-opacity-20 overflow-hidden rounded-6xl">
+            <div class="text-center md:max-w-xl mx-auto removed pb-20"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Hide Bank</span>
+              <h2 class="font-heading mb-6 text-7xl text-white tracking-8xl">Hide&nbsp Bank &nbsp:&nbsp a&nbsp Bank&nbsp ment &nbspto&nbsp serve &nbspYou</h2><a class="mb-8 text-gray-300 relative z-10" href="https://www.pixelrocket.store">Contact The devaloper Team Via email if some details remain unclear</a><img class="absolute -bottom-24 right-0 z-0" src="template-assets/images/application-section/lines2.png" alt=""/>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-gray-50 overflow-hidden">
+        <div class="py-14 bg-black rounded-b-7xl"></div>
+        <div class="py-24">
+          <div class="container px-4 mx-auto">
+            <div class="flex flex-wrap justify-center -m-8 mb-28">
+              <div class="w-full md:w-1/2 lg:w-4/12 p-8">
+                <div class="md:max-w-xs"><img class="mb-7" src="images/logo-dark.svg" alt=""/>
+                  <p class="text-gray-400 font-medium">Global Bank is a strategic branding agency focused on brand creation, rebrands, and brand</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">About</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">Company</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:flex-1 p-8">
+                <div class="flex flex-wrap -m-2">
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/twitter.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Twitter for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/instagram.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Instagram for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/tiktok.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on TikTok for updates</p>
+                        </div>
+                      </div></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap justify-between -m-2">
+              <div class="w-auto p-2">
+                <p class="inline-block text-sm font-medium text-black text-opacity-60">© 2023 Global Bank</p>
+              </div>
+              <div class="w-auto p-2">
+                <div class="flex flex-wrap items-center -m-2 sm:-m-7">
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Terms of Use</a></div>
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Privacy Policy</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      let params = new URLSearchParams(window.location.search);
+      let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
+      console.log(EnterInfo);
+
+
+
+      const Tsp = document.getElementById('direct-transaction-container'); 
+      const Lsp = document.getElementById('direct-Loan-container'); 
+      console.log(Lsp);
+      const acB = document.getElementById('account-balance');
+      const acBr = document.getElementById('account-branch');
+      const acT = document.getElementById('account-type');
+      const acS = document.getElementById('account-status');
+      const acN = document.getElementById('account-name');
+      const acNb = document.getElementById('account-number');
+      const acN2 = document.getElementById('accountName');
+      const acCN = document.getElementById('customerId');
+      const acOD = document.getElementById('accoutOpenDate');
+
+
+
+      // load allAccountData throu Customer Id and account Number enterd in log in or sign In
+      const allAccountData = {'OpeningDate':'12/01/2025	','customerId':'CUS0001','IBAN':'1234 5678 9012 3456 7810','balance':'150 000TND','branch':1113,'type':'Buisness Account','status':'Active','accountName':'Mahdi_dev','number':'ACC0001',
+      'transactions':[{type:'Withdraw',amount:2500,date:'12/01/2025',id:'t207'},{type:'Withdraw',amount:500,date:'08/11/2025',id:'t217'},{type:'Deposit',amount:5000,date:'12/02/2025',id:'t200'}],
+      'Loans':[{'type':'Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'L907','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Completed'},
+        {'type':'Request-Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'R987','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Rejected'},
+        {'type':'Student','startDate':'12/02/2026','endDate':'02/10/2032','amount':'30 000TDN','interestRate':'2.5%','id':'L917','paidAmount':'12 000TDN','remainingBalance':'18 000TDN','status':'Overdue'},
+        {'type':'Request-Student','startDate':'10/10/2024','endDate':'02/11/2028','amount':'55 000TDN','interestRate':'2.5%','id':'R977','paidAmount':'','remainingBalance':'','status':''},
+
+      ]
+
+      //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
+      //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
+    
+    }// we get this variable from c++
+
+    displayUpperInfo();
+
+      function displayUpperInfo(){
+        acB.innerText = allAccountData.balance ;
+        acBr.innerText = allAccountData.branch ;
+        acT.innerText = allAccountData.type ;
+        acS.innerText = allAccountData.status ;
+        acN.innerText = allAccountData.accountName ;
+        acN2.innerText = allAccountData.accountName ;
+        acNb.innerText = allAccountData.number ;
+        acCN.innerText = allAccountData.customerId ;
+        acOD.innerText = allAccountData.OpeningDate ;
+        
+
+      }
+
+
+
+
+
+      
+      let allTransactions = allAccountData['transactions'] ;
+      let allLoans = allAccountData['Loans'] ;
+      let allLoansIds = [];
+      let allTransactionsIds = [] ;
+      generateIdsArrayOutOfallTransactions(); // last T in arr is displayed the first ;
+      generateIdsArrayOutOfallLoans() ;
+      //allT to be changed and getted from c++ with customer id
+
+      loadAllTransactions() ;
+      loadAllLoans() ;
+
+      function generateIdsArrayOutOfallTransactions(){
+        allTransactions.forEach((el,ind)=>{allTransactionsIds[ind]=el.id});
+      }
+      function generateIdsArrayOutOfallLoans(){
+        allLoans.forEach((el,ind)=>{allLoansIds[ind]=el.id});
+      }
+
+      function addLoan(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
+        let htmlStr;
+        if(Ltype[0]=='R'){
+          if(status !='Rejected'){
+            htmlStr=`
+              <div class="transaction-container" data-request="1" data-id="${id}" id="${id}">
+                    <div class="transaction first-transaction">
+                      <div class="icon-container" style="padding: 6px;">
+                        <img src="/images/LoanRequestIcon.png">
+                      </div>
+
+
+                      <div class="contain-transaction-type-amount-ID">
+                        <div class="f-t">
+                          <div class="f-t" style="color: gray;">${amount}</div>
+                        </div>
+                        <div class="f-t">
+                          <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
+                        </div>
+                      </div>
+
+                      <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;">
+                        Loan Request
+                      </div>
+
+                    </div>
+
+                    <div  class="loan-detials-bt" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}')">
+                      Details
+                    </div>
+
+              </div>
+            `}
+          else {
+            htmlStr=`
+              <div class="transaction-container" data-request="1" data-id="${id}" id="${id}">
+                    <div class="transaction first-transaction ">
+                      <div class="icon-container" style="padding: 6px;">
+                        <img src="/images/RequestRejected.png">
+                      </div>
+
+
+                      <div class="contain-transaction-type-amount-ID">
+                        <div class="f-t">
+                          <div class="f-t" style="color: red;">${amount}</div>
+                        </div>
+                        <div class="f-t">
+                          <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
+                        </div>
+                      </div>
+
+                      <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;color:red;">
+                        Request Rejected
+                      </div>
+
+                    </div>
+
+                    <div  class="loan-detials-bt" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}','${paidAmount}','${RB}','Rejected')">
+                      Details
+                    </div>
+
+              </div>
+            `
+          }
+        }
+        else{
+        htmlStr=`
+        <div class="transaction-container" data-request="0" data-id="${id}" id="${id}">
+                  <div class="transaction first-transaction">
+                    <div class="icon-container">
+                      <img src="/images/LoanIcon.png">
+                    </div>
+
+
+                    <div class="contain-transaction-type-amount-ID">
+                      <div class="f-t">
+                        <div class="f-t status-${status}">${amount}</div>
+                      </div>
+                      <div class="f-t">
+                        <div class="f-t" style="color :rgb(204 255 0);">Loan Id :</div>&nbsp&nbsp${id}
+                      </div>
+                    </div>
+
+                    <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;">
+                      Loan Status: <div class="LS status-${status}">${status}</div>
+                    </div>
+
+                  </div>
+
+                  <div  class="loan-detials-bt" id="D-${id}" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}','${paidAmount}','${RB}','${status}')">
+                    Details
+                  </div>
+                                                                                                                              
+         </div>
+        `;}
+        
+        Lsp.insertAdjacentHTML("afterbegin", htmlStr);
+      }
+      // function generateAllTransactions (){//sameAsOriginalAT but removes the id 
+      //   const ln = orginialAT.length;
+      //   for(let i = 0 ; i <ln-1 ; i++){
+      //     allTransactions[i] =orginialAT[i];
+      //   }
+      // }
+
+      function undoTransaction(){ // missing variavle updates , allTransactions , transactionsIds , Balance
+        Tsp.removeChild(Tsp.firstElementChild) ;
+        if(Tsp.firstElementChild){
+        Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');}
+      }
+
+      function loadAllTransactions(){
+        for(let el of allTransactions){
+          displayNewTransaction(...Object.values(el));
+        }
+      }
+
+      function loadAllLoans(){
+        for(let el of allLoans){
+          addLoan(...Object.values(el));
+        }
+      }
+
+      function showOnlyRequestsOrAllOrLoans(elm){
+          if(elm.innerText == 'show Only Request'){
+          let i = 0 ;
+          let el ;
+          while(i<Lsp.children.length){
+            el = Lsp.children[i] ;
+            if(el.dataset.request == '0'){
+              Lsp.removeChild(el);
+            }
+            else{i++}
+          };
+          elm.innerText = 'Show only Loans';
+        }
+        else if(elm.innerText == 'Show only Loans'){
+          Lsp.innerHTML = '';
+          loadAllLoans();
+          let i = 0 ;
+          let el ;
+          while(i<Lsp.children.length){
+            el = Lsp.children[i] ;
+            if(el.dataset.request == '1'){
+              Lsp.removeChild(el);
+            }
+            else{i++}
+          };
+          elm.innerText = 'Show All';
+
+        }
+          else{
+            Lsp.innerHTML = '';
+            loadAllLoans();
+            elm.innerText = 'show Only Request';
+          }
+      }
+
+      function FinilizeDay(CUSId,AccNb){ // send command to server to aplly desactivateUndo to Account accNb ,  CUSId not sure if needed // else if no cloud server : update c++ variable
+        // add attribute to disable 
+
+      }
+
+      function generateNewTransactionId(allTransactionsIds){
+        let newId ;
+        do{
+            newId = 't'+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
+          }while(allTransactionsIds.indexOf(newId) > -1) 
+        return newId ;
+      }
+
+      function generateNewLoansId(allLoansIds,t='l'){
+        let newId ;
+        let f = t=='r' ? 'R':'L' ;
+        do{
+            newId = t+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
+          }while(allTransactionsIds.indexOf(newId) > -1) 
+        return newId ;
+      }
+
+      
+      function displayNewTransaction(type , amount , date , newId ){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well
+          let fc = Tsp.firstElementChild ;
+          
+          if(fc){
+            fc.firstElementChild.classList.remove('first-transaction') ;
+          }
+          const color = type=='Deposit'? 'red':'green';
+          const htmlStr = `
+          <div class="transaction-container" data-id="${newId}">
+                  <div class="transaction first-transaction blockTransition" style="cursor:default;">
+                    <div class="icon-container">
+                      <img src="/images/${type}Icon.png">
+                    </div>
+
+
+                    <div class="contain-transaction-type-amount-ID">
+                      <div class="f-t">
+                        <div class="f-t" style="color: ${color};">${amount}TND</div>&nbsp${type}
+                      </div>
+                      <div class="f-t">
+                        <div class="f-t" style="color :rgb(204 255 0);">Transaction Id :</div>&nbsp&nbsp${newId}
+                      </div>
+                    </div>
+
+                    <div class="transition-date">
+                      ${date}
+                    </div>
+
+                  </div>
+
+                  <div  class="undo-transaction" onclick="undoTransaction()">
+                    undo
+                  </div>
+
+                </div>`;
+                Tsp.insertAdjacentHTML("afterbegin", htmlStr);
+
+      }
+      function getFormattedDate() {
+        const now = new Date();
+
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); 
+        const year = now.getFullYear();
+
+        return `${month}/${day}/${year}`;
+    }
+      function randomBetween100and5000() {
+        return Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
+      }   
+
+      
+      function displayBox(obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
+
+
+                const coverAll = document.createElement("div");
+                coverAll.style.position = 'fixed' ; 
+                coverAll.style.top = '0';
+                coverAll.style.bottom = '0';
+                coverAll.style.right = '0';
+                coverAll.style.left = '0';
+                coverAll.style.backdropFilter = 'blur(10px)';
+                coverAll.style.zIndex = 1000 ;
+                var body = document.querySelector('body')
+                body.style.position = 'relative' ;
+                body.appendChild(coverAll);
+                body.appendChild(obj.box) ;
+
+                obj.box.style.transform = "translate(-50%, -50%) scale(0)";
+                obj.box.offsetHeight;
+                requestAnimationFrame(() => {
+                    obj.box.style.transform = "translate(-50%, -53%) scale(1)";
+                });
+
+                exit = ()=>{
+                    body.removeChild(coverAll);
+                    body.removeChild(obj.box) ;
+                    fc() ;
+                }
+
+                setTimeout(()=>{obj.exitButton.addEventListener('click',exit,{ once: true });},1000) ;
+
+                  if(obj.AcceptRq){setTimeout(()=>{obj.AcceptRq.addEventListener('click',()=>{
+                    exit();
+                  },{ once: true });},1000) ;}
+                
+                  if(obj.RefuseRq){setTimeout(()=>{obj.RefuseRq.addEventListener('click',()=>{
+                    exit();
+                  },{ once: true });},1000) ;}
+
+                if(obj.Del){
+                  setTimeout(()=>{obj.Del.addEventListener('click',()=>{
+                    deleteLoan(obj.Del.dataset.id);
+                    exit()
+                  },{ once: true });},1000) ;
+                }
+              
+                
+                if(obj.add){
+                setTimeout(()=>{obj.add.addEventListener('click',()=>{
+                  if(obj.T.selected=="" || obj.ipp.value==""){
+                    obj.add.setCustomValidity('Please Enter All Required Data');
+                    obj.add.reportValidity();
+                  }
+                  else{
+                  displayNewTransaction(obj.T.selected , obj.ipp.value , getFormattedDate()  , generateNewTransactionId(allTransactionsIds));exit()}});},1000)} // [] to be changed too allTransactionId
+            }
+
+      function addRow(card,label, value, valueClass = "") {
+                    const row = document.createElement("div");
+                    row.className = "loan-row";
+
+                    const labelEl = document.createElement("span");
+                    labelEl.className = "label";
+                    labelEl.textContent = label;
+
+                    const valueEl = document.createElement("span");
+                    valueEl.className = "value " + valueClass;
+                    valueEl.textContent = value;
+                    if(valueClass){valueEl.id ='s67';}
+
+                    row.appendChild(labelEl);
+                    row.appendChild(valueEl);
+                    card.appendChild(row);
+      }
+
+       function afficheLoanDetails(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+                let bubble = createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
+                displayBox(bubble,fc);
+            }
+      function createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
+                let Del ;
+                let change ;
+                let RefuseRq ;
+                let AcceptRq ;
+                const box = document.createElement("div");
+
+                box.id = "box-"+id;
+                box.dataset.number = ""+id;
+
+                // Set styles
+                box.style.position = "fixed";
+                box.style.zIndex = 1001
+                box.style.top = "50%";
+                box.style.left = "50%";
+                box.style.transform = "translate(-50%, -53%)";
+                box.style.minWidth = "calc(34vh + 34vw)";
+                box.style.backgroundColor = "rgb(14, 15, 17)";
+                box.style.borderRadius = "50px";
+                box.style.padding = "calc(1vh + 1vw) calc(3vh + 3vw)";
+                box.style.textAlign = "center";
+                box.style.color = "white";
+                box.style.fontSize = "calc(1.35vh + 1.35vw)";
+                box.style.overflow = "hidden";
+                box.style.boxShadow = '0px 0 10px rgba(0, 255, 255,0.4)'  ; 
+                box.style.transition = 'ease 1s' ;
+                box.style.display = "flex";
+                box.style.flexDirection = "column";
+                box.style.alignItems = "center";
+                
+
+                if(Ltype[0] == 'R'){
+
+                  // Title
+                  const title = document.createElement("h2");
+                  title.className = "section-title";
+                  title.textContent = "Request Details";
+                  box.appendChild(title);
+
+                  // Helper: create each row
+
+                  // Add rows
+                  addRow(box,"Principal Amount :",amount);
+                  addRow(box,"Loan Type:",fixType(Ltype));
+                  addRow(box,"Interest Rate :", ITR);
+                  addRow(box,"Request index :", id);
+                  addRow(box,"Request Date :", stD);
+                  addRow(box,"Loan End Date :", enD);
+                  addRow(box,"Request Status :",status,'status-'+status);
+
+
+                }
+                else{
+                box.className = "loan-card";
+
+                // Title
+                const title = document.createElement("h2");
+                title.className = "section-title";
+                title.textContent = "Loan Details";
+                box.appendChild(title);
+
+                // Helper: create each row
+
+                // Add rows
+                
+                addRow(box,"Loan Type :",fixType(Ltype));
+                addRow(box,"Loan ID :", id);
+                addRow(box,"Principal Amount :",amount);
+                addRow(box,"Interest Rate :", ITR);
+                addRow(box,"Amount Paid :", paidAmount);//id,Ltype,stD,enD,amount,paidAmount,RB,ITR
+                addRow(box,"Remaining Balance :", RB);
+                addRow(box,"Start Date :", stD);
+                addRow(box,"End Date :", enD);
+
+
+                addRow(box,"Loan Status :",status,'status-'+status);
+                         
+              }
+
+                const btC = document.createElement("div");
+                btC.style.display = 'flex';
+
+                const exitButton = document.createElement("div");
+                exitButton.style.marginTop = "calc(.75vh + .75vw)";
+                exitButton.style.marginRight = "calc(.5vh + .5vw)";
+                exitButton.style.display = "inline-block";
+                exitButton.style.backgroundColor = "rgb(94, 0, 0)";
+                exitButton.style.width = "calc(8vh + 8vw)";
+                exitButton.style.borderRadius = "50px";
+                exitButton.style.cursor = "pointer";
+                exitButton.style.border = "3px solid rgb(44, 0, 0)";
+                exitButton.textContent = "Exit";
+
+
+                mouseIn = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(44, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(94, 0, 0)' ;  
+                }
+                mouseOut = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(94, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(44, 0, 0)' ;  
+                }
+
+                if(status!='Rejected'){
+                if(Ltype[0] !='R'){
+
+                  Del = exitButton.cloneNode(true);
+                  Del.innerText = "Delete Loan";
+                  Del.style.width = "calc(10vh + 10vw)";
+                  Del.dataset.id = id ;
+                  btC.appendChild(Del);
+
+
+                  mouseIn2 = ()=>{
+                      Del.style.backgroundColor = 'rgb(44, 0, 0)' ;
+                      Del.style.border = '3px solid rgb(94, 0, 0)' ;  
+                  }
+                  mouseOut2 = ()=>{
+                      Del.style.backgroundColor = 'rgb(94, 0, 0)' ;
+                      Del.style.border = '3px solid rgb(44, 0, 0)' ;  
+                  }
+                  Del.addEventListener('mouseenter',mouseIn2) ;
+                  Del.addEventListener('mouseleave',mouseOut2) ;
+
+
+                  change = document.createElement('select');
+
+                  change.style.marginTop = "calc(.75vh + .75vw)";
+                  change.style.marginRight = "calc(.5vh + .5vw)";
+                  change.style.backgroundColor = "rgb(94, 0, 0)";
+                  change.style.width = "calc(10.25vh + 10.25vw)";
+                  change.style.borderRadius = "50px";
+                  change.style.cursor = "pointer";
+                  change.style.border = "none";
+
+
+                  change.style.border = 'none';
+                  change.style.backgroundColor = 'rgb(140, 157, 0)';
+                  change.style.display = 'flex';
+                  change.style.alignItems = 'center'
+                  change.style.justifyContent = 'center'
+                  change.style.outline = 'none'
+                  change.style.paddingLeft = 'calc(0.8vh + 0.8vw)';
+
+                  const htmlStr = `
+                    <option class="option-account-type" selected disabled hidden>change Status</option>
+                    <option class="option-account-type status-Active">Active</option>
+                    <option class="option-account-type status-Completed">Completed</option>
+                    <option class="option-account-type status-Overdue">Overdue</option>`
+                  change.innerHTML=htmlStr ;                  
+
+
+                  mouseIn3 = ()=>{
+                      change.style.backgroundColor = 'rgb(100, 127, 0)' ;}
+                  mouseOut3 = ()=>{
+                      change.style.backgroundColor = 'rgb(140, 167, 0)' ; ; }
+
+
+                  change.addEventListener('mouseenter',mouseIn3) ;
+                  change.addEventListener('mouseleave',mouseOut3) ;
+                  change.addEventListener('change',()=>{
+                    if(change.value != document.getElementById('s67').innerText){
+                    document.getElementById('s67').innerText = change.value;
+                    document.getElementById('s67').classList = 'status-'+change.value ;
+                    changeStatus(id,change.value);
+                  
+                  }
+                  })
+
+                  btC.appendChild(change);
+                }
+                else{
+                  AcceptRq = exitButton.cloneNode(true);
+                  RefuseRq = exitButton.cloneNode(true);
+
+                  AcceptRq.style.backgroundColor = 'green';
+                  AcceptRq.style.border = 'none';
+                  AcceptRq.style.display = 'flex';
+                  AcceptRq.style.alignItems = 'center'
+                  AcceptRq.style.justifyContent = 'center'
+                  AcceptRq.style.width='calc(11vh + 11vw)'
+                  RefuseRq.style.width='calc(11vh + 11vw)'
+                  AcceptRq.innerText = 'Accept Request'
+                  RefuseRq.innerText = 'Refuse Request'
+                
+                  mouseIn4 = ()=>{
+                      AcceptRq.style.backgroundColor = 'rgb(0, 90, 0)' ;}
+                  mouseOut4 = ()=>{
+                      AcceptRq.style.backgroundColor = 'green' ;  }
+
+                  mouseIn5 = ()=>{
+                      RefuseRq.style.backgroundColor = 'rgb(44, 0, 0)' ;
+                      RefuseRq.style.border = '3px solid rgb(94, 0, 0)' ;  
+                  }
+                  mouseOut5 = ()=>{
+                      RefuseRq.style.backgroundColor = 'rgb(94, 0, 0)' ;
+                      RefuseRq.style.border = '3px solid rgb(44, 0, 0)' ;  
+                  }
+
+                  AcceptRq.addEventListener('mouseenter',mouseIn4) ;
+                  AcceptRq.addEventListener('mouseleave',mouseOut4) ;
+
+                  RefuseRq.addEventListener('mouseenter',mouseIn5) ;
+                  RefuseRq.addEventListener('mouseleave',mouseOut5) ;
+
+                  btC.appendChild(RefuseRq);
+                  btC.appendChild(AcceptRq);
+
+
+                  setTimeout(()=>{AcceptRq.addEventListener('click',()=>{
+                    acceptRequest(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
+                  },{ once: true });},1000) ;
+                
+                  setTimeout(()=>{RefuseRq.addEventListener('click',()=>{
+                    refuseRequest(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
+                  },{ once: true });},1000) ;
+                
+
+                }}
+
+                exitButton.addEventListener('mouseenter',mouseIn)
+                exitButton.addEventListener('mouseleave',mouseOut)
+
+                btC.appendChild(exitButton);
+                
+
+                
+
+                box.appendChild(btC);
+
+                return {box,exitButton,Del,AcceptRq,RefuseRq}
+            }
+      function updateCpp_DeleteLoan(LId){//work on later
+        return true
+      }
+      function updateCpp_ChangeLoanStatus(LId){//work on later
+        return true
+      }
+      function updateCpp_AcceptRequests(RId){//work on later  
+        return true
+      }
+      function updateCpp_refuseRequest(RId){//work on later
+        return true
+      }
+      function deleteLoan(LId){
+        updateCpp_DeleteLoan(LId) ;
+        const ln = Lsp.children.length  ;
+        let IND ;
+        for(let i = 0 ; i< ln ; i++){
+          if(Lsp.children[i].dataset.id==LId){
+            Lsp.removeChild(Lsp.children[i]);
+             IND = find(LId) ;
+            allAccountData.Loans.splice(IND,1)
+            break ;
+          }
+        }
+      }
+      function find(id){
+        for(let i = 0 ; i < allAccountData.Loans.length ; i++){
+          if (allAccountData.Loans[i].id == id){
+            return i ;
+          }
+        }
+        return -1 ;
+      }
+      function changeStatus(LId,newStatus){
+        updateCpp_ChangeLoanStatus(LId);
+        const ln = Lsp.children.length  ;
+        let el = document.getElementById(LId);
+        let fn = document.getElementById(`D-${LId}`) ;
+        
+
+        const nel = el.firstElementChild.children[2].firstElementChild ;
+        const sel = el.firstElementChild.children[1].firstElementChild.firstElementChild ;
+        nel.classList = 'status-'+newStatus ;
+        sel.classList = 'status-'+newStatus ;
+        nel.innerText = newStatus ;
+        const IND = find(LId) ;
+        fn.onclick = ()=>{afficheLoanDetails(allAccountData.Loans[IND].type,allAccountData.Loans[IND].startDate,allAccountData.Loans[IND].endDate,allAccountData.Loans[IND].amount,allAccountData.Loans[IND] , LId ,allAccountData.Loans[IND].paidAmount, allAccountData.Loans[IND].remainingBalance ,newStatus)}
+        allAccountData.Loans[IND].status = newStatus ;
+
+
+      }
+
+      function acceptRequest(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
+        updateCpp_AcceptRequests(RId);
+        deleteLoan(RId);
+        let  lid = RId ;
+        lid = 'L' + lid.slice(1);
+        addLoan(fixType(Ltype),getFormattedDate(),enD,amount,ITR,lid,'0TDN',amount,'Active') ;
+        const newL = {type :fixType(Ltype) , startDate : getFormattedDate() , endDate : enD , amount , interestRate : ITR , id: lid , paidAmount : '0TDN' , remainingBalance:amount ,status:'Active' }
+        allAccountData.Loans.push(newL);
+      }
+      function fixType(Ltype){
+        if (Ltype[0]=='R'){
+          return (Ltype.split('-'))[1] ;
+        }
+        else{return Ltype}
+      }
+
+      function refuseRequest(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
+        updateCpp_refuseRequest(RId)
+        deleteLoan(RId);
+        addLoan(Ltype,stD,enD,amount,ITR,RId,'0TDN',amount,'Rejected') ;
+        const newL = {type :Ltype , startDate : stD , endDate : enD , amount , interestRate : ITR , id: RId , paidAmount : '0TDN' , remainingBalance:amount ,status:'Rejected' }
+        allAccountData.Loans.push(newL);
+      }
+    </script>
+  </body>
+</html>

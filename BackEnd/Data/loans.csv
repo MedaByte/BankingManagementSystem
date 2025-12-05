@@ -1,0 +1,2 @@
+Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status
+LOAN0001,ACC0002,50,65,0,50,05/12/2025,05/03/2027,active

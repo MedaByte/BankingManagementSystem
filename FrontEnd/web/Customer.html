@@ -79,8 +79,8 @@
             </div>
 
             <div class="customer-up-conatiner">
-              <img class="coverAll" src="/images/card.png">
-              <img class="top-right-icon" src="/images/card icon.png">
+              <img class="coverAll" src="images/card.png">
+              <img class="top-right-icon" src="images/card icon.png">
               <div class="Account-name-display">Accound Holder Name : &nbsp<div id="accountName"></div></div>
               <div class="Account-name-display" style="top: 32.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">IBAN :</div>
               <div class="Account-name-display" style="top: 45%;" id="IBAN"></div>
@@ -123,7 +123,7 @@
                 My Loans
               </div>
               
-              <div class="add-new-transaction"  onclick="window.location.href='loanRequest.html'">
+              <div class="add-new-transaction"  onclick="window.open('loanRequest.html?value='+encodeURIComponent(JSON.stringify([allAccountData.customerId,allAccountData.number])) , '_self')">
                 Make a Loan Request
               </div>
 
@@ -216,18 +216,33 @@
         </div>
       </section>
     </div>
-
+    <script src="Load.js"></script>
     <script>
       let params = new URLSearchParams(window.location.search);
       let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
       console.log(EnterInfo);
 
+      let allAccountData ;
+      let allTransactions ;
+      let allLoans ;
+      main();
+      async function main(){        
+        res = await Load('Load Account',EnterInfo[1]) ;
+        allAccountData = JSON.parse(res.result) ;
+        allTransactions = allAccountData['transactions'] ;
+        console.log(allTransactions);
+        allLoans = allAccountData['Loans'] ;
+
+        
+
+      
+
 
 
       const Tsp = document.getElementById('direct-transaction-container'); 
       const Lsp = document.getElementById('direct-Loan-container'); 
-      console.log(Lsp);
       const acB = document.getElementById('account-balance');
+      console.log(acB)
       const acBr = document.getElementById('account-branch');
       const acT = document.getElementById('account-type');
       const acS = document.getElementById('account-status');
@@ -238,26 +253,19 @@
       const acCN = document.getElementById('customerId');
       const acOD = document.getElementById('accoutOpenDate');
 
+      displayUpperInfo();
 
 
-      // load allAccountData throu Customer Id and account Number enterd in log in or sign In
-      const allAccountData = {'OpeningDate':'12/01/2025	','customerId':'CUS0005','IBAN':'1234 5678 9012 3456 7810','balance':'150 000TND','branch':1113,'type':'Buisness Account','status':'Active','accountName':'Mahdi_dev','number':'ACC0001',
-      'transactions':[{type:'Withdraw',amount:500,date:'08/11/2025',id:'t217',disableUndo:'true'},{type:'Deposit',amount:5000,date:'12/02/2025',id:'t200',disableUndo:'false'}],
-      'Loans':[{'type':'Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'L907','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Completed'},
-        {'type':'Request-Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'R907','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Rejected'},
-        {'type':'Student','startDate':'12/02/2026','endDate':'02/10/2032','amount':'30 000TDN','interestRate':'2.5%','id':'L917','paidAmount':'12 000TDN','remainingBalance':'18 000TDN','status':'Overdue'}
-      ]
 
       //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
       //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
       // kol llhamma about disable atribute
     
-    }// we get this variable from c++
+    // we get this variable from c++
 
-    displayUpperInfo();
 
       function displayUpperInfo(){
-        acB.innerText = allAccountData.balance ;
+        acB.innerText = Number(allAccountData.balance).toFixed(2);
         acBr.innerText = allAccountData.branch ;
         acT.innerText = allAccountData.type ;
         acS.innerText = allAccountData.status ;
@@ -270,22 +278,20 @@
         
 
       }
+      window.afficheLoanDetails = function (Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+        let bubble = createLoanDetailsBox(Ltype,stD,enD,Number(amount).toFixed(2),(Number(ITR)*100).toFixed(2)+'%',id,Number(paidAmount).toFixed(2),Number(RB).toFixed(2),status);
+        displayBox(bubble,fc);
+    }
 
 
 
 
 
       
-      let allTransactions = allAccountData['transactions'] ;
-      let allLoans = allAccountData['Loans'] ;
-      let allLoansIds = [];
-      let allTransactionsIds = [] ;
-      generateIdsArrayOutOfallTransactions(); // last T in arr is displayed the first ;
-      generateIdsArrayOutOfallLoans() ;
+      
+      
       //allT to be changed and getted from c++ with customer id
 
-      loadAllTransactions() ;
-      loadAllLoans() ;
 
       function generateIdsArrayOutOfallTransactions(){
         allTransactions.forEach((el,ind)=>{allTransactionsIds[ind]=el.id});
@@ -302,13 +308,13 @@
               <div class="transaction-container">
                     <div class="transaction first-transaction">
                       <div class="icon-container" style="padding: 6px;">
-                        <img src="/images/LoanRequestIcon.png">
+                        <img src="images/LoanRequestIcon.png">
                       </div>
 
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: gray;">${amount}</div>
+                          <div class="f-t" style="color: gray;">${Number(amount).toFixed(2)}TDN</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -332,13 +338,13 @@
               <div class="transaction-container">
                     <div class="transaction first-transaction">
                       <div class="icon-container" style="padding: 6px;">
-                        <img src="/images/RequestRejected.png">
+                        <img src="images/RequestRejected.png">
                       </div>
 
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: red;">${amount}</div>
+                          <div class="f-t" style="color: red;">${Number(amount).toFixed(2)}TDN</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -364,13 +370,13 @@
         <div class="transaction-container">
                   <div class="transaction first-transaction">
                     <div class="icon-container">
-                      <img src="/images/LoanIcon.png">
+                      <img src="images/LoanIcon.png">
                     </div>
 
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t status-${status}">${amount}</div>
+                        <div class="f-t status-${status}">${Number(amount).toFixed(2)}TDN</div>
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Loan Id :</div>&nbsp&nbsp${id}
@@ -399,7 +405,7 @@
       //   }
       // }
 
-      function undoTransaction(){ // missing variavle updates , allTransactions , transactionsIds , Balance
+      window.undoTransaction = function (){ // missing variavle updates , allTransactions , transactionsIds , Balance
         Tsp.removeChild(Tsp.firstElementChild) ;
         if(Tsp.firstElementChild){
         Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');}
@@ -442,18 +448,18 @@
           if(fc){
             fc.firstElementChild.classList.remove('first-transaction') ;
           }
-          const color = type=='Deposit'? 'red':'green';
+          const color = (type=='deposit' || type=='loanDeposit')? 'red':'green';
           const htmlStr = `
           <div class="transaction-container" data-id="${newId}">
                   <div class="transaction first-transaction ${ds}">
                     <div class="icon-container">
-                      <img src="/images/${type}Icon.png">
+                      <img src="images/${type}Icon.png">
                     </div>
 
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t" style="color: ${color};">${amount}TND</div>&nbsp${type}
+                        <div class="f-t" style="color: ${color};">${Number(amount).toFixed(2)}TND</div>&nbsp${type}
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Transaction Id :</div>&nbsp&nbsp${newId}
@@ -487,7 +493,7 @@
         return Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
       }   
 
-      function afficheTransactionAddRequest(msg,tit='',fc = ()=>{},id=0){// update allT , TIds , Balance , active when add.click
+      window.afficheTransactionAddRequest = function(msg,tit='',fc = ()=>{},id=0){// update allT , TIds , Balance , active when add.click
                 let bubble = createTransactionAddRequestBox(id);
 
                 bubble.title.innerText = tit;
@@ -557,7 +563,7 @@
                 iconContainer.style.cursor = "pointer";
 
                 const Wimg = document.createElement("img");
-                Wimg.src = "/images/WithdrawIcon.png";
+                Wimg.src = "images/WithdrawIcon.png";
                 iconContainer.appendChild(Wimg);
                 const Wtxt = document.createElement("div");
                 Wtxt.innerText = "Withdraw";
@@ -582,7 +588,7 @@
 
 
                 const Dimg = document.createElement("img");
-                Dimg.src = "/images/DepositIcon.png";
+                Dimg.src = "images/DepositIcon.png";
                 iconContainer2.appendChild(Dimg);
                 const Dtxt = document.createElement("div");
                 Dtxt.innerText = "Deposit";
@@ -723,10 +729,7 @@
                     card.appendChild(row);
       }
 
-       function afficheLoanDetails(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
-                let bubble = createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
-                displayBox(bubble,fc);
-            }
+
       function createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
                 const box = document.createElement("div");
 
@@ -845,6 +848,12 @@
         }
         else{return Ltype}
       }
+
+
+      loadAllTransactions() ;
+      loadAllLoans() ;
+
+    }
     </script>
   </body>
 </html>

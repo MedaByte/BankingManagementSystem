@@ -95,16 +95,6 @@ namespace Loan {
         // Display loan details | Mostrar detalhes do loan
     }
 
-    inline std::ostream& operator<<(std::ostream& os, const Loan& loan) {
-        os << "[Loan ID: " << loan.Id
-            << ", Amount: " << loan.Amount
-            << ", Interest: " << loan.InterestRate
-            << ", Start: " << loan.StartDate.Day << "/" << loan.StartDate.Month << "/" << loan.StartDate.Year
-            << ", End: " << loan.EndDate.Day << "/" << loan.EndDate.Month << "/" << loan.EndDate.Year << " months]";
-        return os;
-        // Formatted print | Impressão formatada
-    }
-
 }
 
 #endif

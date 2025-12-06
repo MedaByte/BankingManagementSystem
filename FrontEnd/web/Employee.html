@@ -53,7 +53,6 @@
             <div class="employee-up-conatiner">
 
               <div class="img-container" id="lala">
-
               </div>
               <div class="right-side-employee">
                 <div class="flex" style="gap: 15px;">
@@ -408,7 +407,7 @@
       //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
     
     // we get this variable from c++
-    let pt = '/images/'+allEmployeeData.EmployeeId+'.png'
+    let pt = 'images/'+allEmployeeData.EmployeeId+'.png'
     console.log(pt)
     document.getElementById('lala').innerHTML=`<img src="${pt}" class="emp-img">`
     displayUpperInfo();
@@ -432,8 +431,8 @@
       }
 
       function compareDates(date1, date2) { // give -1 for the most recent date and 1 for the most old 0 if =
-        const [month1, day1, year1] = date1.split('/').map(Number);
-        const [month2, day2, year2] = date2.split('/').map(Number);
+        const [day1,month1, year1] = date1.split('/').map(Number);
+        const [day2 ,month2, year2] = date2.split('/').map(Number);
         const d1 = new Date(year1, month1 - 1, day1);
         const d2 = new Date(year2, month2 - 1, day2);
 

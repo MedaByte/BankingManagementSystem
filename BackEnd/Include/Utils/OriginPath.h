@@ -11,7 +11,7 @@ namespace Utils {
         char buffer[MAX_PATH];  // Buffer to store the executable path | Buffer para armazenar o caminho do executável
         GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get the path of the running executable | Obtém o caminho do executável em execução
         std::string path(buffer); // Convert to std::string | Converte para std::string
-
+        
         // Look for the project folder name in the path | Procura o nome da pasta do projeto no caminho
         size_t pos = path.find("BankingManagementSystem");
         if (pos == std::string::npos) {

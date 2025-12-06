@@ -2114,15 +2114,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Status colors */
-.status-Active {
+.status-active {
     color: #00ff66;
 }
-.status-InActive,
-.status-Completed {
+.status-inactive,
+.status-completed {
     color: #00c8ff;
 }
 .status-Vacation,
-.status-Overdue {
+.status-overdue {
     color: #a15e07;
 }
 .status-Rejected{

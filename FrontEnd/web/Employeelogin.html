@@ -195,6 +195,11 @@
     </div>
     <script>
       function validateEmployeeId(id){
+        let allEmployees ;
+        main();
+        async function main(){        
+          allEmployees = await Load('Load All Accounts') ;}
+
         if (!id) return false;
         id = id.trim().toUpperCase();
 
@@ -203,7 +208,8 @@
     
       }
       function verifyEmployeeExistence(val){
-        return true ; // impliment later with c++
+        let ind = IND(allEmployees,'EmployeeId',val)
+        return ind > -1 ; // impliment later with c++
       }
       function LogInClicked(){
         const i = document.getElementById('Eipn');

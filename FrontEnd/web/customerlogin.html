@@ -205,14 +205,27 @@
     <script>
       let allAccounts ;
       main();
-      async function main(){ 
-        
-        allAccounts = await LoadAllAccountFromCpp() ;
-        console.log(allAccounts)}
+      async function main(){        
+        res = await Load('Load All Accounts') ;
+        allAccounts = JSON.parse(res.result) ;
+      }
 
       
-      function verifyAccountExistence(CusId,AccId){
-        const cnd = false ;
+      function verifyAccountExistence(AccId){
+        let cnd = false ;
+        for(let acc of allAccounts){ // check existence and if cus id is the same
+          if(acc.number.toUpperCase() == AccId){
+            cnd = true ;
+            break ;
+          }
+        }
+
+
+        return cnd ;//later modified when impliment c++
+      }
+
+      function verifyAccountConnection(CusId,AccId){
+        let cnd = false ;
         for(let acc of allAccounts){ // check existence and if cus id is the same
           if(acc.number.toUpperCase() == AccId  && acc.customerId.toUpperCase() == CusId ){
             cnd = true ;
@@ -225,7 +238,7 @@
       }
 
       function verifyCustomerExistence(CusId){
-        const cnd = false ;
+        let cnd = false ;
         for(let acc of allAccounts){ // check existence and if cus id is the same
           if( acc.customerId.toUpperCase() == CusId ){
             cnd = true ;
@@ -267,15 +280,20 @@
           i2.reportValidity();
           return ;
         }
-        if(!verifyAccountExistence(val,val2)){
-          i.setCustomValidity('Number Dosn\'t match any account') ;
+        if(!verifyCustomerExistence(val)){
+          i.setCustomValidity('Id Dosn\'t match any Customer') ;
           i.reportValidity();
           return ;
-        if(!verifyCustomerExistence(val))
-          i2.setCustomValidity('Id Dosn\'t match any Customer') ;
-          i2.reportValidity();
-          return ;
         }
+        if(!verifyAccountExistence(val2)){
+          i2.setCustomValidity('Number Dosn\'t match any account') ;
+          i2.reportValidity();
+          return ;}
+        if(!verifyAccountConnection(val,val2)){
+          i.setCustomValidity('Customeer Id and Account Number do not match') ;
+          i.reportValidity();
+          return ;}
+
         else{
           let arr = [val , val2];
           window.open("Customer.html?value=" + encodeURIComponent(JSON.stringify(arr)), "_self");

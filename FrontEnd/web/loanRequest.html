@@ -206,6 +206,10 @@
 
 
     <script>
+      let params = new URLSearchParams(window.location.search);
+      let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
+      console.log(EnterInfo);
+
       function getFormattedDate() {
         const now = new Date();
 

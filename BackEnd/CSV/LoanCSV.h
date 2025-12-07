@@ -48,7 +48,8 @@ namespace LoanCSV {
             if (trim(line).empty()) continue;
             std::istringstream ss(line);
 
-            std::string id, accountId, amountStr, interestStr, paidStr, remainingStr, startStr, endStr, status;
+            std::string id, accountId, amountStr, interestStr, paidStr, remainingStr, startStr, endStr, status, typeStr;
+
             std::getline(ss, id, ',');
             std::getline(ss, accountId, ',');
             std::getline(ss, amountStr, ',');
@@ -58,6 +59,7 @@ namespace LoanCSV {
             std::getline(ss, startStr, ',');
             std::getline(ss, endStr, ',');
             std::getline(ss, status, ',');
+            std::getline(ss, typeStr, ',');
 
             id = trim(id);
             accountId = trim(accountId);
@@ -68,6 +70,7 @@ namespace LoanCSV {
             startStr = trim(startStr);
             endStr = trim(endStr);
             status = trim(status);
+            typeStr = trim(typeStr);
 
             double amount = 0, interest = 0, paid = 0, remaining = 0;
             try { amount = std::stod(amountStr); } catch(...) { amount = 0; }
@@ -79,7 +82,17 @@ namespace LoanCSV {
             Date::Date endDate = Date::FromString(endStr);
 
             // Create loan object | Cria objeto loan
-            loans[count] = Loan::Create(accountId, amount, interest, 0, status, id, startDate);
+            loans[count] = Loan::Create(
+                accountId,       // AccountId
+                amount,          // Amount
+                interest,        // InterestRate
+                0,               // DurationInMonths
+                status,          // Status
+                typeStr,         // Type
+                id,              // Id
+                startDate        // StartDate
+            );
+
             loans[count].PaidAmount = paid;
             loans[count].RemainingAmount = remaining;
             loans[count].EndDate = endDate;
@@ -110,18 +123,20 @@ namespace LoanCSV {
         }
 
         // Header | Cabeçalho
-        file << "Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status\n";
+        file << "Id,AccountId,Amount,InterestRate,PaidAmount,RemainingAmount,StartDate,EndDate,Status,Type\n";
+
         for (int i = 0; i < count; ++i) {
             const auto& L = loans[i];
             file << L.Id << ","
-                    << L.AccountId << ","
-                    << L.Amount << ","
-                    << L.InterestRate << ","
-                    << L.PaidAmount << ","
-                    << L.RemainingAmount << ","
-                    << Date::ToString(L.StartDate) << ","
-                    << Date::ToString(L.EndDate) << ","
-                    << L.Status << "\n";
+                 << L.AccountId << ","
+                 << L.Amount << ","
+                 << L.InterestRate << ","
+                 << L.PaidAmount << ","
+                 << L.RemainingAmount << ","
+                 << Date::ToString(L.StartDate) << ","
+                 << Date::ToString(L.EndDate) << ","
+                 << L.Status << ","
+                 << L.type << "\n";
         }
 
         file.close();

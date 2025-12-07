@@ -62,11 +62,6 @@ namespace Customer {
         // Display customer info | Mostrar informações do customer
     }
 
-    std::ostream& operator<<(std::ostream& os, const Customer& C) {
-        os << "[" << C.Id << ", " << C.Name << "]";
-        return os; // Formatted print | Impressão formatada
-    }
-
 }
 
 #endif

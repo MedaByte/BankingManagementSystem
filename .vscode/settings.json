@@ -54,5 +54,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "cstdarg": "cpp"
-    }
+    },
+    "liveServer.settings.port": 5501
 }

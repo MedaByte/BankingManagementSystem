@@ -77,11 +77,6 @@ namespace Employee {
         // Display employee info | Mostrar informações do employee
     }
 
-    std::ostream& operator<<(std::ostream& os, const Employee& E) {
-        os << "[" << E.Id << ", " << E.Name << ", " << E.Salary << "]";
-        return os; // Formatted print | Impressão formatada
-    }
-
 }
 
 #endif

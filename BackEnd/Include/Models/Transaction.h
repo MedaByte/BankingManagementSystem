@@ -48,12 +48,6 @@ namespace Transaction {
         // Display transaction details | Mostrar detalhes da transação
     }
 
-    std::ostream& operator<<(std::ostream& os, const Transaction& T){
-        os << "[" << T.TransactionId << ", " << T.AccountNumber 
-            << ", " << T.Type << ", " << T.Amount << "]";
-        return os;
-        // Formatted print | Impressão formatada
-    }
 }
 
 #endif

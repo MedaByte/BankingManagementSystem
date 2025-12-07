@@ -48,23 +48,21 @@ namespace LoanController {
     }
 
     // Delete all completed loans from customer accounts | Deletar todos os loans com status 'completed' das contas do customer
-    inline void DeleteCompletedLoans(Customer::Customer* C) {
-        for(auto node = C->Accounts.Head; node; node = node->Next) {
-            auto& loans = node->Data.Loans;
-            auto current = loans.Head;
-            int pos = 0;
-            while(current) {
-                auto nextNode = current->Next;
-                if(current->Data.Status == "completed") {
-                    Account::RemoveAt(&node->Data, pos);
-                    std::cout << "Loan " << current->Data.Id << " deleted.\n";
-                    // pos does not increment because list shrinks | pos não incrementa porque a lista diminui
-                } else {
-                    pos++;
+    inline void DeleteCompletedLoans(Loan::Loan loans[], int& loanCount) {
+        std::cerr << "hello";
+        for (int i = 0; i<loanCount;){
+            if (loans[i].Status == "completed"){
+                for (int j = i; j<loanCount-1;++j){
+                    loans[j] = loans[j+1];
                 }
-                current = nextNode;
+                --loanCount;
+            }
+            else{
+                ++i;
             }
         }
+
+        LoanCSV::Write(loans, loanCount);
     }
 
     // Add payment to a loan | Adicionar pagamento a um loan

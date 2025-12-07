@@ -24,6 +24,8 @@ namespace Account {
         Date::Date OpeningDate;        // Opening date | Data de abertura
         std::string Status;            // Account status | Status da account
         double Balance;                // Balance | Saldo
+        std::string Note;              // Note about the account | nota sobra a account
+        std::string Image;             // image of the account holder | imagem do dono da account
         std::string CustomerId;        // Customer ID | ID do customer
 
         Doubly::List<Loan::Loan> Loans;                            // Loan list | Lista de loans
@@ -41,9 +43,11 @@ namespace Account {
         const std::string& BranchCode,
         const std::string& Status,
         const std::string CustomerId,
+        const std::string& Note = "Bread",
         const std::string& AccountNumber  = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_account_id.txt", "ACC"),
         const Date::Date& OpeningDate = Date::Now(),
-        double Balance = 0.0
+        double Balance = 0.0,
+        const std::string& Image = "default"
     ){
         std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);
 
@@ -56,6 +60,8 @@ namespace Account {
             OpeningDate,
             Status,
             Balance,
+            Note,
+            Image,
             CustomerId,
             Doubly::Create<Loan::Loan>(),                   // Init loans | Inicializar loans
             Stack::Create<Transaction::Transaction>()       // Init stack | Inicializar stack
@@ -125,14 +131,6 @@ namespace Account {
         std::cout << "Loans: " << A.Loans.Size << "\n";
         std::cout << "Daily Transactions: " << A.DailyTransactions.List.Size << "\n";
         // Display account details | Mostrar detalhes da account
-    }
-
-    std::ostream& operator<<(std::ostream& os, const Account& A) {
-        os << "[" << A.AccountNumber << ", "
-			<< A.HolderName << ", "
-			<< A.AccountType << ", "
-			<< A.Balance << "]";
-        return os; // Formatted print | Impressão formatada
     }
 
 }

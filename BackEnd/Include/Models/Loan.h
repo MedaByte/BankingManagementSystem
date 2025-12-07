@@ -33,9 +33,9 @@ namespace Loan {
         double InterestRate,
         int DurationInMonths,
         const std::string& Status = "active",
+        std::string type = "general",
         std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_loan_id.txt", "LOAN"),
-        const Date::Date& StartDate = Date::Now(),
-        std::string type = "general"
+        const Date::Date& StartDate = Date::Now()
     ) {
         Date::Date EndDate = Date::AddMonths(StartDate, DurationInMonths);
         // Calculate end date | Calcular data de fim
@@ -93,16 +93,6 @@ namespace Loan {
         std::cout << "Status: " << L.Status << "\n";
         std::cout << "Payments Count: " << L.Payments.List.Size << "\n";
         // Display loan details | Mostrar detalhes do loan
-    }
-
-    inline std::ostream& operator<<(std::ostream& os, const Loan& loan) {
-        os << "[Loan ID: " << loan.Id
-            << ", Amount: " << loan.Amount
-            << ", Interest: " << loan.InterestRate
-            << ", Start: " << loan.StartDate.Day << "/" << loan.StartDate.Month << "/" << loan.StartDate.Year
-            << ", End: " << loan.EndDate.Day << "/" << loan.EndDate.Month << "/" << loan.EndDate.Year << " months]";
-        return os;
-        // Formatted print | Impressão formatada
     }
 
 }

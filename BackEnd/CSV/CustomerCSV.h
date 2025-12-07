@@ -41,33 +41,32 @@ namespace CustomerCSV {
             file.clear();
             file.seekg(0);
         }
-
+        
         while (std::getline(file, line)) {
             if (trim(line).empty()) continue;
             std::istringstream ss(line);
-
+            
             std::string id, name, lastName, address, phone;
             std::getline(ss, id, ',');
             std::getline(ss, name, ',');
             std::getline(ss, lastName, ',');
             std::getline(ss, address, ',');
             std::getline(ss, phone, ',');
-
+            
             id = trim(id);
             name = trim(name);
             lastName = trim(lastName);
             address = trim(address);
             phone = trim(phone);
-
+            
             customers[count] = Customer::Create(name, lastName, address, phone, id);
             ++count;
-
+            
             if (count >= 10000) break; // safety | segurança
         }
-
+        
         file.close();
     }
-
     // Write customers to CSV | Escrever clientes no CSV
     inline void Write(Customer::Customer customers[], int count, const std::string& filename = "customers.csv") {
         std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);

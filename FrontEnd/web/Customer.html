@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Visit www.pixelrocket.store to learn how to become a frontend web developer</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&amp;display=swap" rel="stylesheet"/>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,300,500&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
+  </head>
+  <body class="antialiased bg-body text-body font-body">
+    <div>
+      <section x-data="{ mobileNavOpen: false }">
+        <div class="container px-4 mx-auto headder">
+          <div class="flex items-center justify-between pt-5 pb-2.5 -m-2" style="padding: 0 calc(2.5vh + 2.5vw); padding-top:calc(1vh + 1vw) ;padding-bottom: calc(1vh + 1vw);">            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);"  alt=""/></a></div>
+              </div>
+            </div>
+            <div class="w-auto p-2">
+              <div class="flex flex-wrap items-center">
+                <div class="w-auto hidden lg:block">
+                  <ul class="flex items-center mr-12">
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="pricing.html"></a></li>
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="blog.html"></a></li>
+                    <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html"></a></li>
+                  </ul>
+                </div>
+                <div class="w-auto hidden lg:block">
+                  <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300" href="about.html">About Us</a></div>
+                </div>
+                <div class="w-auto lg:hidden">
+                  <button class="relative z-10 inline-block" x-on:click="mobileNavOpen = !mobileNavOpen">
+                    <svg class="text-green-500" width="51" height="51" viewbox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="56" height="56" rx="28" fill="currentColor"></rect>
+                      <path d="M37 32H19M37 24H19" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="customers-interference-main-section">
+
+          <!-- <div class="customer-name">Mahdi Turki</div>
+          <div class="display-account-name">Account holder name : md123</div>
+          <div class="balance-container">Balance :&nbsp 1500 TND</div> -->
+          <div class="upper-section">
+            <div class="customer-up-conatiner pad">
+              <div class="upper-part">
+                Balance : 
+              </div>
+              <div id="account-balance"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;"><div style="color: rgb(204 255 0);">Branch :</div>&nbsp&nbsp<div id="account-branch"></div></div>
+            </div>
+
+            <div class="customer-up-conatiner pad ">
+              <div class="upper-part">
+                Account Type : 
+              </div>
+              <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-type"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp<div id="account-status"></div></div>
+              
+            </div>
+
+            <div class="customer-up-conatiner pad">
+
+              <div class="upper-part">
+                Account holder name : 
+              </div>
+              <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-name"></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);font-size: calc(1vh + 1vw);">Ac number :</div>&nbsp<div id="account-number"></div></div>
+              
+            </div>
+
+            <div class="customer-up-conatiner">
+              <img class="coverAll" src="images/card.png">
+              <img class="top-right-icon" src="images/card icon.png">
+              <div class="Account-name-display">Accound Holder Name : &nbsp<div id="accountName"></div></div>
+              <div class="Account-name-display" style="top: 32.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">IBAN :</div>
+              <div class="Account-name-display" style="top: 45%;" id="IBAN"></div>
+              <div class="Account-name-display" style="top: 62.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">Account Owner :</div>
+              <div class="Account-name-display" style="top: 75%;" id="customerId"></div>
+              <div class="Account-name-display" style="left: 65%; top: 62.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">Opening Date :</div>
+              <div class="Account-name-display" style="left: 65%;top: 75%;" id="accoutOpenDate"></div>
+            
+            </div>
+          </div>
+
+
+          <div class="Lower-section">
+
+            <div class="T-container">
+
+              <div class="transaction-title">
+                My Transactions
+              </div>
+
+              <div class="add-new-transaction"  onclick="afficheTransactionAddRequest('test test test','Add New Transition')">
+                add new transaction
+              </div>
+
+              <div id="direct-transaction-container">
+
+                
+
+
+
+              </div>
+
+            </div>
+
+
+            
+
+            <div class="T-container">
+              <div class="transaction-title">
+                My Loans
+              </div>
+              
+              <div class="add-new-transaction"  onclick="window.open('loanRequest.html?value='+encodeURIComponent(JSON.stringify([allAccountData.customerId,allAccountData.number])) , '_self')">
+                Make a Loan Request
+              </div>
+
+              <div id="direct-Loan-container">
+
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      <section class="py-12">
+        <div class="container px-4 mx-auto">
+          <div class="relative pt-20 px-4 bg-gray-900 bg-opacity-20 overflow-hidden rounded-6xl">
+            <div class="text-center md:max-w-xl mx-auto removed pb-20"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Hide Bank</span>
+              <h2 class="font-heading mb-6 text-7xl text-white tracking-8xl">Hide&nbsp Bank &nbsp:&nbsp a&nbsp Bank&nbsp ment &nbspto&nbsp serve &nbspYou</h2><a class="mb-8 text-gray-300 relative z-10" href="https://www.pixelrocket.store">Contact The devaloper Team Via email if some details remain unclear</a><img class="absolute -bottom-24 right-0 z-0" src="template-assets/images/application-section/lines2.png" alt=""/>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-gray-50 overflow-hidden">
+        <div class="py-14 bg-black rounded-b-7xl"></div>
+        <div class="py-24">
+          <div class="container px-4 mx-auto">
+            <div class="flex flex-wrap justify-center -m-8 mb-28">
+              <div class="w-full md:w-1/2 lg:w-4/12 p-8">
+                <div class="md:max-w-xs"><img class="mb-7" src="images/logo-dark.svg" alt=""/>
+                  <p class="text-gray-400 font-medium">Global Bank is a strategic branding agency focused on brand creation, rebrands, and brand</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">About</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-2/12 p-8">
+                <h3 class="mb-6 text-lg text-black font-medium">Company</h3>
+                <ul>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Contact</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Blog</a></li>
+                  <li class="mb-2.5"><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Our Story</a></li>
+                  <li><a class="inline-block text-lg font-medium text-gray-400 hover:text-black transition duration-300" href="#">Careers</a></li>
+                </ul>
+              </div>
+              <div class="w-full md:w-1/2 lg:flex-1 p-8">
+                <div class="flex flex-wrap -m-2">
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/twitter.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Twitter for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/instagram.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on Instagram for updates</p>
+                        </div>
+                      </div></a></div>
+                  <div class="w-full p-2"><a class="block py-5 px-8 bg-white rounded-full" href="#">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <div class="w-auto p-2"><img src="template-assets/images/footers/tiktok.svg" alt=""/></div>
+                        <div class="flex-1 p-2">
+                          <p class="text-black">Follow us on TikTok for updates</p>
+                        </div>
+                      </div></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap justify-between -m-2">
+              <div class="w-auto p-2">
+                <p class="inline-block text-sm font-medium text-black text-opacity-60">© 2023 Global Bank</p>
+              </div>
+              <div class="w-auto p-2">
+                <div class="flex flex-wrap items-center -m-2 sm:-m-7">
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Terms of Use</a></div>
+                  <div class="w-auto p-2 sm:p-7"><a class="inline-block text-sm text-black text-opacity-60 hover:text-opacity-100 font-medium transition duration-300" href="#">Privacy Policy</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="Load.js"></script>
+    <script>
+      let params = new URLSearchParams(window.location.search);
+      let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
+      console.log(EnterInfo);
+
+      let allAccountData ;
+      let allTransactions = [];
+      let allLoans = [] ;
+      main();
+      async function main(){        
+        res = await Load('Load Account',EnterInfo[1]) ;
+        allAccountData = JSON.parse(res.result) ;
+        allTransactions = allAccountData['transactions'] ;
+        allTransactions.reverse();
+        allLoans = allAccountData['Loans'] ;
+
+        
+        console.log(allAccountData);
+      
+
+
+
+      const Tsp = document.getElementById('direct-transaction-container'); 
+      const Lsp = document.getElementById('direct-Loan-container'); 
+      const acB = document.getElementById('account-balance');
+      console.log(acB)
+      const acBr = document.getElementById('account-branch');
+      const acT = document.getElementById('account-type');
+      const acS = document.getElementById('account-status');
+      const acN = document.getElementById('account-name');
+      const acNb = document.getElementById('account-number');
+      const acN2 = document.getElementById('accountName');
+      const acIB = document.getElementById('IBAN');
+      const acCN = document.getElementById('customerId');
+      const acOD = document.getElementById('accoutOpenDate');
+
+      let allTransactionsIds = [] ;
+      let allLoansIds = [] ;
+
+
+      generateIdsArrayOutOfallLoans();
+      generateIdsArrayOutOfallTransactions();
+
+
+      displayUpperInfo();
+
+
+
+      //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
+      //'Request','12/02/2025','12/01/2030','20 000TND','2.5%','L907','1700TND','51 000TND','Active'
+      // kol llhamma about disable atribute
+    
+    // we get this variable from c++
+
+
+      function displayUpperInfo(){
+        acB.innerText = Number(allAccountData.balance).toFixed(0) + " TND";
+        acBr.innerText = allAccountData.branch ;
+        acT.innerText = allAccountData.type ;
+        acS.innerText = allAccountData.status ;
+        acS.classList.add('status-' + allAccountData.status) ;
+        acN.innerText = allAccountData.accountName ;
+        acN2.innerText = allAccountData.accountName ;
+        acNb.innerText = allAccountData.number ;
+        acIB.innerText = allAccountData.IBAN ;
+        acCN.innerText = allAccountData.customerId ;
+        acOD.innerText = allAccountData.OpeningDate ;
+        
+
+      }
+      window.afficheLoanDetails = function (Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+        let bubble = createLoanDetailsBox(Ltype,stD,enD,Number(amount).toFixed(2),(Number(ITR)*100).toFixed(2)+'%',id,Number(paidAmount).toFixed(2),Number(RB).toFixed(2),status);
+        displayBox(bubble,fc);
+    }
+
+
+
+
+
+      
+      
+      
+      //allT to be changed and getted from c++ with customer id
+
+
+      function generateIdsArrayOutOfallTransactions(){
+        allTransactions.forEach((el,ind)=>{allTransactionsIds[ind]=el.id});
+      }
+      function generateIdsArrayOutOfallLoans(){
+        allLoans.forEach((el,ind)=>{allLoansIds[ind]=el.id});
+      }
+
+      window.addLoan = function (Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
+        let htmlStr;
+        if(Ltype[0]=='R'){
+          if(status !='Rejected'){
+            htmlStr=`
+              <div class="transaction-container">
+                    <div class="transaction first-transaction">
+                      <div class="icon-container" style="padding: 6px;">
+                        <img src="images/LoanRequestIcon.png">
+                      </div>
+
+
+                      <div class="contain-transaction-type-amount-ID">
+                        <div class="f-t">
+                          <div class="f-t" style="color: gray;">${Number(amount).toFixed(0)} TND</div>
+                        </div>
+                        <div class="f-t">
+                          <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
+                        </div>
+                      </div>
+
+                      <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;">
+                        Loan Request
+                      </div>
+
+                    </div>
+
+                    <div  class="loan-detials-bt" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}')">
+                      Details
+                    </div>
+
+              </div>
+            `}
+          else {
+            htmlStr=`
+              <div class="transaction-container">
+                    <div class="transaction first-transaction">
+                      <div class="icon-container" style="padding: 6px;">
+                        <img src="images/RequestRejected.png">
+                      </div>
+
+
+                      <div class="contain-transaction-type-amount-ID">
+                        <div class="f-t">
+                          <div class="f-t" style="color: red;">${Number(amount).toFixed(0)} TND</div>
+                        </div>
+                        <div class="f-t">
+                          <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
+                        </div>
+                      </div>
+
+                      <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;color:red;">
+                        Request Rejected
+                      </div>
+
+                    </div>
+
+                    <div  class="loan-detials-bt" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}','${paidAmount}','${RB}','Rejected')">
+                      Details
+                    </div>
+
+              </div>
+            `
+          }
+        }
+        else{
+        htmlStr=`
+        <div class="transaction-container">
+                  <div class="transaction first-transaction">
+                    <div class="icon-container">
+                      <img src="images/LoanIcon.png">
+                    </div>
+
+
+                    <div class="contain-transaction-type-amount-ID">
+                      <div class="f-t">
+                        <div class="f-t status-${status}">${Number(amount).toFixed(0)} TND</div>
+                      </div>
+                      <div class="f-t">
+                        <div class="f-t" style="color :rgb(204 255 0);">Loan Id :</div>&nbsp&nbsp${id}
+                      </div>
+                    </div>
+
+                    <div class="transition-date" style="font-size: calc(1vh + 1vw);right: 7.5%;text-align: center;">
+                      Loan Status: <div class="LS status-${status}">${status}</div>
+                    </div>
+
+                  </div>
+
+                  <div  class="loan-detials-bt" style="padding-left: 15.5%;background-color: gray;font-size: calc(1.5vh + 1.5vw);" onclick="afficheLoanDetails('${Ltype}','${stD}','${enD}','${amount}','${ITR}','${id}','${paidAmount}','${RB}','${status}')">
+                    Details
+                  </div>
+                                                                                                                              
+         </div>
+        `;}
+        
+        Lsp.insertAdjacentHTML("afterbegin", htmlStr);
+      }
+      // function generateAllTransactions (){//sameAsOriginalAT but removes the id 
+      //   const ln = orginialAT.length;
+      //   for(let i = 0 ; i <ln-1 ; i++){
+      //     allTransactions[i] =orginialAT[i];
+      //   }
+      // }
+
+      window.undoTransaction = async function (){ // missing variavle updates , allTransactions , transactionsIds , Balance
+        if(Tsp.firstElementChild.dataset.type == 'deposit' || Tsp.firstElementChild.dataset.type == 'Deposit'  || Tsp.firstElementChild.dataset.type == 'loanDeposit'){
+          allAccountData.balance = Number(allAccountData.balance) - Number(Tsp.firstElementChild.querySelector('.contain-transaction-type-amount-ID').firstElementChild.firstElementChild.innerText.replace('TND','')) ;
+          acB.innerText = Number(allAccountData.balance).toFixed(2);
+        }
+        else {
+          allAccountData.balance = Number(allAccountData.balance) + Number(Tsp.firstElementChild.querySelector('.contain-transaction-type-amount-ID').firstElementChild.firstElementChild.innerText.replace('TND','')) ;
+          acB.innerText = Number(allAccountData.balance).toFixed(2);
+        }
+        Tsp.removeChild(Tsp.firstElementChild) ;
+        if(Tsp.firstElementChild){
+        Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');} 
+        await Load('Undo Last Transaction',allAccountData.number) ;
+      }
+
+      window.loadAllTransactions = function (){
+        for(let el of allTransactions){
+          displayNewTransaction(...Object.values(el));
+        }
+      }
+
+      window.loadAllLoans = function (){
+        for(let el of allLoans){
+          addLoan(...Object.values(el));
+        }
+      }
+
+      window.generateNewTransactionId = function (allTransactionsIds){
+        let newId ;
+        do{
+            newId = 't'+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
+          }while(allTransactionsIds.indexOf(newId) > -1) 
+        return newId ;
+      }
+
+      window.generateNewLoansId = function (allLoansIds,t='l'){
+        let newId ;
+        let f = t=='r' ? 'R':'L' ;
+        do{
+            newId = t+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
+          }while(allTransactionsIds.indexOf(newId) > -1) 
+        return newId ;
+      }
+
+      window.verifyWithdrawAmount = function(amount){
+        return Number(amount) <= Number(allAccountData.balance) ;
+      }
+      
+      window.displayNewTransaction = function (type , amount , date , newId , disableUndo='false'){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well 
+          let fc = Tsp.firstElementChild ;
+          let ds = disableUndo == 'true'? 'blockTransition':''
+          
+          if(fc){
+            fc.firstElementChild.classList.remove('first-transaction') ;
+          }
+          const color = (type=='deposit' || type=='Deposit' || type=='loanDeposit')? 'red':'green';
+          const htmlStr = `
+          <div class="transaction-container" data-id="${newId}" data-type="${type}">
+                  <div class="transaction first-transaction ${ds}">
+                    <div class="icon-container">
+                      <img src="images/${type}Icon.png">
+                    </div>
+
+
+                    <div class="contain-transaction-type-amount-ID">
+                      <div class="f-t">
+                        <div class="f-t" style="color: ${color};">${Number(amount).toFixed(0)} TND</div>&nbsp${type}
+                      </div>
+                      <div class="f-t">
+                        <div class="f-t" style="color :rgb(204 255 0);">Transaction Id :</div>&nbsp&nbsp${newId}
+                      </div>
+                    </div>
+
+                    <div class="transition-date">
+                      ${date}
+                    </div>
+
+                  </div>
+
+                  <div  class="undo-transaction" onclick="undoTransaction()">
+                    undo
+                  </div>
+
+          </div>`;
+          Tsp.insertAdjacentHTML("afterbegin", htmlStr);
+
+      }
+      window.getFormattedDate = function () {
+        const now = new Date();
+
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); 
+        const year = now.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
+      window.randomBetween100and5000 = function () {
+        return Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
+      }   
+
+      window.afficheTransactionAddRequest = function(msg,tit='',fc = ()=>{},id=0){// update allT , TIds , Balance , active when add.click
+                let bubble = createTransactionAddRequestBox(id);
+
+                bubble.title.innerText = tit;
+                // bubble.message.innerText = msg ; 
+
+                displayBox(bubble,fc);
+            }
+      window.createTransactionAddRequestBox = function (id){
+                const box = document.createElement("div");
+                let T = {selected:''};
+
+                box.id = "box-"+id;
+                box.dataset.number = ""+id;
+
+                // Set styles
+                box.style.position = "fixed";
+                box.style.zIndex = 1001
+                box.style.top = "50%";
+                box.style.left = "50%";
+                box.style.transform = "translate(-50%, -50%)";
+                box.style.width = "calc(33vh + 33vw)";
+                // box.style.height = "calc(25vh + 25vw)";
+                box.style.backgroundColor = "rgb(14, 15, 17)";
+                box.style.borderRadius = "150px";
+                box.style.padding = "calc(1vh + 1vw) calc(3vh + 3vw)";
+                box.style.textAlign = "center";
+                box.style.color = "white";
+                box.style.fontSize = "calc(1.35vh + 1.35vw)";
+                box.style.overflow = "hidden";
+                box.style.boxShadow = '0px 0 10px rgba(0, 255, 255,0.4)'  ; 
+                box.style.transition = 'ease 1s' ;
+                box.style.display = "flex";
+                box.style.flexDirection = "column";
+                box.style.alignItems = "center";
+
+        
+                const title = document.createElement("div");
+
+                title.id = "box-"+id+"-title";
+            
+                title.style.fontSize = "calc(2vh + 2vw)";
+                title.style.color = "lightblue";
+                box.appendChild(title);
+
+                const message = document.createElement("div");
+                message.style.maxWidth = "100%";
+                message.style.overflowWrap = "break-word";
+                message.style.marginTop = "calc(0.5vh + 0.5vw)";
+                message.style.overflow = "hidden";
+                message.id = "box-"+id+"-message"
+                message.innerText = "Choose Transition Type :" ;
+
+                box.appendChild(message);
+
+                const cc = document.createElement("div");
+                cc.style.display="flex";
+                cc.style.gap="calc(2.5vh + 2.5vw)";
+
+                const Wc =  document.createElement("div");
+                const iconContainer = document.createElement("div");
+                iconContainer.classList.add("icon-container");
+                iconContainer.classList.add("get-bigger-when-hover");
+                iconContainer.style.height = "calc(6.5vh + 6.5vw)" ;
+                iconContainer.style.width = "calc(6.5vh + 6.5vw)" ;
+                iconContainer.style.marginTop = "calc(2.5vh + 2.5vw)";
+                iconContainer.style.transition = "ease 0.75s" ;
+                iconContainer.style.cursor = "pointer";
+
+                const Wimg = document.createElement("img");
+                Wimg.src = "images/WithdrawIcon.png";
+                iconContainer.appendChild(Wimg);
+                const Wtxt = document.createElement("div");
+                Wtxt.innerText = "Withdraw";
+                Wtxt.style.marginTop="calc(1vh + 1vw)"
+
+                Wc.appendChild(iconContainer) ;
+                Wc.appendChild(Wtxt) ;
+
+                const Dc =  document.createElement("div");
+                const iconContainer2 = document.createElement("div");
+                iconContainer2.classList.add("icon-container");
+                iconContainer2.classList.add("get-bigger-when-hover");
+                iconContainer2.style.height = "calc(6.5vh + 6.5vw)" ;
+                iconContainer2.style.width = "calc(6.5vh + 6.5vw)" ;
+                iconContainer2.style.marginTop = "calc(2.5vh + 2.5vw)";
+                iconContainer2.style.transition = "ease 0.75s" ;
+                iconContainer2.style.cursor = "pointer";
+
+                iconContainer2.onclick = ()=>{iconContainer2.classList.add('act');iconContainer.classList.remove('act');T.selected = 'Deposit'}
+                iconContainer.onclick = ()=>{iconContainer.classList.add('act');iconContainer2.classList.remove('act');T.selected = 'Withdraw'}
+   
+
+
+                const Dimg = document.createElement("img");
+                Dimg.src = "images/depositIcon.png";
+                iconContainer2.appendChild(Dimg);
+                const Dtxt = document.createElement("div");
+                Dtxt.innerText = "Deposit";
+                Dtxt.style.marginTop="calc(1vh + 1vw)"
+
+                Dc.appendChild(iconContainer2) ;
+                Dc.appendChild(Dtxt) ;
+
+
+                cc.appendChild(Wc);
+                cc.appendChild(Dc);
+
+                box.appendChild(cc);
+
+                const ipp = document.createElement("input");
+                ipp.classList = "pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" ;
+                ipp.style.margin = "calc(5vh + 5vw) 0";
+                ipp.style.marginTop="calc(1vh + 1vw)";
+                ipp.style.border = "1px solid gray";
+                ipp.style.borderRadius = "100px";
+                ipp.placeholder = "Please enter The Amount In TND";
+                ipp.type="number";
+                box.appendChild(ipp);
+
+                const exitButton = document.createElement("div");
+                exitButton.style.marginTop = "calc(0.75vh + 0.75vw)";
+                exitButton.style.display = "inline-block";
+                exitButton.style.backgroundColor = "rgb(94, 0, 0)";
+                exitButton.style.width = "calc(8vh + 8vw)";
+                exitButton.style.borderRadius = "50px";
+                exitButton.style.cursor = "pointer";
+                exitButton.style.border = "3px solid rgb(44, 0, 0)";
+                exitButton.textContent = "Exit";
+                exitButton.style.position = "absolute";
+                exitButton.style.bottom = "25px";
+                exitButton.style.left = "calc(5vh + 5vw)";
+
+                mouseIn = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(44, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(94, 0, 0)' ;  
+                }
+                mouseOut = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(94, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(44, 0, 0)' ;  
+                }
+
+                exitButton.addEventListener('mouseenter',mouseIn)
+                exitButton.addEventListener('mouseleave',mouseOut)
+
+
+                box.appendChild(exitButton);
+
+
+                const add = document.createElement("button");
+                add.style.marginTop = "calc(0.75vh + 0.75vw)";
+                add.style.display = "inline-block";
+                add.style.width = "calc(8vh + 8vw)";
+                add.style.borderRadius = "50px";
+                add.style.cursor = "pointer";
+                add.textContent = "Add";
+                add.style.position = "absolute";
+                add.style.bottom = "25px";
+                add.style.right = "calc(5vh + 5vw)";
+                add.classList.add('addBt')
+
+                mouseIn = ()=>{
+                    add.style.backgroundColor = 'rgb(0, 75, 0)' ;
+                    add.style.border = '3px solid rgb(0, 128, 0)' ;  
+                }
+                mouseOut = ()=>{
+                    add.style.backgroundColor = 'rgb(0, 128, 0)' ;
+                    add.style.border = '3px solid rgb(0, 75, 0)' ;  
+                }
+
+                add.addEventListener('mouseenter',mouseIn)
+                add.addEventListener('mouseleave',mouseOut)
+
+
+
+
+                box.appendChild(add);
+
+                return {box,title,T,exitButton,add,ipp}
+            }
+      window.canWithdraw = function(amount) {
+      if (amount <= 0 || amount % 10 !== 0) return false;
+      for (let f50 = 0; f50 * 50 <= amount; f50++) {
+          for (let f20 = 0; f20 * 20 + f50 * 50 <= amount; f20++) {
+              let remainder = amount - (f50 * 50 + f20 * 20);
+
+              if (remainder % 10 === 0) {
+                  return true;
+              }
+          }
+    }
+
+    return false; // No valid combination
+}
+
+      window.displayBox = function (obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
+
+
+                const coverAll = document.createElement("div");
+                coverAll.style.position = 'fixed' ; 
+                coverAll.style.top = '0';
+                coverAll.style.bottom = '0';
+                coverAll.style.right = '0';
+                coverAll.style.left = '0';
+                coverAll.style.backdropFilter = 'blur(10px)';
+                coverAll.style.zIndex = 1000 ;
+                var body = document.querySelector('body')
+                body.style.position = 'relative' ;
+                body.appendChild(coverAll);
+                body.appendChild(obj.box) ;
+
+                obj.box.style.transform = "translate(-50%, -50%) scale(0)";
+                obj.box.offsetHeight;
+                requestAnimationFrame(() => {
+                    obj.box.style.transform = "translate(-50%, -53%) scale(1)";
+                });
+
+                exit = ()=>{
+                    body.removeChild(coverAll);
+                    body.removeChild(obj.box) ;
+                    fc() ;
+                }
+
+                setTimeout(()=>{obj.exitButton.addEventListener('click',exit,{ once: true });},1000) ;
+                if(obj.add){
+                setTimeout(()=>{obj.add.addEventListener('click',()=>{
+                  if(obj.T.selected=="" || obj.ipp.value==""){
+                    obj.add.setCustomValidity('Please Enter All Required Data');
+                    obj.add.reportValidity();
+                  }
+                  else if(obj.T.selected=='Withdraw' && !verifyWithdrawAmount(obj.ipp.value)){
+                    obj.add.setCustomValidity('Insufficient Balance For This Withdraw');
+                    obj.add.reportValidity();
+                  }
+                  else if(obj.T.selected=='Withdraw' && !canWithdraw(Number(obj.ipp.value))){
+                    obj.add.setCustomValidity('The ATM Cannot Dispense This Amount , Please Enter An Amount Multiple Of 10 ,20 or 50 TND');
+                    obj.add.reportValidity();
+
+                  }
+                  else{
+                    allAccountData.balance = obj.T.selected=='Deposit' ? Number(allAccountData.balance) + Number(obj.ipp.value) : Number(allAccountData.balance) - Number(obj.ipp.value) ; 
+                    acB.innerText = Number(allAccountData.balance).toFixed(2);
+                    // send to c++ and get the new transaction thhen displayNewTransaction put arguments from tr c++ loaded data
+                    updateAllTransaction(obj.T.selected , obj.ipp.value);
+                    displayNewTransaction(obj.T.selected , obj.ipp.value , getFormattedDate()  , 'Pending...');exit()}});},1000)
+                    
+                  } // [] 
+            }
+
+      window.addRow = function (card,label, value, valueClass = "") {
+                    const row = document.createElement("div");
+                    row.className = "loan-row";
+
+                    const labelEl = document.createElement("span");
+                    labelEl.className = "label";
+                    labelEl.textContent = label;
+
+                    const valueEl = document.createElement("span");
+                    valueEl.className = "value " + valueClass;
+                    valueEl.textContent = value;
+
+                    row.appendChild(labelEl);
+                    row.appendChild(valueEl);
+                    card.appendChild(row);
+      }
+
+      window.updateAllTransaction = async function (type , amount){
+        await Load('Add New Transaction',"10",{
+          accountNumber: allAccountData.number,
+          type: type,
+          amount: amount
+        }) ;
+      }
+      window.createLoanDetailsBox = function (Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
+                const box = document.createElement("div");
+
+                box.id = "box-"+id;
+                box.dataset.number = ""+id;
+
+                // Set styles
+                box.style.position = "fixed";
+                box.style.zIndex = 1001
+                box.style.top = "50%";
+                box.style.left = "50%";
+                box.style.transform = "translate(-50%, -53%)";
+                box.style.width = "calc(30vh + 30vw)";
+                box.style.backgroundColor = "rgb(14, 15, 17)";
+                box.style.borderRadius = "50px";
+                box.style.padding = "calc(1vh + 1vw) calc(3vh + 3vw)";
+                box.style.textAlign = "center";
+                box.style.color = "white";
+                box.style.fontSize = "calc(1.35vh + 1.35vw)";
+                box.style.overflow = "hidden";
+                box.style.boxShadow = '0px 0 10px rgba(0, 255, 255,0.4)'  ; 
+                box.style.transition = 'ease 1s' ;
+                box.style.display = "flex";
+                box.style.flexDirection = "column";
+                box.style.alignItems = "center";
+                
+
+                if(Ltype[0] == 'R'){
+
+                  // Title
+                  const title = document.createElement("h2");
+                  title.className = "section-title";
+                  title.textContent = "Request Details";
+                  box.appendChild(title);
+
+                  // Helper: create each row
+
+                  // Add rows
+                  addRow(box,"Principal Amount :",amount);
+                  addRow(box,"Loan Type:",fixType(Ltype));
+                  addRow(box,"Interest Rate :", ITR);
+                  addRow(box,"Request index :", id);
+                  addRow(box,"Request Date :", stD);
+                  addRow(box,"Loan End Date :", enD);
+                  addRow(box,"Request Status :",status,'status-'+status);
+
+
+                }
+                else{
+                box.className = "loan-card";
+
+                // Title
+                const title = document.createElement("h2");
+                title.className = "section-title";
+                title.textContent = "Loan Details";
+                box.appendChild(title);
+
+                // Helper: create each row
+
+                // Add rows
+                console.log(Ltype,104)
+                addRow(box,"Loan Type :",fixType(Ltype));
+                addRow(box,"Loan ID :", id);
+                addRow(box,"Principal Amount :",amount);
+                addRow(box,"Interest Rate :", ITR);
+                addRow(box,"Amount Paid :", paidAmount);//id,Ltype,stD,enD,amount,paidAmount,RB,ITR
+                addRow(box,"Remaining Balance :", RB);
+                addRow(box,"Start Date :", stD);
+                addRow(box,"End Date :", enD);
+
+
+                addRow(box,"Loan Status :",status,'status-'+status);
+                         
+              }
+
+                
+
+                const exitButton = document.createElement("div");
+                exitButton.style.marginTop = "calc(.75vh + .75vw)";
+                exitButton.style.display = "inline-block";
+                exitButton.style.backgroundColor = "rgb(94, 0, 0)";
+                exitButton.style.width = "calc(8vh + 8vw)";
+                exitButton.style.borderRadius = "50px";
+                exitButton.style.cursor = "pointer";
+                exitButton.style.border = "3px solid rgb(44, 0, 0)";
+                exitButton.textContent = "Exit";
+
+
+                mouseIn = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(44, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(94, 0, 0)' ;  
+                }
+                mouseOut = ()=>{
+                    exitButton.style.backgroundColor = 'rgb(94, 0, 0)' ;
+                    exitButton.style.border = '3px solid rgb(44, 0, 0)' ;  
+                }
+
+                exitButton.addEventListener('mouseenter',mouseIn)
+                exitButton.addEventListener('mouseleave',mouseOut)
+
+
+                box.appendChild(exitButton);
+
+
+                return {box,exitButton}
+            }
+      window.desactivateUndo = function (){ // to be activated after command from server Laktharia i will remove it
+        const el = Tsp.firstElementChild ;
+        if(el){
+          el.firstElementChild.classList.add('blockTransition');
+        }
+      }
+      window.fixType = function (Ltype){
+        if (Ltype[0]=='R'){
+          return (Ltype.split('-'))[1] ;
+        }
+        else{return Ltype}
+      }
+
+
+      loadAllTransactions() ;
+      loadAllLoans() ;
+
+    }
+    </script>
+  </body>
+</html>

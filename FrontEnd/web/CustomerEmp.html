@@ -49,7 +49,7 @@
 
           <!-- <div class="customer-name">Mahdi Turki</div>
           <div class="display-account-name">Account holder name : md123</div>
-          <div class="balance-container">Balance :&nbsp 1500 TDN</div> -->
+          <div class="balance-container">Balance :&nbsp 1500 TND</div> -->
           <div class="upper-section">
             <div class="customer-up-conatiner pad">
               <div class="upper-part">
@@ -64,7 +64,20 @@
                 Account Type : 
               </div>
               <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-type"></div>
-              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp<div id="account-status"></div></div>
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp
+              <div>
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <select class="select-account-type" id="select-status" >
+                    <option class="option-account-type" selected disabled hidden id="account-status">Account Status</option>
+                    <option class="option-account-type status-active">active</option>
+                    <option class="option-account-type status-inactive">inactive</option>
+                    <option class="option-account-type status-closed">closed</option>  
+                  </select>
+                </div>
+              </div>
+            
+            
+            </div>
               
             </div>
 
@@ -79,8 +92,8 @@
             </div>
 
             <div class="customer-up-conatiner">
-              <img class="coverAll" src="/images/card.png">
-              <img class="top-right-icon" src="/images/card icon.png">
+              <img class="coverAll" src="images/card.png">
+              <img class="top-right-icon" src="images/card icon.png">
               <div class="Account-name-display">Accound Holder Name : &nbsp<div id="accountName"></div></div>
               <div class="Account-name-display" style="top: 32.5%;color: rgb(161, 161, 161);font-size: calc(1vh + 1vw);">IBAN :</div>
               <div class="Account-name-display" style="top: 45%;font-size: calc(1.5vh + 1.5vw);" id="IBAN">**** **** **** **** ****</div>
@@ -102,7 +115,7 @@
               </div>
 
               <div class="add-new-transaction"  onclick="afficheTransactionAddRequest('test test test','Add New Transition')"><!--change funciton-->
-                Finalize Day
+                
               </div>
 
               <div id="direct-transaction-container">
@@ -216,48 +229,64 @@
         </div>
       </section>
     </div>
-
+    <script src="Load.js"></script>
     <script>
       let params = new URLSearchParams(window.location.search);
       let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
       console.log(EnterInfo);
 
 
+      let allAccountData ;
 
-      const Tsp = document.getElementById('direct-transaction-container'); 
-      const Lsp = document.getElementById('direct-Loan-container'); 
-      console.log(Lsp);
-      const acB = document.getElementById('account-balance');
-      const acBr = document.getElementById('account-branch');
-      const acT = document.getElementById('account-type');
-      const acS = document.getElementById('account-status');
-      const acN = document.getElementById('account-name');
-      const acNb = document.getElementById('account-number');
-      const acN2 = document.getElementById('accountName');
-      const acCN = document.getElementById('customerId');
-      const acOD = document.getElementById('accoutOpenDate');
+      main();
+      async function main(){        
+        res = await Load('Load Account',EnterInfo) ;
+        allAccountData = JSON.parse(res.result) ;
+        console.log(allAccountData);
+        var allTransactions = allAccountData['transactions'] ;
+        var allLoans = allAccountData['Loans'] ;
+
+
+        window.changeAccountStatus = async function(newStatus){
+          await Load("Change Account Status", EnterInfo , {newStatus}) ;
+        }
+
+
+        const Tsp = document.getElementById('direct-transaction-container'); 
+        const Lsp = document.getElementById('direct-Loan-container'); 
+        console.log(Lsp);
+        const acB = document.getElementById('account-balance');
+        const acBr = document.getElementById('account-branch');
+        const acT = document.getElementById('account-type');
+        const acS = document.getElementById('account-status');
+        const acN = document.getElementById('account-name');
+        const acNb = document.getElementById('account-number');
+        const acN2 = document.getElementById('accountName');
+        const acCN = document.getElementById('customerId');
+        const acOD = document.getElementById('accoutOpenDate');
+        const StatusSelect = document.getElementById('select-status');
+        StatusSelect.classList.add('status-' + allAccountData.status.toLowerCase()) ;
+
+        StatusSelect.addEventListener('change',()=>{
+          console.log('status-' +StatusSelect.value) ;
+          StatusSelect.classList.add('status-' +StatusSelect.value) ;changeAccountStatus(StatusSelect.value)}) ;
 
 
 
       // load allAccountData throu Customer Id and account Number enterd in log in or sign In
-      const allAccountData = {'OpeningDate':'12/01/2025	','customerId':'CUS0001','IBAN':'1234 5678 9012 3456 7810','balance':'150 000TND','branch':1113,'type':'Buisness Account','status':'Active','accountName':'Mahdi_dev','number':'ACC0001',
-      'transactions':[{type:'Withdraw',amount:2500,date:'12/01/2025',id:'t207'},{type:'Withdraw',amount:500,date:'08/11/2025',id:'t217'},{type:'Deposit',amount:5000,date:'12/02/2025',id:'t200'}],
-      'Loans':[{'type':'Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'L907','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Completed'},
-        {'type':'Request-Buisness','startDate':'12/02/2025','endDate':'12/01/2030','amount':'20 000TDN','interestRate':'2.5%','id':'R987','paidAmount':'12 000TDN','remainingBalance':'8 000TDN','status':'Rejected'},
-        {'type':'Student','startDate':'12/02/2026','endDate':'02/10/2032','amount':'30 000TDN','interestRate':'2.5%','id':'L917','paidAmount':'12 000TDN','remainingBalance':'18 000TDN','status':'Overdue'},
-        {'type':'Request-Student','startDate':'10/10/2024','endDate':'02/11/2028','amount':'55 000TDN','interestRate':'2.5%','id':'R977','paidAmount':'','remainingBalance':'','status':''},
+      
 
-      ]
+      // 'Request-Buisness' 
 
       //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
-      //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
+      //'Request','12/02/2025','12/01/2030','20 000TND','2.5%','L907','1700TND','51 000TND','Active'
     
-    }// we get this variable from c++
+    // we get this variable from c++
 
-    displayUpperInfo();
 
-      function displayUpperInfo(){
-        acB.innerText = allAccountData.balance ;
+
+      window.displayUpperInfo = function(){
+        acB.innerText = Number(allAccountData.balance).toFixed(0) + ' TND'  ;
         acBr.innerText = allAccountData.branch ;
         acT.innerText = allAccountData.type ;
         acS.innerText = allAccountData.status ;
@@ -275,25 +304,19 @@
 
 
       
-      let allTransactions = allAccountData['transactions'] ;
-      let allLoans = allAccountData['Loans'] ;
+
       let allLoansIds = [];
       let allTransactionsIds = [] ;
-      generateIdsArrayOutOfallTransactions(); // last T in arr is displayed the first ;
-      generateIdsArrayOutOfallLoans() ;
-      //allT to be changed and getted from c++ with customer id
+      
 
-      loadAllTransactions() ;
-      loadAllLoans() ;
-
-      function generateIdsArrayOutOfallTransactions(){
+      window.generateIdsArrayOutOfallTransactions = function(){
         allTransactions.forEach((el,ind)=>{allTransactionsIds[ind]=el.id});
       }
-      function generateIdsArrayOutOfallLoans(){
+      window.generateIdsArrayOutOfallLoans = function(){
         allLoans.forEach((el,ind)=>{allLoansIds[ind]=el.id});
       }
 
-      function addLoan(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
+       window.addLoan = function(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
         let htmlStr;
         if(Ltype[0]=='R'){
           if(status !='Rejected'){
@@ -301,13 +324,13 @@
               <div class="transaction-container" data-request="1" data-id="${id}" id="${id}">
                     <div class="transaction first-transaction">
                       <div class="icon-container" style="padding: 6px;">
-                        <img src="/images/LoanRequestIcon.png">
+                        <img src="images/LoanRequestIcon.png">
                       </div>
 
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: gray;">${amount}</div>
+                          <div class="f-t" style="color: gray;">${Number(amount).toFixed(0)} TND</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -331,13 +354,13 @@
               <div class="transaction-container" data-request="1" data-id="${id}" id="${id}">
                     <div class="transaction first-transaction ">
                       <div class="icon-container" style="padding: 6px;">
-                        <img src="/images/RequestRejected.png">
+                        <img src="images/RequestRejected.png">
                       </div>
 
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: red;">${amount}</div>
+                          <div class="f-t" style="color: red;">${Number(amount).toFixed(0)} TND</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -363,13 +386,13 @@
         <div class="transaction-container" data-request="0" data-id="${id}" id="${id}">
                   <div class="transaction first-transaction">
                     <div class="icon-container">
-                      <img src="/images/LoanIcon.png">
+                      <img src="images/LoanIcon.png">
                     </div>
 
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t status-${status}">${amount}</div>
+                        <div class="f-t status-${status}">${Number(amount).toFixed(0)} TND</div>
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Loan Id :</div>&nbsp&nbsp${id}
@@ -398,25 +421,25 @@
       //   }
       // }
 
-      function undoTransaction(){ // missing variavle updates , allTransactions , transactionsIds , Balance
+       window.undoTransaction = function(){ // missing variavle updates , allTransactions , transactionsIds , Balance
         Tsp.removeChild(Tsp.firstElementChild) ;
         if(Tsp.firstElementChild){
         Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');}
       }
 
-      function loadAllTransactions(){
+       window.loadAllTransactions = function(){
         for(let el of allTransactions){
           displayNewTransaction(...Object.values(el));
         }
       }
 
-      function loadAllLoans(){
+       window.loadAllLoans = function(){
         for(let el of allLoans){
           addLoan(...Object.values(el));
         }
       }
 
-      function showOnlyRequestsOrAllOrLoans(elm){
+       window.showOnlyRequestsOrAllOrLoans = function(elm){
           if(elm.innerText == 'show Only Request'){
           let i = 0 ;
           let el ;
@@ -451,12 +474,12 @@
           }
       }
 
-      function FinilizeDay(CUSId,AccNb){ // send command to server to aplly desactivateUndo to Account accNb ,  CUSId not sure if needed // else if no cloud server : update c++ variable
+       window.FinilizeDay = function(CUSId,AccNb){ // send command to server to aplly desactivateUndo to Account accNb ,  CUSId not sure if needed // else if no cloud server : update c++ variable
         // add attribute to disable 
 
       }
 
-      function generateNewTransactionId(allTransactionsIds){
+       window.generateNewTransactionId = function(allTransactionsIds){
         let newId ;
         do{
             newId = 't'+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
@@ -464,7 +487,7 @@
         return newId ;
       }
 
-      function generateNewLoansId(allLoansIds,t='l'){
+       window.generateNewLoansId = function(allLoansIds,t='l'){
         let newId ;
         let f = t=='r' ? 'R':'L' ;
         do{
@@ -474,24 +497,24 @@
       }
 
       
-      function displayNewTransaction(type , amount , date , newId ){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well
+       window.displayNewTransaction = function(type , amount , date , newId ){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well
           let fc = Tsp.firstElementChild ;
           
           if(fc){
             fc.firstElementChild.classList.remove('first-transaction') ;
           }
-          const color = type=='Deposit'? 'red':'green';
+          const color = (type=='deposit' || type=='Deposit' || type=='loanDeposit')? 'red':'green';
           const htmlStr = `
           <div class="transaction-container" data-id="${newId}">
                   <div class="transaction first-transaction blockTransition" style="cursor:default;">
                     <div class="icon-container">
-                      <img src="/images/${type}Icon.png">
+                      <img src="images/${type}Icon.png">
                     </div>
 
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t" style="color: ${color};">${amount}TND</div>&nbsp${type}
+                        <div class="f-t" style="color: ${color};">${amount} TND</div>&nbsp${type}
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Transaction Id :</div>&nbsp&nbsp${newId}
@@ -512,7 +535,7 @@
                 Tsp.insertAdjacentHTML("afterbegin", htmlStr);
 
       }
-      function getFormattedDate() {
+       window.getFormattedDate = function() {
         const now = new Date();
 
         const day = String(now.getDate()).padStart(2, "0");
@@ -521,12 +544,12 @@
 
         return `${month}/${day}/${year}`;
     }
-      function randomBetween100and5000() {
+       window.randomBetween100and5000 = function() {
         return Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
       }   
 
       
-      function displayBox(obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
+       window.displayBox = function(obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
 
 
                 const coverAll = document.createElement("div");
@@ -566,7 +589,7 @@
 
                 if(obj.Del){
                   setTimeout(()=>{obj.Del.addEventListener('click',()=>{
-                    deleteLoan(obj.Del.dataset.id);
+                    deleteLoanBtPress(obj.Del.dataset.id) ;
                     exit()
                   },{ once: true });},1000) ;
                 }
@@ -600,11 +623,11 @@
                     card.appendChild(row);
       }
 
-       function afficheLoanDetails(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+        window.afficheLoanDetails = function(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
                 let bubble = createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
                 displayBox(bubble,fc);
             }
-      function createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
+       window.createLoanDetailsBox = function(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
                 let Del ;
                 let change ;
                 let RefuseRq ;
@@ -646,9 +669,9 @@
                   // Helper: create each row
 
                   // Add rows
-                  addRow(box,"Principal Amount :",amount);
+                  addRow(box,"Principal Amount :",Number(amount).toFixed(0)+' TND');
                   addRow(box,"Loan Type:",fixType(Ltype));
-                  addRow(box,"Interest Rate :", ITR);
+                  addRow(box,"Interest Rate :", Number(ITR).toFixed(2)+'%');
                   addRow(box,"Request index :", id);
                   addRow(box,"Request Date :", stD);
                   addRow(box,"Loan End Date :", enD);
@@ -671,10 +694,10 @@
                 
                 addRow(box,"Loan Type :",fixType(Ltype));
                 addRow(box,"Loan ID :", id);
-                addRow(box,"Principal Amount :",amount);
-                addRow(box,"Interest Rate :", ITR);
-                addRow(box,"Amount Paid :", paidAmount);//id,Ltype,stD,enD,amount,paidAmount,RB,ITR
-                addRow(box,"Remaining Balance :", RB);
+                addRow(box,"Principal Amount :",Number(amount).toFixed(0)+' TND');
+                addRow(box,"Interest Rate :", Number(ITR).toFixed(2)+'%');
+                addRow(box,"Amount Paid :", Number(paidAmount).toFixed(0) + " TND");//id,Ltype,stD,enD,amount,paidAmount,RB,ITR
+                addRow(box,"Remaining Balance :", Number(RB).toFixed(0) + " TND");
                 addRow(box,"Start Date :", stD);
                 addRow(box,"End Date :", enD);
 
@@ -750,9 +773,9 @@
 
                   const htmlStr = `
                     <option class="option-account-type" selected disabled hidden>change Status</option>
-                    <option class="option-account-type status-Active">Active</option>
-                    <option class="option-account-type status-Completed">Completed</option>
-                    <option class="option-account-type status-Overdue">Overdue</option>`
+                    <option class="option-account-type status-Active">active</option>
+                    <option class="option-account-type status-Completed">completed</option>
+                    <option class="option-account-type status-Overdue">overdue</option>`
                   change.innerHTML=htmlStr ;                  
 
 
@@ -836,20 +859,25 @@
 
                 return {box,exitButton,Del,AcceptRq,RefuseRq}
             }
-      function updateCpp_DeleteLoan(LId){//work on later
+       window.updateCpp_DeleteLoan = async function(LId){//work on later
+        await Load('Delete Loan',  LId) ;
         return true
       }
-      function updateCpp_ChangeLoanStatus(LId){//work on later
+       window.updateCpp_ChangeLoanStatus = async function(LId,newStatus){//work on later
+        await Load('Change Loan Status',  LId , {newStatus}) ;
         return true
       }
-      function updateCpp_AcceptRequests(RId){//work on later  
+       window.updateCpp_AcceptRequests = async function(RId){//work on later  
+        acB.innerHTML  =  ( Number((acB.innerHTML).split(' ')[0]) +  Number(allAccountData.Loans[find(RId)].amount) ).toFixed(0) + ' TND'  ;
+        await Load('Accept Request',  RId) ;
         return true
       }
-      function updateCpp_refuseRequest(RId){//work on later
+       window.updateCpp_refuseRequest = async function(RId){//work on later
+        await Load('Refuse Loan Request',  RId) ;
         return true
       }
-      function deleteLoan(LId){
-        updateCpp_DeleteLoan(LId) ;
+       window.deleteLoan = function(LId){
+        
         const ln = Lsp.children.length  ;
         let IND ;
         for(let i = 0 ; i< ln ; i++){
@@ -861,7 +889,13 @@
           }
         }
       }
-      function find(id){
+
+      window.deleteLoanBtPress = function(LId){
+         updateCpp_DeleteLoan(LId) ;
+         deleteLoan(LId);
+      }
+      
+       window.find = function(id){
         for(let i = 0 ; i < allAccountData.Loans.length ; i++){
           if (allAccountData.Loans[i].id == id){
             return i ;
@@ -869,8 +903,8 @@
         }
         return -1 ;
       }
-      function changeStatus(LId,newStatus){
-        updateCpp_ChangeLoanStatus(LId);
+       window.changeStatus = function(LId,newStatus){
+        updateCpp_ChangeLoanStatus(LId,newStatus);
         const ln = Lsp.children.length  ;
         let el = document.getElementById(LId);
         let fn = document.getElementById(`D-${LId}`) ;
@@ -888,28 +922,39 @@
 
       }
 
-      function acceptRequest(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
+       window.acceptRequest = function(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
         updateCpp_AcceptRequests(RId);
         deleteLoan(RId);
         let  lid = RId ;
         lid = 'L' + lid.slice(1);
-        addLoan(fixType(Ltype),getFormattedDate(),enD,amount,ITR,lid,'0TDN',amount,'Active') ;
-        const newL = {type :fixType(Ltype) , startDate : getFormattedDate() , endDate : enD , amount , interestRate : ITR , id: lid , paidAmount : '0TDN' , remainingBalance:amount ,status:'Active' }
+        addLoan(fixType(Ltype),getFormattedDate(),enD,amount,ITR,lid,'0 TND',amount,'Active') ;
+        const newL = {type :fixType(Ltype) , startDate : getFormattedDate() , endDate : enD , amount , interestRate : ITR , id: lid , paidAmount : '0 TND' , remainingBalance:amount ,status:'Active' }
         allAccountData.Loans.push(newL);
       }
-      function fixType(Ltype){
+       window.fixType = function(Ltype){
         if (Ltype[0]=='R'){
           return (Ltype.split('-'))[1] ;
         }
         else{return Ltype}
       }
 
-      function refuseRequest(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
+       window.refuseRequest = function(Ltype,stD,enD,amount,ITR,RId,paidAmount,RB,status){
         updateCpp_refuseRequest(RId)
         deleteLoan(RId);
-        addLoan(Ltype,stD,enD,amount,ITR,RId,'0TDN',amount,'Rejected') ;
-        const newL = {type :Ltype , startDate : stD , endDate : enD , amount , interestRate : ITR , id: RId , paidAmount : '0TDN' , remainingBalance:amount ,status:'Rejected' }
+        addLoan(Ltype,stD,enD,amount,ITR,RId,'0 TND',amount,'Rejected') ;
+        const newL = {type :Ltype , startDate : stD , endDate : enD , amount , interestRate : ITR , id: RId , paidAmount : '0 TND' , remainingBalance:amount ,status:'Rejected' }
         allAccountData.Loans.push(newL);
+      }
+
+      displayUpperInfo();
+
+      generateIdsArrayOutOfallTransactions(); // last T in arr is displayed the first ;
+      generateIdsArrayOutOfallLoans() ;
+      //allT to be changed and getted from c++ with customer id
+
+      loadAllTransactions() ;
+      loadAllLoans() ;
+      
       }
     </script>
   </body>

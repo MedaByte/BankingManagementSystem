@@ -106,11 +106,11 @@
                 </div>
 
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input id="inpAR" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" autocomplete="off" type="text" placeholder="Enter The Principle Amount in TDN"/>
+                  <input id="inpAR" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" autocomplete="off" type="text" placeholder="Enter The Principle Amount in TND"/>
                 </div>
 
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input id="inpED" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" autocomplete="off" type="text" placeholder="Enter The End date"/>
+                  <input id="inpED" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" autocomplete="off" type="text" placeholder="Enter Duration in Months"/>
                 </div>
 
                 <div  class="display-interest-rate">
@@ -204,11 +204,17 @@
       </section>
     </div>
 
-
+    <script src="Load.js"></script>
     <script>
       let params = new URLSearchParams(window.location.search);
       let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
       console.log(EnterInfo);
+
+      async function addRequestCpp(type,amount,duration){
+        await Load('Add Loan Request' , EnterInfo[1] , {type,amount,duration} ) ;
+        window.open("Customer.html?value=" + encodeURIComponent(JSON.stringify(EnterInfo)), "_self"); 
+
+      }
 
       function getFormattedDate() {
         const now = new Date();
@@ -226,16 +232,18 @@
       const b = document.getElementById('btAR');
       b.onclick = addRequest ;
       function addRequest(){// to add variable updates
-        const type = s.value ;
+        const arr = s.value.split(' ') ;
+        const type = arr[0] ;
         const val = i.value ;
         const ed = ie.value ;
-        if(val == '' || ed == '' || type == "Loan Type"){
+        if(val == '' || ed == '' || type == "Loan"){
           b.setCustomValidity('Please Enter All Data');
           b.reportValidity();
         }
         else{
           const arr = [type,val,ed,getFormattedDate()] ;
-          window.open("Customer.html?value=" + encodeURIComponent(JSON.stringify(arr)), "_self"); // send to change customer c++ variable function : addLoan ; id created must be unite for Loans And Requests !
+          addRequestCpp(type,val,ed) ;
+          // send to change customer c++ variable function : addLoan ; id created must be unite for Loans And Requests !
         }
       }
     </script>

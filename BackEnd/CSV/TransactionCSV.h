@@ -110,7 +110,10 @@ namespace TransactionCSV {
 
         // Header | Cabeçalho
         file << "TransactionId,AccountNumber,Type,Amount,Date\n";
-        for (int i = 0; i < count; ++i) {
+        
+            const auto& T = transactions[count-1];
+            
+        for (int i = 0; i < count-1; ++i) {
             const auto& T = transactions[i];
             file << T.TransactionId << ","
                     << T.AccountNumber << ","
@@ -118,6 +121,11 @@ namespace TransactionCSV {
                     << T.Amount << ","
                     << Date::ToString(T.Date) << "\n";
         }
+        file << T.TransactionId << ","
+                    << T.AccountNumber << ","
+                    << T.Type << ","
+                    << T.Amount << ","
+                    << Date::ToString(T.Date) << "\n";
 
         file.close();
     }

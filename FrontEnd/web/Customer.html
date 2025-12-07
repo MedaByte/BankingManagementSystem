@@ -49,7 +49,7 @@
 
           <!-- <div class="customer-name">Mahdi Turki</div>
           <div class="display-account-name">Account holder name : md123</div>
-          <div class="balance-container">Balance :&nbsp 1500 TDN</div> -->
+          <div class="balance-container">Balance :&nbsp 1500 TND</div> -->
           <div class="upper-section">
             <div class="customer-up-conatiner pad">
               <div class="upper-part">
@@ -223,18 +223,18 @@
       console.log(EnterInfo);
 
       let allAccountData ;
-      let allTransactions ;
-      let allLoans ;
+      let allTransactions = [];
+      let allLoans = [] ;
       main();
       async function main(){        
         res = await Load('Load Account',EnterInfo[1]) ;
         allAccountData = JSON.parse(res.result) ;
         allTransactions = allAccountData['transactions'] ;
-        console.log(allTransactions);
+        allTransactions.reverse();
         allLoans = allAccountData['Loans'] ;
 
         
-
+        console.log(allAccountData);
       
 
 
@@ -253,22 +253,31 @@
       const acCN = document.getElementById('customerId');
       const acOD = document.getElementById('accoutOpenDate');
 
+      let allTransactionsIds = [] ;
+      let allLoansIds = [] ;
+
+
+      generateIdsArrayOutOfallLoans();
+      generateIdsArrayOutOfallTransactions();
+
+
       displayUpperInfo();
 
 
 
       //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
-      //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
+      //'Request','12/02/2025','12/01/2030','20 000TND','2.5%','L907','1700TND','51 000TND','Active'
       // kol llhamma about disable atribute
     
     // we get this variable from c++
 
 
       function displayUpperInfo(){
-        acB.innerText = Number(allAccountData.balance).toFixed(2);
+        acB.innerText = Number(allAccountData.balance).toFixed(0) + " TND";
         acBr.innerText = allAccountData.branch ;
         acT.innerText = allAccountData.type ;
         acS.innerText = allAccountData.status ;
+        acS.classList.add('status-' + allAccountData.status) ;
         acN.innerText = allAccountData.accountName ;
         acN2.innerText = allAccountData.accountName ;
         acNb.innerText = allAccountData.number ;
@@ -278,7 +287,7 @@
         
 
       }
-      window.afficheLoanDetails = function (Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+      window.afficheLoanDetails = function (Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
         let bubble = createLoanDetailsBox(Ltype,stD,enD,Number(amount).toFixed(2),(Number(ITR)*100).toFixed(2)+'%',id,Number(paidAmount).toFixed(2),Number(RB).toFixed(2),status);
         displayBox(bubble,fc);
     }
@@ -300,7 +309,7 @@
         allLoans.forEach((el,ind)=>{allLoansIds[ind]=el.id});
       }
 
-      function addLoan(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
+      window.addLoan = function (Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status){
         let htmlStr;
         if(Ltype[0]=='R'){
           if(status !='Rejected'){
@@ -314,7 +323,7 @@
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: gray;">${Number(amount).toFixed(2)}TDN</div>
+                          <div class="f-t" style="color: gray;">${Number(amount).toFixed(0)} TND</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -344,7 +353,7 @@
 
                       <div class="contain-transaction-type-amount-ID">
                         <div class="f-t">
-                          <div class="f-t" style="color: red;">${Number(amount).toFixed(2)}TDN</div>
+                          <div class="f-t" style="color: red;">${Number(amount).toFixed(0)} TND</div>
                         </div>
                         <div class="f-t">
                           <div class="f-t" style="color :rgb(204 255 0);">Request Id :</div>&nbsp&nbsp${id}
@@ -376,7 +385,7 @@
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t status-${status}">${Number(amount).toFixed(2)}TDN</div>
+                        <div class="f-t status-${status}">${Number(amount).toFixed(0)} TND</div>
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Loan Id :</div>&nbsp&nbsp${id}
@@ -405,25 +414,34 @@
       //   }
       // }
 
-      window.undoTransaction = function (){ // missing variavle updates , allTransactions , transactionsIds , Balance
+      window.undoTransaction = async function (){ // missing variavle updates , allTransactions , transactionsIds , Balance
+        if(Tsp.firstElementChild.dataset.type == 'deposit' || Tsp.firstElementChild.dataset.type == 'Deposit'  || Tsp.firstElementChild.dataset.type == 'loanDeposit'){
+          allAccountData.balance = Number(allAccountData.balance) - Number(Tsp.firstElementChild.querySelector('.contain-transaction-type-amount-ID').firstElementChild.firstElementChild.innerText.replace('TND','')) ;
+          acB.innerText = Number(allAccountData.balance).toFixed(2);
+        }
+        else {
+          allAccountData.balance = Number(allAccountData.balance) + Number(Tsp.firstElementChild.querySelector('.contain-transaction-type-amount-ID').firstElementChild.firstElementChild.innerText.replace('TND','')) ;
+          acB.innerText = Number(allAccountData.balance).toFixed(2);
+        }
         Tsp.removeChild(Tsp.firstElementChild) ;
         if(Tsp.firstElementChild){
-        Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');}
+        Tsp.firstElementChild.firstElementChild.classList.add('first-transaction');} 
+        await Load('Undo Last Transaction',allAccountData.number) ;
       }
 
-      function loadAllTransactions(){
+      window.loadAllTransactions = function (){
         for(let el of allTransactions){
           displayNewTransaction(...Object.values(el));
         }
       }
 
-      function loadAllLoans(){
+      window.loadAllLoans = function (){
         for(let el of allLoans){
           addLoan(...Object.values(el));
         }
       }
 
-      function generateNewTransactionId(allTransactionsIds){
+      window.generateNewTransactionId = function (allTransactionsIds){
         let newId ;
         do{
             newId = 't'+randomBetween100and5000() // !!!!!!!!!!!!!!! see how hamma stored ids of transactions !!!!!!!!!!!!!!!!!! if created in c++ enter id as an arg
@@ -431,7 +449,7 @@
         return newId ;
       }
 
-      function generateNewLoansId(allLoansIds,t='l'){
+      window.generateNewLoansId = function (allLoansIds,t='l'){
         let newId ;
         let f = t=='r' ? 'R':'L' ;
         do{
@@ -440,17 +458,20 @@
         return newId ;
       }
 
+      window.verifyWithdrawAmount = function(amount){
+        return Number(amount) <= Number(allAccountData.balance) ;
+      }
       
-      function displayNewTransaction(type , amount , date , newId , disableUndo='false'){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well 
+      window.displayNewTransaction = function (type , amount , date , newId , disableUndo='false'){// type must be exactly Deposit or Withdraw !!! and status Active Completed or Overdue + update , missing to update allT leave it for c++ possible id creation as well 
           let fc = Tsp.firstElementChild ;
           let ds = disableUndo == 'true'? 'blockTransition':''
           
           if(fc){
             fc.firstElementChild.classList.remove('first-transaction') ;
           }
-          const color = (type=='deposit' || type=='loanDeposit')? 'red':'green';
+          const color = (type=='deposit' || type=='Deposit' || type=='loanDeposit')? 'red':'green';
           const htmlStr = `
-          <div class="transaction-container" data-id="${newId}">
+          <div class="transaction-container" data-id="${newId}" data-type="${type}">
                   <div class="transaction first-transaction ${ds}">
                     <div class="icon-container">
                       <img src="images/${type}Icon.png">
@@ -459,7 +480,7 @@
 
                     <div class="contain-transaction-type-amount-ID">
                       <div class="f-t">
-                        <div class="f-t" style="color: ${color};">${Number(amount).toFixed(2)}TND</div>&nbsp${type}
+                        <div class="f-t" style="color: ${color};">${Number(amount).toFixed(0)} TND</div>&nbsp${type}
                       </div>
                       <div class="f-t">
                         <div class="f-t" style="color :rgb(204 255 0);">Transaction Id :</div>&nbsp&nbsp${newId}
@@ -480,16 +501,16 @@
           Tsp.insertAdjacentHTML("afterbegin", htmlStr);
 
       }
-      function getFormattedDate() {
+      window.getFormattedDate = function () {
         const now = new Date();
 
         const day = String(now.getDate()).padStart(2, "0");
         const month = String(now.getMonth() + 1).padStart(2, "0"); 
         const year = now.getFullYear();
 
-        return `${month}/${day}/${year}`;
+        return `${day}/${month}/${year}`;
     }
-      function randomBetween100and5000() {
+      window.randomBetween100and5000 = function () {
         return Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
       }   
 
@@ -501,7 +522,7 @@
 
                 displayBox(bubble,fc);
             }
-      function createTransactionAddRequestBox(id){
+      window.createTransactionAddRequestBox = function (id){
                 const box = document.createElement("div");
                 let T = {selected:''};
 
@@ -588,7 +609,7 @@
 
 
                 const Dimg = document.createElement("img");
-                Dimg.src = "images/DepositIcon.png";
+                Dimg.src = "images/depositIcon.png";
                 iconContainer2.appendChild(Dimg);
                 const Dtxt = document.createElement("div");
                 Dtxt.innerText = "Deposit";
@@ -673,7 +694,22 @@
 
                 return {box,title,T,exitButton,add,ipp}
             }
-      function displayBox(obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
+      window.canWithdraw = function(amount) {
+      if (amount <= 0 || amount % 10 !== 0) return false;
+      for (let f50 = 0; f50 * 50 <= amount; f50++) {
+          for (let f20 = 0; f20 * 20 + f50 * 50 <= amount; f20++) {
+              let remainder = amount - (f50 * 50 + f20 * 20);
+
+              if (remainder % 10 === 0) {
+                  return true;
+              }
+          }
+    }
+
+    return false; // No valid combination
+}
+
+      window.displayBox = function (obj,fc = ()=>{}){ // fc to apllie orders when exit is clicked
 
 
                 const coverAll = document.createElement("div");
@@ -708,11 +744,26 @@
                     obj.add.setCustomValidity('Please Enter All Required Data');
                     obj.add.reportValidity();
                   }
+                  else if(obj.T.selected=='Withdraw' && !verifyWithdrawAmount(obj.ipp.value)){
+                    obj.add.setCustomValidity('Insufficient Balance For This Withdraw');
+                    obj.add.reportValidity();
+                  }
+                  else if(obj.T.selected=='Withdraw' && !canWithdraw(Number(obj.ipp.value))){
+                    obj.add.setCustomValidity('The ATM Cannot Dispense This Amount , Please Enter An Amount Multiple Of 10 ,20 or 50 TND');
+                    obj.add.reportValidity();
+
+                  }
                   else{
-                  displayNewTransaction(obj.T.selected , obj.ipp.value , getFormattedDate()  , generateNewTransactionId(allTransactionsIds));exit()}});},1000)} // [] to be changed too allTransactionId
+                    allAccountData.balance = obj.T.selected=='Deposit' ? Number(allAccountData.balance) + Number(obj.ipp.value) : Number(allAccountData.balance) - Number(obj.ipp.value) ; 
+                    acB.innerText = Number(allAccountData.balance).toFixed(2);
+                    // send to c++ and get the new transaction thhen displayNewTransaction put arguments from tr c++ loaded data
+                    updateAllTransaction(obj.T.selected , obj.ipp.value);
+                    displayNewTransaction(obj.T.selected , obj.ipp.value , getFormattedDate()  , 'Pending...');exit()}});},1000)
+                    
+                  } // [] 
             }
 
-      function addRow(card,label, value, valueClass = "") {
+      window.addRow = function (card,label, value, valueClass = "") {
                     const row = document.createElement("div");
                     row.className = "loan-row";
 
@@ -729,8 +780,14 @@
                     card.appendChild(row);
       }
 
-
-      function createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
+      window.updateAllTransaction = async function (type , amount){
+        await Load('Add New Transaction',"10",{
+          accountNumber: allAccountData.number,
+          type: type,
+          amount: amount
+        }) ;
+      }
+      window.createLoanDetailsBox = function (Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
                 const box = document.createElement("div");
 
                 box.id = "box-"+id;
@@ -836,13 +893,13 @@
 
                 return {box,exitButton}
             }
-      function desactivateUndo(){ // to be activated after command from server Laktharia i will remove it
+      window.desactivateUndo = function (){ // to be activated after command from server Laktharia i will remove it
         const el = Tsp.firstElementChild ;
         if(el){
           el.firstElementChild.classList.add('blockTransition');
         }
       }
-      function fixType(Ltype){
+      window.fixType = function (Ltype){
         if (Ltype[0]=='R'){
           return (Ltype.split('-'))[1] ;
         }

@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input autocomplete="off" id="IBinp" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Enter your IBAN"/>
+                  <input autocomplete="off" id="IBinp" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Enter your Branch"/>
                 </div>
 
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
@@ -120,7 +120,7 @@
                   </select>
                 </div>
 
-                <a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"  style="cursor: pointer;" onclick="SignInClicked()">Sign up</a>
+                <a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"  style="cursor: pointer;" onclick="SignInClicked()">Add Account</a>
               
               </div>
             </div>
@@ -206,17 +206,18 @@
         </div>
       </section>
     </div>
+    <script src="Load.js"></script>
     <Script>
+      let params = new URLSearchParams(window.location.search);
+      let EnterInfo = JSON.parse(params.get("value"));
+      console.log(EnterInfo) ;
+
       const i1 = document.getElementById('IBinp');
       const i2 = document.getElementById('AcN');
       const i3 = document.getElementById('CN');
       const i4 = document.getElementById('CD');
       const s = document.getElementById('SAT');
-    function validateIBAN(iban) {// 1106 2501 0954 9540 9842 formula (20 NB)
-        iban = iban.replace(/\s+/g, '');
-
-        // Must be EXACTLY 20 digits
-        if (!/^[0-9]{20}$/.test(iban)) return false;
+    function validateIBAN(iban) {
         return true;
     }
 
@@ -236,8 +237,14 @@
         return /^CUS\d{4}$/.test(id) && true; // && customer exist ! addded later with c++
     }
 
-    function updateAccountsCpp(IBAN,CustomerId,AccountName,AccountType){ // !!!!!! add new accout and return it s Number !!!!!!
-      return 0 ;// to be changed others Acc Propreties to default Loans [] ; transactions [] ; Balance 1500TDN ...
+    async function updateAccountsCpp(Branch,AccountName,CustomerId,AccountType,note){ 
+      await Load('createAccount', 'd' ,{Branch , AccountName , CustomerId , note , AccountType });
+      if(EnterInfo){
+        window.open("Employee.html?value="+encodeURIComponent(JSON.stringify(EnterInfo)),"_self");
+      }
+      else{
+      window.open("index.html?","_self");}
+      return 0 ;
     }
 
     function SignInClicked(){
@@ -252,9 +259,8 @@
       s.addEventListener('click',()=>s.setCustomValidity(''));
 
       if(validateIBAN(val1) && validateName(val2) && validateCustomerID(val3) && val4 != 'Account Type'){
-        const AcNB = updateAccountsCpp(val1,val2,val3,val4,description);
-        let arr=[val3,AcNB];
-        window.open("Customer.html?value=" + encodeURIComponent(JSON.stringify(arr)), "_self");
+        updateAccountsCpp(val1,val2,val3,val4,description);
+        
       }
       else{
         if(!validateIBAN(val1)){

@@ -1935,6 +1935,7 @@ input[type=number]::-webkit-outer-spin-button {
   color: #46474d;
   font-size: calc(1vh + 1vw);
   margin-top: 30%;
+
 }
 .middle-part{
   color: white;
@@ -2037,8 +2038,8 @@ input[type=number]::-webkit-outer-spin-button {
   align-items: center;
   width: 35%;
   padding-left: 17.5%;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-top-right-radius: 55px;
+  border-bottom-right-radius: 55px;
   font-size: calc(1.75vh + 1.75vw);
   cursor: pointer;
 }
@@ -2114,17 +2115,26 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Status colors */
+.status-Active,
 .status-active {
     color: #00ff66;
 }
+.status-Inactive,
+.status-Completed,
 .status-inactive,
+.status-Inactive,
+.status-InActive,
 .status-completed {
     color: #00c8ff;
 }
 .status-Vacation,
+.status-break,
 .status-overdue {
     color: #a15e07;
 }
+.status-retired,
+.status-Retired,
+.status-closed,
 .status-Rejected{
   color:red;
 }
@@ -2143,7 +2153,7 @@ input[type=number]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(2.5vh + 2.5vw);
+  font-size: calc(1.9vh + 1.9vw);
   font-family: serif;
 }
 .right-side-employee{
@@ -2156,6 +2166,7 @@ input[type=number]::-webkit-outer-spin-button {
   align-content: center;
   margin-left: calc(1vh + 1vw);
 }
+.Employee-Id,
 .employee-id{
   color: gray;
   font-family: 'Viable Logic',sans-serif;
@@ -2163,6 +2174,7 @@ input[type=number]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
 }
+
 
 .img-container{
   margin-left: 2.5%;
@@ -2301,15 +2313,20 @@ input[type=number]::-webkit-outer-spin-button {
   padding-left: calc(2.75vh + 2.75vw);
   font-size: calc(2.5vh + 2.5vw);
   border-radius: 50px;
-  background-color: green;
+  background-color: rgb(145, 182, 0);
   cursor: pointer;
   transition: 0.75s ease;
 }
 .Promote-Employee:hover{
   transition: 0.75s ease;
   transform: scale(1.03);
-  background-color: rgb(0, 196, 0);
+  background-color: rgb(103, 129, 0);
 }
 .aq{
   color: aqua;
+}
+.saas:hover{
+  background-color: rgb(79, 99, 0) !important;
+  color: white !important;
+
 }

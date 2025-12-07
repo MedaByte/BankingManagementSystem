@@ -23,6 +23,10 @@
                 <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);"  alt=""/></a></div>
               </div>
             </div>
+
+             
+
+
             <div class="w-auto p-2">
               <div class="flex flex-wrap items-center">
                 <div class="w-auto hidden lg:block">
@@ -32,6 +36,8 @@
                     <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html"></a></li>
                   </ul>
                 </div>
+                
+
                 <div class="w-auto hidden lg:block">
                   <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300" href="about.html">About Us</a></div>
                 </div>
@@ -56,8 +62,8 @@
               </div>
               <div class="right-side-employee">
                 <div class="flex" style="gap: 15px;">
-                    <div class="employee-name" id="Employee-name" style="color: aqua;"></div>
-                    <div class="employee-name" id="Employee-LastName"></div>
+                    <div class="employee-name" id="Employee-name" style="color: aqua;font-size: calc(1.75vh + 1.75vw);"></div>
+                    <div class="employee-name" id="Employee-LastName" style="font-size: calc(1.75vh + 1.75vw);"></div>
                 </div>
                 <div class="Employee-Id">
                   Engineer at Hide Bank
@@ -134,12 +140,26 @@
 
            </div>
 
-          <div class="add-Account" title="Add Account" onclick="window.location.href='register.html'">
-            +
+            <div class="add-Account" title="Add Account" style="z-index: 9999;" onclick="window.open('register.html?value='+encodeURIComponent(JSON.stringify(EnterInfo)),'_self')">
+              +
+            </div>
+          
           </div>
+        <div style="display: flex; width : 100% ; justify-content : center ;  gap :  20px ; margin-top : 150px ; margin-bottom :20px";>
+
+              <div class="w-auto hidden lg:block">
+                    <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300 saas"  style="font-size: calc(1vh + 1vw);font-family: serif;border: none;background-color: rgb(129, 160, 6);cursor: pointer;" onclick="finilizeDay();window.scrollTo(0,400)"">Finilze Day</a></div>
+              </div>
+              <div class="w-auto hidden lg:block">
+                    <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300 saas"  style="font-size: calc(1vh + 1vw);font-family: serif;border: none;background-color: rgb(129, 160, 6);cursor: pointer;" onclick="deleteCompletedLoans();window.scrollTo(0,400)"">Delete Completed Loans</a></div>
+              </div>
+
+              <div class="w-auto hidden lg:block">
+                    <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300 saas"  style="font-size: calc(1vh + 1vw);font-family: serif;border: none;background-color: rgb(129, 160, 6);cursor: pointer;" onclick="deleteAllClosedAccounts();window.scrollTo(0,400)">Delete All Closed Accounts</a></div>
+              </div>
         </div>
             
-          
+
               
         </div>
 
@@ -221,13 +241,31 @@
         </div>
       </section>
     </div>
-
+    <script src="Load.js"></script> 
     <script>
       let params = new URLSearchParams(window.location.search);
       let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
       console.log(EnterInfo);
 
+      let allEmployeeData ;
+      let allAccounts ;
 
+      main();
+      async function main(){
+      res = await Load('Load Employee', EnterInfo[0]) ;
+      allEmployeeData = JSON.parse(res.result) ;
+
+      res2 = await Load('Load All Accounts') ;
+      allAccounts = JSON.parse(res2.result) ;
+      console.log(allAccounts) ;
+
+
+      window.finilizeDay = async function(){
+        await Load('Finalize Day') ;
+      }
+
+      
+      
 
       // const Tsp = document.getElementById('direct-transaction-container'); 
       // const Lsp = document.getElementById('direct-Loan-container'); 
@@ -243,182 +281,26 @@
 
 
       // load allEmployeeData and allAccount throu Customer Id and account Number enterd in log in or sign In
-      const allEmployeeData = {'HireDate':'12/01/2025	','EmployeeId':'EMP0001','Name':'Mahdi','LastName':'Turki','Branch':'0012','Adress':'T/A','Salary':'25 000TDN','Status':'Active'}
       // cover IBAN by **** or make it ''
-      const allAccounts = [
-  // -------------------- 1) ACCOUNT 1 (unchanged data + loans group 1) --------------------
-  {
-    OpeningDate: "12/01/2025",
-    customerId: "CUS0001",
-    IBAN: "**** **** **** **** **10",
-    balance: "150 000TND",
-    branch: 1113,
-    type: "Buisness Account",
-    status: "Active",
-    accountName: "Mahdi Turki",
-    number: "ACC0001",
-    note:'Finances are very important to me. I regularly plan my expensesand save for the future',
-    img:'Acc0001',
-    Loans: [
-      {
-        type: 'Buisness',
-        startDate: '12/02/2025',
-        endDate: '12/01/2030',
-        amount: '20 000TDN',
-        interestRate: '2.5%',
-        id: 'L907',
-        paidAmount: '12 000TDN',
-        remainingBalance: '8 000TDN',
-        status: 'Completed'
-      },
-      {
-        type: 'Request-Buisness',
-        startDate: '12/02/2025',
-        endDate: '12/01/2030',
-        amount: '20 000TDN',
-        interestRate: '2.5%',
-        id: 'R907',
-        paidAmount: '12 000TDN',
-        remainingBalance: '8 000TDN',
-        status: 'Active'
-      },
-      {
-        type: 'Student',
-        startDate: '12/02/2026',
-        endDate: '02/10/2032',
-        amount: '30 000TDN',
-        interestRate: '2.5%',
-        id: 'L917',
-        paidAmount: '12 000TDN',
-        remainingBalance: '18 000TDN',
-        status: 'Overdue'
-      }
-    ]
-  },
-
-  // -------------------- 2) ACCOUNT 2 + loans group 2 --------------------
-  {
-    OpeningDate: "03/04/2026",
-    customerId: "CUS0032",
-    IBAN: "**** **** **** **** **72",
-    balance: "12 800TND",
-    branch: 1108,
-    type: "Savings Account",
-    status: "Active",
-    accountName: "Youssef Ben Ali",
-    number: "ACC0032",
-    note:"Finances are one of the most important things in life. I have to be careful not to spend too much and have enough money for everything\nI'm not very knowledgeable about finances, but I try to stay on top of my expenses and take advice from experts.<br>I don't like thinking about finances, but I know I have to take care of them. I try to take care of my savings and control my expenses.",
-    img:'default',
-
-    Loans: [
-      {
-        type: 'Request-Student',
-        startDate: '05/01/2025',
-        endDate: '05/11/2029',
-        amount: '12 500TDN',
-        interestRate: '3%',
-        id: 'R120',
-        paidAmount: '3 000TDN',
-        remainingBalance: '9 500TDN',
-        status: 'Pending'
-      },
-      {
-        type: 'Request-Student',
-        startDate: '01/07/2024',
-        endDate: '01/07/2031',
-        amount: '18 000TDN',
-        interestRate: '2.8%',
-        id: 'R221',
-        paidAmount: '2 000TDN',
-        remainingBalance: '16 000TDN',
-        status: 'In Review'
-      },
-      {
-        type: 'Request-car',
-        startDate: '12/09/2020',
-        endDate: '12/09/2030',
-        amount: '25 000TDN',
-        interestRate: '3.2%',
-        id: 'R889',
-        paidAmount: '7 500TDN',
-        remainingBalance: '17 500TDN',
-        status: 'Active'
-      }
-    ]
-  },
-
-  // -------------------- 3) ACCOUNT 3 + loans group 3 --------------------
-  {
-    OpeningDate: "25/09/2027",
-    customerId: "CUS0120",
-    IBAN: "**** **** **** **** **45",
-    balance: "87 500TND",
-    branch: 1121,
-    type: "Student Account",
-    status: "Frozen",
-    accountName: "Anna Ashley",
-    number: "ACC0002",
-    note:"I'm convinced that investing in education and acquiring new skills is a key factor in building a stable financial future.\nManaging finances can be stressful.",
-    img:'ACC0002',
-    Loans: [
-      {
-        type: 'Buisness',
-        startDate: '03/04/2028',
-        endDate: '03/04/2035',
-        amount: '60 000TDN',
-        interestRate: '4%',
-        id: 'L301',
-        paidAmount: '15 000TDN',
-        remainingBalance: '45 000TDN',
-        status: 'Active'
-      },
-      {
-        type: 'Buisness',
-        startDate: '20/08/2026',
-        endDate: '20/08/2033',
-        amount: '80 000TDN',
-        interestRate: '3.8%',
-        id: 'L488',
-        paidAmount: '20 000TDN',
-        remainingBalance: '60 000TDN',
-        status: 'Completed'
-      },
-      {
-        type: 'Buisness',
-        startDate: '17/02/2027',
-        endDate: '17/02/2034',
-        amount: '45 000TDN',
-        interestRate: '3.5%',
-        id: 'L512',
-        paidAmount: '10 000TDN',
-        remainingBalance: '35 000TDN',
-        status: 'Overdue'
-      }
-    ]
-  }
-];
-
+      
 
 
 
     
 
       //(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='',fc = ()=>{}) -
-      //'Request','12/02/2025','12/01/2030','20 000TDN','2.5%','L907','1700TDN','51 000TDN','Active'
+      //'Request','12/02/2025','12/01/2030','20 000TND','2.5%','L907','1700TND','51 000TND','Active'
     
     // we get this variable from c++
-    let pt = 'images/'+allEmployeeData.EmployeeId+'.png'
+    let pt = 'images/'+allEmployeeData.img+'.png'
     console.log(pt)
     document.getElementById('lala').innerHTML=`<img src="${pt}" class="emp-img">`
-    displayUpperInfo();
-    sortAllAccountAccordingToFirstLoanRequestDate();
-    displayAllAccount();
     console.log(allAccounts)
 
       
 
-      function displayUpperInfo(){
-        ES.innerText = allEmployeeData.Salary ;
+      window.displayUpperInfo = function(){
+        ES.innerText = Number(allEmployeeData.Salary).toFixed(0) + ' TND' ;
         EI.innerText = allEmployeeData.EmployeeId ;
         EN.innerText = allEmployeeData.Name ;
         ELN.innerText = allEmployeeData.LastName ;
@@ -430,7 +312,17 @@
 
       }
 
-      function compareDates(date1, date2) { // give -1 for the most recent date and 1 for the most old 0 if =
+      window.deleteCompletedLoans = async function (){
+        await Load('Delete Completed Loans') ;
+        window.location.reload() ;
+      }
+
+
+      window.deleteAllClosedAccounts = async function (){
+        await Load('Delete Closed Accounts') ;
+        window.location.reload() ;
+      }
+      window.compareDates = function(date1, date2) { // give -1 for the most recent date and 1 for the most old 0 if =
         const [day1,month1, year1] = date1.split('/').map(Number);
         const [day2 ,month2, year2] = date2.split('/').map(Number);
         const d1 = new Date(year1, month1 - 1, day1);
@@ -441,7 +333,7 @@
         return 0;               
       }
 
-      function sortLoansForOneAccount(i){
+      window.sortLoansForOneAccount = function(i){
         allAccounts[i].Loans.sort((a,b)=>{
           if(a.type == 'Request' && b.type != 'Request'){
             return -1 ;
@@ -456,7 +348,7 @@
         })
       }
 
-      function verifyAccountExistence(AccId){
+      window.verifyAccountExistence  = function (AccId) {
 
         return true ;//later modified when impliment c++ same one in log in !
       }
@@ -464,11 +356,13 @@
 
 
 
-      function sortAllAccountAccordingToFirstLoanRequestDate(){
+      window.sortAllAccountAccordingToFirstLoanRequestDate = function(){
         allAccounts.forEach((el,ind)=>{
           sortLoansForOneAccount(ind)
         })
         allAccounts.sort((a,b)=>{
+          if(!a.Loans[0]) return 1 ;
+          if(!b.Loans[0]) return -1 ;
           if(a.Loans[0].type == 'Request' && b.Loans[0].type != 'Request'){
             return -1 ;
           }
@@ -482,19 +376,19 @@
         })
 
       }
-      function calculateNumberOfLoansRequests(loan){
+      window.calculateNumberOfLoansRequests = function(loan){
         acc= 0 ;
         for(let l of loan){
-          if (l.type == 'Request'){acc++}
+          if (l.type[0] == 'R'){acc++}
         }
         return acc
       }
 
-      function goToCustomerAccountAsAnEmployee(AccNb){// nots ure yet if we need CUSNb ?
+      window.goToCustomerAccountAsAnEmployee = function(AccNb){// nots ure yet if we need CUSNb ?
         window.open('CustomerEmp.html?value=' + encodeURIComponent(JSON.stringify(AccNb)),"_self")
       }
 
-      function displayAllAccount(){
+      window.displayAllAccount = function(){
         let htmlStr ;
         let nbOfRequests ;
         let spc ;
@@ -514,7 +408,7 @@
                     <p class="text-sm text-gray-300">@${(el.accountName).replaceAll(' ','')}</p>
                   </div>
                 </div>
-                <p class="mb-4 text-white">${(el.note).replaceAll(/\n/g, "<br><br>")}</p>
+                <div class="mb-4 text-white w-full break-words" style="word-wrap: break-word;">${(el.note).replaceAll(/\n/g, "<br><br>")}</div>
                 <div class="flex flex-wrap items-center -m-2.5 mb-1.5">
                   <div class="w-auto p-2.5">
                     <p class="text-sm text-gray-300">Branch : ${el.branch}</p>
@@ -546,10 +440,12 @@
       }
 
 
+      displayUpperInfo();
+      sortAllAccountAccordingToFirstLoanRequestDate();
+      displayAllAccount();
 
 
-
-      
+    }
     
     </script>
   </body>

@@ -43,10 +43,10 @@ namespace Account {
         const std::string& BranchCode,
         const std::string& Status,
         const std::string CustomerId,
+        const std::string& Note = "Bread",
         const std::string& AccountNumber  = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_account_id.txt", "ACC"),
         const Date::Date& OpeningDate = Date::Now(),
         double Balance = 0.0,
-        const std::string& Note = "an active account with no problems",
         const std::string& Image = "default"
     ){
         std::string IBAN = GenerateIBAN(BranchCode, AccountNumber);

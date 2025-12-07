@@ -81,7 +81,7 @@
           <div class="w-full md:w-1/2 p-8" style="border-radius: 100px;border: 2px solid gray;margin-top: calc(2vh + 2vw);margin-bottom: calc(2vh + 2vw);">
             <div class="px-4 pt-10 md:pb-40 max-w-lg mx-auto"><a class="inline-block mb-36" href="#">                </a>              
               <div class="text-center mx-auto">
-                <h3 class="mb-4 text-5xl text-white tracking-5xl">Promote Employee</h3>
+                <h3 class="mb-4 text-5xl text-white tracking-5xl">Modify Employee</h3>
                 <p class="mb-10 text-gray-300" id="EMPID">EMP0001</p>
                 <div class="flex flex-wrap -1 mb-7">
                 </div>
@@ -89,26 +89,33 @@
                   <div class="flex-1 bg-gray-900">
                     <div class="h-px"></div>
                   </div>
-                  <div class="px-5 text-xs text-gray-300 font-medium">Promotions</div>
+                  <div class="px-5 text-xs text-gray-300 font-medium">Data to Modify</div>
                   <div class="flex-1 bg-gray-900">
                     <div class="h-px"></div>
                   </div>
                 </div>
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input autocomplete="off" id="Am" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Amout To Add In Salary"/>
+                  <input autocomplete="off" id="new salary" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="new Salary"/>
                 </div>
 
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input autocomplete="off" id="NB" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="New Branch"/>
+                  <input autocomplete="off" id="new branch" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="New Branch"/>
                 </div>
-
 
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <textarea autocomplete="off" id="PR" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Promotion Reason"></textarea>
+                  <select class="select-account-type" id="new status">
+                    <option class="option-account-type" selected disabled hidden>Employee Status</option>
+                    <option class="option-account-type">active</option>
+                    <option class="option-account-type">inactive</option>
+                    <option class="option-account-type">retired</option>  
+                    <option class="option-account-type">break</option>
+                  </select>
                 </div>
+
+       
                 
 
-                <a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"  style="cursor: pointer;" onclick="SignInClicked()">Apply Promotion</a>
+                <a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"  style="cursor: pointer;" onclick="SignInClicked()">Apply Changes</a>
               
               </div>
             </div>
@@ -194,49 +201,58 @@
         </div>
       </section>
     </div>
+    <script src="Load.js"></script>
     <Script>
       let params = new URLSearchParams(window.location.search);
       let EnterInfo = JSON.parse(params.get("value"));
+      console.log(EnterInfo) ;
 
-      const i1 = document.getElementById('Am');
-      const i2 = document.getElementById('NB');
-      const i3 = document.getElementById('PR');
+      const newSalary = document.getElementById('new salary');
+      const newBranch = document.getElementById('new branch');
+      const newStatus = document.getElementById('new status');
       const EI = document.getElementById('EMPID');
 
       EI.innerText = EnterInfo ;
 
     function verifyval1(val1){//bery easy ask gbt But Must Add !!!!!!!!!!!!!!!!!!!!!
-      return true
+      const v = Number(val1);
+      return !isNaN(v) && v > 0 && isFinite(v);
     }
     function verifyval2(val2){//bery easy ask gbt But Must Add !!!!!!!!!!!!!!!!!!!!!
       return true
     }
     function updateAccountsCpp(IBAN,CustomerId,AccountName,AccountType){ // !!!!!! add new accout and return it s Number !!!!!!
-      return 0 ;// to be changed others Acc Propreties to default Loans [] ; transactions [] ; Balance 1500TDN ...
+      return 0 ;// to be changed others Acc Propreties to default Loans [] ; transactions [] ; Balance 1500TND ...
     }
-    function updateCpp_PromoteEmployee(val1,val2){//work on later already exist in CEO file devolp it once 
+    async function updateCpp_PromoteEmployee(EnterInfo , val1,val2,st){//work on later already exist in CEO file devolp it once 
+        await Load('Modify Employee', EnterInfo ,{ newSalary: val1 , newBranch: val2 , newStatus: st}) ;
+        window.location.href = 'CEO.html' ;
         return true
       }
 
     function SignInClicked(){
-      const val1 = i1.value ;
-      const val2 = i2.value;
-      const Reason = i3.value;
+      const val1 = newSalary.value ;
+      const val2 = newBranch.value;
+      const st = newStatus.value;
 
-      i1.addEventListener('keypress',()=>i1.setCustomValidity(''));
-      i2.addEventListener('keypress',()=>i2.setCustomValidity(''));
+      newSalary.addEventListener('keypress',()=>newSalary.setCustomValidity(''));
+      newBranch.addEventListener('keypress',()=>newBranch.setCustomValidity(''));
 
       if(!verifyval1(val1)){
-        i1.setCustomValidity('Unvalid Amount');
-        i1.reportValidity();
+        newSalary.setCustomValidity('Unvalid Amount');
+        newSalary.reportValidity();
       }
       else if (!verifyval2(val2)){
-        i2.setCustomValidity('Unvalid Branch');
-        i2.reportValidity();
+        newBranch.setCustomValidity('Unvalid Branch');
+        newBranch.reportValidity();
+      }
+      else if (st == "Employee Status"){
+        newStatus.setCustomValidity('Please Select a Status');
+        newStatus.reportValidity();
       }
       else{
-      updateCpp_PromoteEmployee(val1,val2);
-      window.open('CEO.html','_self');}
+      updateCpp_PromoteEmployee(EnterInfo, val1,val2,st);
+    }
 
     }
 

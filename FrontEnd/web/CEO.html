@@ -52,12 +52,12 @@
             <div class="employee-up-conatiner" style="max-width: fit-content;padding: 0 calc(2vh + 2vw);">
 
               <div class="img-container">
-                <img src="/images/CEO.png" class="emp-img">
+                <img src="images/CEO.png" class="emp-img" style="border-radius:100% ;">
               </div>
               <div class="right-side-employee">
                 <div class="flex" style="gap: 15px;">
-                    <div class="employee-name" id="Employee-name" style="color: aqua;">Mahdi</div>
-                    <div class="employee-name" id="Employee-LastName">Turki</div>
+                    <div class="employee-name" id="Employee-name" style="color: aqua;">Mohamed</div>
+                    <div class="employee-name" id="Employee-LastName" >Mnasria</div>
                 </div>
                 <div class="Employee-Id">
                   CEO of Hide Bank
@@ -78,6 +78,14 @@
             
           </div>
 
+        </div>
+
+        <div style="display: flex; width : 100% ; justify-content : center ;  gap :  20px ; margin-top : 150px ; margin-bottom :20px";>
+
+              <div class="w-auto hidden lg:block">
+                    <div class="inline-block"><a class="inline-block px-8 py-4 text-white hover:text-black tracking-tighter hover:bg-green-400 border-2 border-white focus:border-green-400 focus:border-opacity-40 hover:border-green-400 focus:ring-4 focus:ring-green-400 focus:ring-opacity-40 rounded-full transition duration-300 saas"  style="font-size: calc(1vh + 1vw);font-family: serif;border: none;background-color: rgb(129, 160, 6);cursor: pointer;" onclick="addEmployee()">Add Employee</a></div>
+              </div>
+              
         </div>
 
         </div>
@@ -164,26 +172,21 @@
         </div>
       </section>
     </div>
-
+    <script src="Load.js"></script>
     <script>
-      let params = new URLSearchParams(window.location.search);
-      let EnterInfo = JSON.parse(params.get("value")); // EnterInfo = [CustomerId,AccountNumber] both entered from login or sign in 
-      console.log(EnterInfo);
+      let allEmployees ;
+      main();
+      async function main(){
+        res = await Load('Load All Employees');
+        allEmployees = JSON.parse(res.result);
 
-      let Esp = document.getElementById('direct-EMP-container');
 
-      // load allEmployees throu c++
-    
-      const allEmployees = [{'HireDate':'12/01/2025	','EmployeeId':'EMP0001','Name':'Mahdi','LastName':'Turki','Branch':'0012','Adress':'T/A','Salary':'25 000TDN','Status':'Active','position':'Engineer at Hide Bank'},
-        {'HireDate':'03/11/2023	','EmployeeId':'EMP0002','Name':'Maryam','LastName':'Rebai','Branch':'0012','Adress':'T/A','Salary':'75 750TDN','Status':'Active','position':'Engineer at Hide Bank'},
-        {'HireDate':'06/07/2018	','EmployeeId':'EMP0003','Name':'Yassine','LastName':'Ajroud','Branch':'0001','Adress':'S/G','Salary':'5 000TDN','Status':'InActive','position':'Web Dev at Hide Bank'},
-        {'HireDate':'10/01/2005	','EmployeeId':'EMP0004','Name':'Mohamed','LastName':'Mnasria','Branch':'1820','Adress':'T/A','Salary':'225 000TDN','Status':'Vacation','position':'Head office Director'}
+        let Esp = document.getElementById('direct-EMP-container');
+      window.addEmployee = async function (){;
+        window.location.href = "AddEmployee.html";
+      }
 
-      ]
-
-      LoadEmployeesProfiles()
-
-      function LoadEmployeesProfiles(){
+       window.LoadEmployeesProfiles = function(){
         let htmlStr ;
         let sml ='';
         let ln ;
@@ -201,14 +204,14 @@
           htmlStr = `
             <div class="employee-profile-container" id=${el.EmployeeId}>
               <div class="E-U-S">
-                <img src="images/${el.EmployeeId}.png" class="EImg">
+                <img src="images/${el.img}.png" class="EImg" style="width: calc(10vh + 10vw); height: calc(10vh + 10vw);">
                 <div class="right-side-employee">
                   <div class="flex" style="gap: 15px;">
                       <div class="employee-name aq" id="Employee-name" ${sml}>${el.Name}</div>
                       <div class="employee-name" id="Employee-LastName" ${sml}>${el.LastName}</div>
                   </div>
                   <div class="Employee-Id">
-                    ${el.position}
+                    Engeneer At Hide Bank
                   </div>
                 </div>
               </div>
@@ -220,7 +223,7 @@
 
               <div class="E-Info loan-row">
                 <div class="label lfs">Salary :</div>
-                <div class="value rhs">${el.Salary}</div>
+                <div class="value rhs">${Number(el.Salary).toFixed(0)}TND</div>
               </div>
 
               <div class="E-Info loan-row">
@@ -250,7 +253,7 @@
 
 
                 <div class="Promote-Employee" onclick="PromoteEmployee('${el.EmployeeId}')">
-                  Promote
+                  Modify
                 </div>
               </div>
 
@@ -261,19 +264,23 @@
           Esp.insertAdjacentHTML('beforeend',htmlStr);
         })
       }
-      function updateCpp_fireEmployee(EId){//work on later
+      window.updateCpp_fireEmployee = async function(EId){//work on later
+        Load('Fire Employee',EId);
         return true
       }
       // function updateCpp_PromoteEmployee(EId){ // present in Promote.html
       //   return true
       // }
-      function fireEmployee(EId){
+      window.fireEmployee = function(EId){
         updateCpp_fireEmployee(EId);
         Esp.removeChild(document.getElementById(EId));
       }
-      function PromoteEmployee(EId){
-        window.open('Promote.html?value="'+encodeURIComponent(EId)+'"','_self');
+      window.PromoteEmployee = function(EId){
+        window.open('Modify.html?value="'+encodeURIComponent(EId)+'"','_self');
       }
+
+      LoadEmployeesProfiles()
+    }
     </script>
   </body>
 </html>

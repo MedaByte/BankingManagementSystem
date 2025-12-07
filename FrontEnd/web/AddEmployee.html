@@ -19,13 +19,14 @@
           <div class="flex items-center justify-between pt-5 pb-2.5 -m-2">
             <div class="w-auto p-2">
               <div class="flex flex-wrap items-center">
-                <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);" alt=""/></a></div>
+                <div class="w-auto"><a class="relative z-10 inline-block" href="index.html"><img src="images/logo.svg" style="width: calc(7.5vh + 7.5vw);"  alt=""/></a></div>
               </div>
             </div>
             <div class="w-auto p-2">
-              <div class="flex flex-wrap items-center" style="margin-bottom: calc(2vh + 2vw) ;margin-top: calc(0.5vh + 0.5vw);">
+              <div class="flex flex-wrap items-center">
                 <div class="w-auto hidden lg:block">
                   <ul class="flex items-center mr-12">
+                    <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="about.html"></a></li>
                     <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="pricing.html"></a></li>
                     <li class="mr-12 text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="blog.html"></a></li>
                     <li class="text-white font-medium hover:text-opacity-90 tracking-tighter"><a href="contact.html"></a></li>
@@ -76,50 +77,58 @@
         </div>
       </section>
       <section class="overflow-hidden">
-        <div class="flex flex-wrap -m-8">
-          <div class="w-full md:w-1/2 p-8">
+        <div class="flex flex-wrap -m-8" style="justify-content:center ;">
+          <div class="w-full md:w-1/2 p-8" style="border-radius: 100px;border: 2px solid gray;margin-top: calc(2vh + 2vw);margin-bottom: calc(2vh + 2vw);">
             <div class="px-4 pt-10 md:pb-40 max-w-lg mx-auto"><a class="inline-block mb-36" href="#">                </a>              
               <div class="text-center mx-auto">
-                <h3 class="mb-4 text-5xl text-white tracking-5xl">Log in to your account</h3>
-                <p class="mb-10 text-gray-300">Good to have you back!</p>
-      
+                <h3 class="mb-4 text-5xl text-white tracking-5xl">Add Employee</h3>
+                <p class="mb-10 text-gray-300" id="EMPID">New Employee</p>
+                <div class="flex flex-wrap -1 mb-7">
+                </div>
                 <div class="flex flex-wrap items-center mb-10">
                   <div class="flex-1 bg-gray-900">
                     <div class="h-px"></div>
                   </div>
-                  <div class="px-5 text-xs text-gray-300 font-medium">Login in here</div>
+                  <div class="px-5 text-xs text-gray-300 font-medium">New Employee</div>
                   <div class="flex-1 bg-gray-900">
                     <div class="h-px"></div>
                   </div>
                 </div>
                 <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <input autocomplete="off" id="Eipn" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Enter Employee ID"/>
-                </div><a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300" onclick="LogInClicked()" style="cursor: pointer;">Log in</a>
-                
-              </div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 p-8">
-            <div class="flex flex-wrap items-center justify-center h-full bg-gradient-radial-dark py-16 px-4">
-              <div class="w-full mb-8"><img class="mx-auto" src="template-assets/images/sign-in/stats.png" alt=""/></div>
-              <div class="w-full">
-                <p class="mb-8 text-sm text-center text-gray-300">Trusted by</p>
-                <div class="flex flex-wrap items-center justify-center -m-4">
-                  <div class="w-auto p-4"><img src="template-assets/images/sign-in/netflix.svg" alt=""/></div>
-                  <div class="w-auto p-4"><img src="template-assets/images/sign-in/allianz.svg" alt=""/></div>
-                  <div class="w-auto p-4"><img src="template-assets/images/sign-in/spotify.svg" alt=""/></div>
-                  <div class="w-auto p-4"><img src="template-assets/images/sign-in/uber.svg" alt=""/></div>
+                  <input autocomplete="off" id="Emp Name" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Employee First Name"/>
                 </div>
+
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <input autocomplete="off" id="Emp Last Name" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Employee Last Name"/>
+                </div>
+
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <input autocomplete="off" id="Emp Salary" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Employee Salary"/>
+                </div>
+
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <input autocomplete="off" id="Emp Adress" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Employee Adress"/>
+                </div>
+
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <input autocomplete="off" id="Emp Branch" class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent" type="text" placeholder="Employee Branch"/>
+                </div>
+
+       
+
+                <a class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"  style="cursor: pointer;" onclick="SignInClicked()">Add Employee</a>
+              
               </div>
             </div>
           </div>
+          
         </div>
       </section>
       <section class="py-12">
         <div class="container px-4 mx-auto">
           <div class="relative pt-20 px-4 bg-gray-900 bg-opacity-20 overflow-hidden rounded-6xl">
-            <div class="text-center md:max-w-xl mx-auto removed pb-20"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Hide Bank</span>
-              <h2 class="font-heading mb-6 text-7xl text-white tracking-8xl">Hide&nbsp Bank &nbsp:&nbsp a&nbsp Bank&nbsp ment &nbspto&nbsp serve &nbspYou</h2><a class="mb-8 text-gray-300 relative z-10" href="https://www.pixelrocket.store">Contact The devaloper Team Via email if some details remain unclear</a><img class="absolute -bottom-24 right-0 z-0" src="template-assets/images/application-section/lines2.png" alt=""/>
+            <div class="text-center md:max-w-xl mx-auto removed pb-20"><span class="inline-block mb-4 text-sm text-green-400 font-medium tracking-tighter">Learn to code</span>
+              <h2 class="font-heading mb-6 text-7xl text-white tracking-8xl">Want to build templates like this one?</h2><a class="mb-8 text-gray-300 relative z-10" href="https://www.pixelrocket.store">Visit www.pixelrocket.store and learn to become a frontend web developer today</a><img class="absolute -bottom-24 right-0 z-0" src="template-assets/images/application-section/lines2.png" alt=""/>
             </div>
           </div>
         </div>
@@ -194,52 +203,54 @@
       </section>
     </div>
     <script src="Load.js"></script>
-    <script>
-      let allEmployees ;
-      main();
-      async function main(){        
-        res = await Load('Load All Employees') ;
-        allEmployees = JSON.parse(res.result) ;
-      }
-      function validateEmployeeId(id){
+    <Script>
+      
 
-        if (!id) return false;
-        id = id.trim().toUpperCase();
+      const EmpName = document.getElementById('Emp Name');
+      const EmpLastName = document.getElementById('Emp Last Name');
+      const EmpSalary = document.getElementById('Emp Salary');
+      const EmpAdress = document.getElementById('Emp Adress');
+      const EmpBranch = document.getElementById('Emp Branch');
 
-        // Pattern: CUS + 4 digits
-        return /^EMP\d{4}$/.test(id);
-    
-      }
 
-      function verifyEmployeeExistence(val){
-        let ind = IND(allEmployees,'EmployeeId',val)
-        return ind > -1 ; // impliment later with c++
-      }
-      function LogInClicked(){
-        const i = document.getElementById('Eipn');
-        i.addEventListener('keypress',()=>i.setCustomValidity(''));
-        const val = i.value ;
-        if(val=="CEO1004"){
-            window.location.href='CEO.html';
-            return ;
-        }
-        if((!validateEmployeeId(val)) || val==''){
-          i.setCustomValidity('Unvalid Employee Id') ;
-          i.reportValidity();
-          return ;
-        }
-        else if(!verifyEmployeeExistence(val)){
-          i.setCustomValidity('Id Dosn\'t match any Employee') ;
-          i.reportValidity();
-          return ;
-        }
-        else{
-          
-          let arr = [val];
-          window.open("Employee.html?value=" + encodeURIComponent(JSON.stringify(arr)), "_self");
-        }
+    function verifyval1(val1){//bery easy ask gbt But Must Add !!!!!!!!!!!!!!!!!!!!!
+      return true
+    }
+    function verifyval2(val2){//bery easy ask gbt But Must Add !!!!!!!!!!!!!!!!!!!!!
+      return true
+    }
+
+    async function AddEmployee(EmpName , EmpLastName, EmpSalary,EmpAdress,EmpBranch){//work on later already exist in CEO file devolp it once 
+        await Load('Add Employee', "10" ,{ EmpName , EmpLastName , EmpSalary,EmpAdress,EmpBranch} ) ;
+        window.location.href = 'CEO.html';
+        return true
       }
 
-    </script>
+    function SignInClicked(){
+      const Name = EmpName.value ;
+      const LastName = EmpName.value;
+      const Salary = EmpSalary.value;
+      const Adress = EmpAdress.value;
+      const Branch = EmpBranch.value;
+
+      EmpName.addEventListener('keypress',()=>EmpName.setCustomValidity(''));
+      EmpName.addEventListener('keypress',()=>EmpName.setCustomValidity(''));
+
+      if(!verifyval1(Name)){
+        EmpName.setCustomValidity('Unvalid name');
+        EmpName.reportValidity();
+      }
+      else if (!verifyval2(LastName)){
+        EmpLastName.setCustomValidity('Unvalid name');
+        EmpLastName.reportValidity();
+      }
+      else{
+      AddEmployee(Name,LastName,Salary,Adress,Branch);}
+
+    }
+
+
+
+    </Script>
   </body>
 </html>

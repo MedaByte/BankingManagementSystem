@@ -33,9 +33,9 @@ namespace Loan {
         double InterestRate,
         int DurationInMonths,
         const std::string& Status = "active",
+        std::string type = "general",
         std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_loan_id.txt", "LOAN"),
-        const Date::Date& StartDate = Date::Now(),
-        std::string type = "general"
+        const Date::Date& StartDate = Date::Now()
     ) {
         Date::Date EndDate = Date::AddMonths(StartDate, DurationInMonths);
         // Calculate end date | Calcular data de fim

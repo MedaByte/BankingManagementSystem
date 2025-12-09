@@ -1886,7 +1886,7 @@ input[type=number]::-webkit-outer-spin-button {
   flex-direction: column;
 }
 .pad{
-  padding: 0 30px;
+  padding-left: 30px;
 }
 .display-account-name{
   font-size: calc(1vh + 1vw);

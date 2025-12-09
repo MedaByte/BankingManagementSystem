@@ -1,7 +1,7 @@
 AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId,Note,Image
 ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,inactive,2099,CUS0001,Primary general account used for daily transactions and salary deposits,default
 ACC0002,SAVINGS,TN001ACC0002,1,Nihed Bani,03/02/2025,active,560,CUS0001,Frozen due verification of personal documents,default
-ACC0003,BUSINESS,TN001ACC0003,1,Mohamed Mnasria,05/03/2025,active,4500,CUS0001,Business account for freelance and contract payments,default
+ACC0003,BUSINESS,TN001ACC0003,1,Md Mnasria,05/03/2025,active,4500,CUS0001,Business account for freelance and contract payments,default
 ACC0004,GENERAL,TN002ACC0004,2,Mahdi Turki,10/01/2025,active,1300,CUS0002,Regular general account with moderate activity,default
 ACC0005,POUPANCA,TN002ACC0005,2,Mounira Dridi,15/03/2025,overdue,0,CUS0002,Account temporarily frozen due to overdue charges,default
 ACC0006,BUSINESS,TN002ACC0006,2,Yassin Ouelati,17/02/2025,active,2000,CUS0003,Business account for small personal projects and online sales,default
@@ -31,10 +31,10 @@ ACC0030,GENERAL,TN001ACC0030,1,Selim Ben Ali,07/12/2025,active,1200,CUS0024,Stan
 ACC0031,POUPANCA,TN002ACC0031,2,Camila Souza,07/12/2025,frozen,560,CUS0025,Frozen account for verification purposes,default
 ACC0032,BUSINESS,TN003ACC0032,3,Khaled Trabelsi,07/12/2025,active,0,CUS0026,New business account opened for client projects,default
 ACC0033,GENERAL,TN001ACC0033,1,Isabella Silva,07/12/2025,active,2300,CUS0027,Primary account for general usage,default
-ACC0034,GENERAL,TN002ACC0034,2,Sarah Ben Youssef,07/12/2025,active,158,CUS0028,Regular account for daily expenses,default
+ACC0034,GENERAL,TN002ACC0034,2,Sarah Bn Youssef,07/12/2025,active,158,CUS0028,Regular account for daily expenses,default
 ACC0035,SAVINGS,TN003ACC0035,3,Tarek Frikha,07/12/2025,active,560,CUS0029,Savings account for emergency and long-term funds,default
 ACC0036,GENERAL,TN001ACC0036,1,Luana Oliveira,07/12/2025,active,1200,CUS0030,Standard general account with regular activity,default
-ACC0037,BUSINESS,TN002ACC0037,2,Mohamed Mnasria,07/12/2025,active,0,CUS0001,Secondary business account for additional projects,default
+ACC0037,BUSINESS,TN002ACC0037,2,Md Mnasria,07/12/2025,active,0,CUS0001,Secondary business account for additional projects,default
 ACC0038,SAVINGS,TN003ACC0038,3,Mounira Dridi,07/12/2025,active,300,CUS0002,Extra savings account used for minor investments,default
 ACC0039,GENERAL,TN001ACC0039,1,Yassin Ouelati,07/12/2025,active,450,CUS0003,Additional general account for personal expenses,default
 ACC0040,BUSINESS,TN002ACC0040,2,Geovanna Souza,07/12/2025,active,0,CUS0004,Secondary business account for client contracts,default

@@ -1,5 +1,5 @@
 AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId,Note,Image
-ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,active,10599,CUS0001,Primary general account used for daily transactions and salary deposits,default
+ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,active,2099,CUS0001,Primary general account used for daily transactions and salary deposits,default
 ACC0002,SAVINGS,TN001ACC0002,1,Nihed Bani,03/02/2025,frozen,560,CUS0001,Frozen due verification of personal documents,default
 ACC0003,BUSINESS,TN001ACC0003,1,Mohamed Mnasria,05/03/2025,active,4500,CUS0001,Business account for freelance and contract payments,default
 ACC0004,GENERAL,TN002ACC0004,2,Mahdi Turki,10/01/2025,active,1300,CUS0002,Regular general account with moderate activity,default

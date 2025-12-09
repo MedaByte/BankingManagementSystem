@@ -11,7 +11,6 @@
 #include "../../CSV/CustomerCSV.h"
 #include "../../CSV/AccountCSV.h" 
 #include "../../CSV/TransactionCSV.h" 
-#include "../../../FrontEnd/web/CPP/Cpp JSON Methods/CppToJson.h" // to be removed later
 
 namespace CustomerController {
 
@@ -233,7 +232,6 @@ namespace CustomerController {
         }
 
         Transaction::Transaction lastTx = Stack::Top(account->DailyTransactions);
-        cerr<<"Transaction to undi  :"<<StringifyTransaction(lastTx)<<"\n";
         Stack::Pop(&account->DailyTransactions); // Remove last transaction | Remover última transação
         // Reverse transaction effect on balance | Reverter efeito da transação no saldo
         if (lastTx.Type == "deposit" || lastTx.Type == "loanDeposit") {

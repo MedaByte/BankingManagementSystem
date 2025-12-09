@@ -2125,7 +2125,7 @@ input[type=number]::-webkit-outer-spin-button {
 .status-Inactive,
 .status-InActive,
 .status-completed {
-    color: #00c8ff;
+    color: #00c8ff ; 
 }
 .status-Vacation,
 .status-break,

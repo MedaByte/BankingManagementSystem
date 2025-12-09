@@ -179,6 +179,7 @@
       async function main(){
         res = await Load('Load All Employees');
         allEmployees = JSON.parse(res.result);
+        window.scrollTo(0,0);
 
 
         let Esp = document.getElementById('direct-EMP-container');
@@ -204,7 +205,7 @@
           htmlStr = `
             <div class="employee-profile-container" id=${el.EmployeeId}>
               <div class="E-U-S">
-                <img src="images/${el.img}.png" class="EImg" style="width: calc(10vh + 10vw); height: calc(10vh + 10vw);">
+                <img src="images/${el.img}.png" class="EImg" style="width: calc(10vh + 10vw); height: calc(10vh + 10vw);border-radius: 100% ;">
                 <div class="right-side-employee">
                   <div class="flex" style="gap: 15px;">
                       <div class="employee-name aq" id="Employee-name" ${sml}>${el.Name}</div>
@@ -223,7 +224,7 @@
 
               <div class="E-Info loan-row">
                 <div class="label lfs">Salary :</div>
-                <div class="value rhs">${Number(el.Salary).toFixed(0)}TND</div>
+                <div class="value rhs">${Number(el.Salary).toFixed(0)} TND</div>
               </div>
 
               <div class="E-Info loan-row">

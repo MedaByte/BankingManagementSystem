@@ -266,10 +266,14 @@
         const acOD = document.getElementById('accoutOpenDate');
         const StatusSelect = document.getElementById('select-status');
         StatusSelect.classList.add('status-' + allAccountData.status.toLowerCase()) ;
+        let classes ;
 
         StatusSelect.addEventListener('change',()=>{
-          console.log('status-' +StatusSelect.value) ;
-          StatusSelect.classList.add('status-' +StatusSelect.value) ;changeAccountStatus(StatusSelect.value)}) ;
+          classes = StatusSelect.className.split(' ') ;
+          classes[classes.length - 1]  = 'status-' + StatusSelect.value.toLowerCase() ;
+          console.log(classes);
+          StatusSelect.className = classes.join(" "); ;
+          changeAccountStatus(StatusSelect.value)}) ;
 
 
 

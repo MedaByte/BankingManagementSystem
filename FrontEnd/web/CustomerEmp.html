@@ -508,6 +508,8 @@
             fc.firstElementChild.classList.remove('first-transaction') ;
           }
           const color = (type=='deposit' || type=='Deposit' || type=='loanDeposit')? 'red':'green';
+          if(type[0]=='w'){type='Withdrawal';}
+          if (type[0]=='d'){type='Deposit';}
           const htmlStr = `
           <div class="transaction-container" data-id="${newId}">
                   <div class="transaction first-transaction blockTransition" style="cursor:default;">

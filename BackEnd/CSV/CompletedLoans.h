@@ -1,5 +1,5 @@
-#ifndef LOANCSV_H
-#define LOANCSV_H
+#ifndef COMPLETEDLOANSCSV_H
+#define COMPLETEDLOANSCSV_H
 
 #include <fstream>
 #include <sstream>
@@ -7,10 +7,9 @@
 #include <iostream>
 #include "../Include/Models/Loan.h"
 #include "../Include/Utils/OriginPath.h"
-#include "../Include/Models/Account.h"
 #include "../Include/Models/Date.h"
 
-namespace LoanCSV {
+namespace CompletedLoansCSV {
 
     // Get CSV file path | Pega o caminho do arquivo CSV
     inline std::string GetFilePath() {
@@ -25,8 +24,8 @@ namespace LoanCSV {
         return s.substr(a, b - a + 1);
     }
 
-    // Load loans from CSV | Carrega loans do CSV
-    inline void Load(Loan::Loan loans[], int& count, Account::Account* accounts = nullptr, int accountCount = 0, const std::string& filename = "loans.csv") {
+    // Load completed loans from CSV | Carrega completed loans do CSV
+    inline void Load(Loan::Loan loans[], int& count, const std::string& filename = "completed_loans.csv") {
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;
 
@@ -48,7 +47,8 @@ namespace LoanCSV {
             if (trim(line).empty()) continue;
             std::istringstream ss(line);
 
-            std::string id, accountId, amountStr, interestStr, paidStr, remainingStr, startStr, endStr, status, typeStr;
+            std::string id, accountId, amountStr, interestStr, paidStr,
+                        remainingStr, startStr, endStr, status, typeStr;
 
             std::getline(ss, id, ',');
             std::getline(ss, accountId, ',');
@@ -61,51 +61,41 @@ namespace LoanCSV {
             std::getline(ss, status, ',');
             std::getline(ss, typeStr, ',');
 
-            id = trim(id);
-            accountId = trim(accountId);
-            amountStr = trim(amountStr);
+            id          = trim(id);
+            accountId   = trim(accountId);
+            amountStr   = trim(amountStr);
             interestStr = trim(interestStr);
-            paidStr = trim(paidStr);
-            remainingStr = trim(remainingStr);
-            startStr = trim(startStr);
-            endStr = trim(endStr);
-            status = trim(status);
-            typeStr = trim(typeStr);
+            paidStr     = trim(paidStr);
+            remainingStr= trim(remainingStr);
+            startStr    = trim(startStr);
+            endStr      = trim(endStr);
+            status      = trim(status);
+            typeStr     = trim(typeStr);
 
             double amount = 0, interest = 0, paid = 0, remaining = 0;
-            try { amount = std::stod(amountStr); } catch(...) { amount = 0; }
-            try { interest = std::stod(interestStr); } catch(...) { interest = 0; }
-            try { paid = std::stod(paidStr); } catch(...) { paid = 0; }
+            try { amount = std::stod(amountStr); } catch(...) {}
+            try { interest = std::stod(interestStr); } catch(...) {}
+            try { paid = std::stod(paidStr); } catch(...) {}
             try { remaining = std::stod(remainingStr); } catch(...) { remaining = amount; }
 
             Date::Date startDate = Date::FromString(startStr);
-            Date::Date endDate = Date::FromString(endStr);
+            Date::Date endDate   = Date::FromString(endStr);
 
             // Create loan object | Cria objeto loan
             loans[count] = Loan::Create(
-                accountId,       // AccountId
-                amount,          // Amount
-                interest,        // InterestRate
-                0,               // DurationInMonths
-                status,          // Status
-                typeStr,         // Type
-                id,              // Id
-                startDate        // StartDate
+                accountId,   // AccountId
+                amount,      // Amount
+                interest,    // InterestRate
+                0,           // DurationInMonths
+                status,      // Status
+                typeStr,     // Type
+                id,          // Id
+                startDate    // StartDate
             );
 
-            loans[count].PaidAmount = paid;
+            loans[count].PaidAmount      = paid;
             loans[count].RemainingAmount = remaining;
-            loans[count].EndDate = endDate;
-
-            // Link to account if provided | Liga ao account se fornecido
-            if (accounts != nullptr) {
-                for (int i = 0; i < accountCount; ++i) {
-                    if (accounts[i].AccountNumber == accountId) {
-                        Account::AddLoan(&accounts[i], loans[count]);
-                        break;
-                    }
-                }
-            }
+            loans[count].EndDate         = endDate;
 
             ++count;
             if (count >= 100000) break; // Safety limit | Limite de segurança
@@ -114,11 +104,11 @@ namespace LoanCSV {
         file.close();
     }
 
-    // Write loans to CSV | Escreve loans no CSV
-    inline void Write(Loan::Loan loans[], int count, const std::string& filename = "loans.csv") {
+    // Write completed loans to CSV | Escreve completed loans no CSV
+    inline void Write(Loan::Loan loans[], int count, const std::string& filename = "completed_loans.csv") {
         std::ofstream file(GetFilePath() + filename, std::ofstream::trunc);
         if (!file.is_open()) {
-            std::cerr << "Unable to open loans file for writing\n"; // Erro ao abrir arquivo
+            std::cerr << "Unable to open completed loans file for writing\n"; // Erro ao abrir arquivo
             return;
         }
 
@@ -142,6 +132,6 @@ namespace LoanCSV {
         file.close();
     }
 
-} // namespace LoanCSV
+} // namespace CompletedLoansCSV
 
 #endif

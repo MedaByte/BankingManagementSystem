@@ -27,9 +27,9 @@ namespace TransactionCSV {
 
     // Load transactions from CSV and link to accounts/customers | Carrega transactions do CSV e liga a accounts/customers
     inline void Load(Transaction::Transaction transactions[], int& count,
-                     Account::Account accounts[], int accountCount,
-                     Customer::Customer customers[], int customerCount,
-                     const std::string& filename = "transactions.csv") {
+                    Account::Account accounts[], int accountCount,
+                    Customer::Customer customers[], int customerCount,
+                    const std::string& filename = "transactions.csv") {
 
         std::ifstream file(GetFilePath() + filename);
         if (!file.is_open()) return;

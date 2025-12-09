@@ -9,6 +9,7 @@
 #include "../../../../BackEnd/CSV/TransactionCSV.h"
 #include "../../../../BackEnd/CSV/EmployeeCSV.h"
 #include "../../../../BackEnd/CSV/CustomerCSV.h"
+#include "../../../../BackEnd/CSV/CompletedLoans.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ int indexOf(const string* arr, int size, const string& id) {
 Customer::Customer customers[MAX_CUSTOMERS];
 Employee::Employee employees[MAX_EMPLOYEES];
 Account::Account accounts[MAX_ACCOUNTS];
-Loan::Loan loanRequests[MAX_LOAN_REQUESTS];
+Loan::Loan completedLoans[MAX_LOAN_REQUESTS];
 Loan::Loan loans[MAX_LOANS];
 Transaction::Transaction transactions[MAX_TRANSACTIONS];
 
@@ -37,7 +38,7 @@ Transaction::Transaction transactions[MAX_TRANSACTIONS];
 int customerCount = 0;
 int employeeCount = 0;
 int accountCount = 0;
-int loanRequestCount = 0;
+int completedLoanscount = 0;
 int loanCount = 0;
 int transactionCount = 0;
 
@@ -50,6 +51,7 @@ void loadEverything() {
     EmployeeCSV::Load(employees, employeeCount);
     LoanCSV::Load(loans, loanCount, accounts, accountCount);
     TransactionCSV::Load(transactions, transactionCount, accounts, accountCount, customers, customerCount);
+    CompletedLoansCSV::Load(completedLoans, completedLoanscount);
 }
 
 
@@ -161,8 +163,8 @@ string StringifyAllAccounts() {
 
 string StringifyEmployee(const string& EmpId) {
     static string storedImgs[] = {"EMP0001", "EMP0002", "EMP0003", "EMP0004", "EMP0005",
-                                 "EMP0006", "EMP0007", "EMP0008", "EMP0009", "EMP0010","EMP0011",
-                                 "EMP0012", "EMP0013", "EMP0014", "EMP0015"};
+                                    "EMP0006", "EMP0007", "EMP0008", "EMP0009", "EMP0010","EMP0011",
+                                    "EMP0012", "EMP0013", "EMP0014", "EMP0015"};
 
     Employee::Employee* empPtr = EmployeeController::FindEmployee(employees, employeeCount, EmpId);
     if (!empPtr) return "{}";

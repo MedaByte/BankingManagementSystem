@@ -50,8 +50,12 @@ namespace LoanController {
     // Delete all completed loans from customer accounts | Deletar todos os loans com status 'completed' das contas do customer
     inline void DeleteCompletedLoans(Loan::Loan loans[], int& loanCount) {
         std::cerr << "hello";
+
+        Loan::Loan completedLoans[loanCount];
+        int posição = 0;
         for (int i = 0; i<loanCount;){
             if (loans[i].Status == "completed"){
+                completedLoans[posição++] = loans[i];
                 for (int j = i; j<loanCount-1;++j){
                     loans[j] = loans[j+1];
                 }

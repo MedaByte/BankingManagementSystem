@@ -7,6 +7,7 @@
 #include "../Models/Account.h"
 #include "../Models/Loan.h"
 #include "../Models/Transaction.h"
+#include "../Utils/MergeSort.h"
 #include "../../CSV/AccountCSV.h"
 #include "../../CSV/EmployeeCSV.h"
 #include "../../CSV/TransactionCSV.h" 
@@ -87,10 +88,7 @@ namespace EmployeeController {
             return;
         }
 
-        std::sort(employees, employees + employeeCount, [](const Employee::Employee& a, const Employee::Employee& b) {
-            return a.LastName < b.LastName;
-        });
-
+        Utils::MergeSort(employees, 0 ,employeeCount-1);
         for (int i = 0; i < employeeCount; ++i) {
             Employee::Display(employees[i]);
             std::cout << "-------------------\n";

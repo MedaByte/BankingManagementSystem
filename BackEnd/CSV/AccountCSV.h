@@ -142,16 +142,16 @@ namespace AccountCSV {
         for (int i = 0; i < count; ++i) {
             const auto& A = accounts[i];
             file << A.AccountNumber << ","
-                 << A.AccountType << ","
-                 << A.IBAN << ","
-                 << A.BranchCode << ","
-                 << A.HolderName << ","
-                 << Date::ToString(A.OpeningDate) << ","
-                 << A.Status << ","
-                 << A.Balance << ","
-                 << A.CustomerId << ","
-                 << A.Note << ","
-                 << A.Image << "\n";
+                    << A.AccountType << ","
+                    << A.IBAN << ","
+                    << A.BranchCode << ","
+                    << A.HolderName << ","
+                    << Date::ToString(A.OpeningDate) << ","
+                    << A.Status << ","
+                    << A.Balance << ","
+                    << A.CustomerId << ","
+                    << A.Note << ","
+                    << A.Image << "\n";
         }
 
         file.close();

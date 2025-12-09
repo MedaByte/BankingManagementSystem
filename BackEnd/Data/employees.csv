@@ -7,8 +7,7 @@ EMP0005,Bruna,Oliveira,Fortaleza,20000,01/03/2020,5,inactive
 EMP0006,Thiago,Pereira,São Paulo,23000,01/03/2020,6,vacation
 EMP0007,Beatriz,Ribeiro,Rio de Janeiro,19500,01/03/2020,7,active
 EMP0008,Felipe,Carvalho,Belo Horizonte,20500,07/12/2025,8,active
-EMP0009,Ana,Martins,Salvador,18500,10/06/2022,9,break
-EMP0010,Lucas,Ferreira,Fortaleza,22500,05/05/2020,10,retired
+EMP0010,Lucas,Ferreira,Fortaleza,6200,05/05/2020,5,active
 EMP0011,Camila,Lima,São Paulo,20000,08/08/2019,11,vacation
 EMP0012,Daniela,Barbosa,Rio de Janeiro,21000,11/11/2020,12,active
 EMP0013,Pedro,Rocha,Belo Horizonte,22000,01/04/2021,13,inactive

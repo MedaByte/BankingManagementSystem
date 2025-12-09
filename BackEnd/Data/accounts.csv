@@ -1,11 +1,10 @@
 AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId,Note,Image
-ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,active,2099,CUS0001,Primary general account used for daily transactions and salary deposits,default
-ACC0002,SAVINGS,TN001ACC0002,1,Nihed Bani,03/02/2025,frozen,560,CUS0001,Frozen due verification of personal documents,default
+ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,inactive,2099,CUS0001,Primary general account used for daily transactions and salary deposits,default
+ACC0002,SAVINGS,TN001ACC0002,1,Nihed Bani,03/02/2025,active,560,CUS0001,Frozen due verification of personal documents,default
 ACC0003,BUSINESS,TN001ACC0003,1,Mohamed Mnasria,05/03/2025,active,4500,CUS0001,Business account for freelance and contract payments,default
 ACC0004,GENERAL,TN002ACC0004,2,Mahdi Turki,10/01/2025,active,1300,CUS0002,Regular general account with moderate activity,default
 ACC0005,POUPANCA,TN002ACC0005,2,Mounira Dridi,15/03/2025,overdue,0,CUS0002,Account temporarily frozen due to overdue charges,default
 ACC0006,BUSINESS,TN002ACC0006,2,Yassin Ouelati,17/02/2025,active,2000,CUS0003,Business account for small personal projects and online sales,default
-ACC0007,GENERAL,TN001ACC0007,1,Yassin Ouelati,20/01/2025,closed,0,CUS0003,Closed account previously used for minor transactions,default
 ACC0008,CORRENTE,TN004ACC0008,4,Geovanna Souza,02/07/2025,active,780,CUS0004,Main checking account used for rent and utility payments,default
 ACC0009,GENERAL,TN002ACC0009,2,Bruno Almeida,17/12/2025,frozen,560,CUS0005,Frozen due verification,awaiting identification documents
 ACC0010,SAVINGS,TN002ACC0010,2,Bruno Almeida,22/11/2025,active,300,CUS0005,Savings account dedicated to emergency funds and short-term goals,default

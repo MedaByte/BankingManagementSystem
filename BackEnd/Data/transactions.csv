@@ -1,3 +1,0 @@
-TransactionId,AccountNumber,Type,Amount,Date
-TRANS0042,ACC0001,withdrawal,10000,09/12/2025
-TRANS0044,ACC0001,deposit,1500,09/12/2025

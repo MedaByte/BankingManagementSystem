@@ -64,16 +64,15 @@
                 Account Type : 
               </div>
               <div style="font-size: calc(1.25vh + 1.25vw);margin-top: 7px;" id="account-type"></div>
-              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;"><div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp
+              <div class="upper-part" style="margin-top: 10px;display: flex;margin-top: 20px;position: relative;">
+                <div style="color: rgb(204 255 0);">Status :</div>&nbsp&nbsp
               <div>
-                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
-                  <select class="select-account-type" id="select-status" >
+                  <select class="select-account-type" id="select-status" style="position: absolute;width: 50%;outline: none;top: 50%;transform: translateY(-50%);">
                     <option class="option-account-type" selected disabled hidden id="account-status">Account Status</option>
                     <option class="option-account-type status-active">active</option>
                     <option class="option-account-type status-inactive">inactive</option>
                     <option class="option-account-type status-closed">closed</option>  
                   </select>
-                </div>
               </div>
             
             

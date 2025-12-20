@@ -103,7 +103,7 @@ string StringifyAllLoans(const Doubly::List<Loan::Loan> &L)
 
 string StringifyAccount(const string &AccNum)
 {
-    static string storedImgs[] = {"ACC0001", "ACC0002", "ACC0003", "ACC0004", "ACC0005", "ACC0006", "ACC0007", "ACC0008", "ACC0009", "ACC0010",
+    static string storedImgs[15] = {"ACC0001", "ACC0002", "ACC0003", "ACC0004", "ACC0005", "ACC0006", "ACC0007", "ACC0008", "ACC0009", "ACC0010",
                                   "ACC0011", "ACC0012", "ACC0013", "ACC0014", "ACC0015"};
 
     Account::Account *accPtr = AccountController::FindAccount(accounts, accountCount, AccNum);
@@ -154,7 +154,7 @@ string StringifyAllAccounts()
 
 string StringifyEmployee(const string &EmpId)
 {
-    static string storedImgs[] = {"EMP0001", "EMP0002", "EMP0003", "EMP0004", "EMP0005",
+    static string storedImgs[15] = {"EMP0001", "EMP0002", "EMP0003", "EMP0004", "EMP0005",
                                   "EMP0006", "EMP0007", "EMP0008", "EMP0009", "EMP0010", "EMP0011",
                                   "EMP0012", "EMP0013", "EMP0014", "EMP0015"};
 

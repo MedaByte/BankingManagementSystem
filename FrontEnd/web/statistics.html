@@ -435,6 +435,7 @@
         let res ;
 
 
+
         res = await Load('load Interest Rate Evolution');
         interestRateEvelution = JSON.parse(res.result).map((val)=>{
           return (val/100).toFixed(2);

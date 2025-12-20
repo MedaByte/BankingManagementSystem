@@ -20,6 +20,10 @@ namespace StatisticsController {
 
     // Number of loans by type | Número de loans por tipo
     inline int*LoansByType(Loan::Loan loan[], int loanCount) {
+        if(!loanCount){
+            int*arr = new int[5]{0,0,0,0,0};
+            return arr;
+        }
         string type ;
         int car = 0, home = 0, student = 0, business = 0, general = 0;
         for (int i = 0; i < loanCount; i++) {
@@ -37,6 +41,10 @@ namespace StatisticsController {
 
     // Number of loans by status | Número de loans por status
     inline int*LoansByStatus(Loan::Loan loan[], int loanCount) {
+        if(!loanCount){
+            int*arr = new int[4]{0,0,0,0};
+            return arr;
+        }
         int active = 0, completed = 0, overdue = 0 , request = 0 ;
         string status ;
         for (int i = 0; i < loanCount; i++) {
@@ -52,6 +60,10 @@ namespace StatisticsController {
 
     // Active loans in date range | Loans ativos dentro de um intervalo de datas
     inline int ActiveLoansInDateRange(Loan::Loan loan[], int loanCount, string startDate , string endDate) { // work on it
+        if(!loanCount){
+            return 0 ;
+        }
+    
         int day1, month1, year1, day2, month2, year2;
         int*arr1 = Utils::parseDate(startDate);
         int*arr2 = Utils::parseDate(endDate);
@@ -95,6 +107,10 @@ namespace StatisticsController {
 
     // Customer with highest number of loans | Customer com mais loans
     inline string*AccountMostLoans(Account::Account accarr[], int accCount) {
+        if(!accCount){
+            string*arr = new string[3]{"No Acc","0","No Acc"};
+            return arr;
+        }
         int maxLoans = -1;
         Account::Account* best = nullptr;
         string accId ;
@@ -112,6 +128,10 @@ namespace StatisticsController {
 
     // Customer with highest balance | Customer com maior saldo
     inline string*CustomerHighestBalance(Customer::Customer customers[], int customerCount) {
+        if(!customerCount){
+            string*arr = new string[3]{"No Cus","0","No Cus"};
+            return arr;
+        }
         double maxBalance = -1;
         Customer::Customer* richest = nullptr;
         for (int i = 0; i < customerCount; i++) {
@@ -132,6 +152,11 @@ namespace StatisticsController {
 
     // Customer with lowest balance | Customer com menor saldo
     inline string*CustomerLowestBalance(Customer::Customer customers[], int customerCount) {
+        if(!customerCount){
+            string*arr = new string[3]{"No Cus","0","No Cus"};
+            return arr;
+        }
+
         double minBalance = 1e12;
         Customer::Customer* poorest = nullptr;
         for (int i = 0; i < customerCount; i++) {
@@ -157,6 +182,9 @@ namespace StatisticsController {
 
     // Number of employees per branch | Número de employees por branch
     inline int EmployeesPerBranch(Employee::Employee employees[], int employeeCount , int br) {
+        if(!employeeCount){
+            return 0 ; 
+        }
         int acc = 0 ;
         for(int i = 0 ; i < employeeCount ; i++){
             if( stoi(employees[i].BranchCode) == br){acc++;}
@@ -165,6 +193,7 @@ namespace StatisticsController {
     }
 
     inline string*HighestSalaryEmployee(Employee::Employee emp[], int empC) {
+        if(empC){
         int maxSal = -1;
         Employee::Employee*chosen = nullptr;
         string accId ;
@@ -176,14 +205,18 @@ namespace StatisticsController {
             
         }
         string*arr = new string[3]{chosen->Id,to_string(chosen->Salary),chosen->Status};
+        return arr;}
+        else{
+            string*arr = new string[3] {"No Emp","0","No Emp"};
         return arr;
+        }
         
     }
 
     inline string*LowestSalaryEmployee(Employee::Employee emp[], int empC) {
+        if(empC){
         int minSal = emp[0].Salary;
-        Employee::Employee*chosen = nullptr;
-        string accId ;
+        Employee::Employee*chosen =  &emp[0];
         for (int i = 0; i < empC; i++) {
             if(emp[i].Salary < minSal ){
                 minSal = emp[i].Salary ;
@@ -192,7 +225,11 @@ namespace StatisticsController {
             
         }
         string*arr = new string[3]{chosen->Id,to_string(chosen->Salary),chosen->Status};
-        return arr;
+        return arr;}
+        else{
+            string*arr = new string[3] {"No Emp","0","No Emp"};
+            return arr;
+        }
         
     }
 

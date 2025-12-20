@@ -310,6 +310,8 @@ int main()
 
         int totalAccountNb = StatisticsController::TotalNumberOfAccounts(accounts,accountCount);
 
+        timeLineCSV::updateAccountNumber(totalAccountNb);
+
         string*arr = StatisticsController::AccountMostLoans(accounts,accountCount);
         string MLCusId = arr[0];
         string ML = arr[1];
@@ -345,16 +347,24 @@ int main()
 
         EmployeeCSV::Load(emparr, employeeCountq);
 
+
         int totalNbOfEmp = StatisticsController::TotalEmployees(emparr,employeeCountq);
+
+        timeLineCSV::updateEmployeeNumber(totalNbOfEmp);
+
+
         arr = StatisticsController::HighestSalaryEmployee(emparr,employeeCountq);
+
 
         string HSEI = arr[0];
         string HSES = arr[1];
         string HSESt = arr[2];
 
         delete [] arr;
+        
 
         arr = StatisticsController::LowestSalaryEmployee(emparr,employeeCountq);
+
 
         string LSEI = arr[0];
         string LSES = arr[1];

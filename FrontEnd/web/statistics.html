@@ -436,16 +436,7 @@
 
 
 
-        res = await Load('load Interest Rate Evolution');
-        interestRateEvelution = JSON.parse(res.result).map((val)=>{
-          return (val/100).toFixed(2);
-        });
-
-        res = await Load('load Accounts Number Evolution');
-        nbOfCustomersEvelution = JSON.parse(res.result);
-
-        res = await Load('load Employees Number Evolution');
-        nbOfEmployeesEvelution = JSON.parse(res.result);
+       
 
 
         res = await Load('load loans Statistics');
@@ -457,6 +448,20 @@
         res = await Load('load Employee Statistics');
         EmployeesStatistics = JSON.parse(res.result);
 
+
+
+
+
+        res = await Load('load Interest Rate Evolution');
+        interestRateEvelution = JSON.parse(res.result).map((val)=>{
+          return (val/100).toFixed(2);
+        });
+
+        res = await Load('load Accounts Number Evolution');
+        nbOfCustomersEvelution = JSON.parse(res.result);
+
+        res = await Load('load Employees Number Evolution');
+        nbOfEmployeesEvelution = JSON.parse(res.result);
 
 
 

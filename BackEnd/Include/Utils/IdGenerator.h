@@ -25,7 +25,7 @@ namespace Utils{
         std::ofstream outFile(filepath);
         if (!outFile){
             // If writing fails, show error | Se escrever falhar, mostra erro
-            std::cout << "Couldn't open Id File for writing:" + filepath + ", PR=" + prefix;
+            std::cerr << "Couldn't open Id File for writing:" + filepath + ", PR=" + prefix;
             return "";
         }
         outFile << NewId;  // Save the new last ID in the file | Salva o novo último ID no arquivo

@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Cpp JSON Methods/jsonToCpp.h"
 #include "Cpp JSON Methods/CppToJson.h"
 #include "../../../BackEnd/Include/Controllers/EmployeeController.h"
 #include "../../../BackEnd/Include/Controllers/CustomerController.h"
 #include "../../../BackEnd/Include/Controllers/LoanController.h"
+#include "../../../BackEnd/Include/Controllers/StatisticsController.h"
 #include "../../../BackEnd/CSV/CustomerCSV.h"
 #include "../../../BackEnd/CSV/TransactionCSV.h"
 #include "../../../BackEnd/CSV/EmployeeCSV.h"
@@ -14,23 +14,12 @@ using namespace std;
 int main()
 {
     loadEverything();
-    cerr << "                New Run             " << endl
-         << endl
-         << endl
-         << endl;
     string input;
     getline(cin, input);
-    std::cerr << "Received input:   " << input << std::endl;
     json j = json::parse(input);
 
     string command = j["command"].get<string>();
     string info = j["info"].get<string>();
-
-    std::cerr << "object   " << j["object"] << endl;
-
-    std::cerr << "J is good  " << endl;
-    std::cerr << "Command : " << command << std::endl;
-    std::cerr << "Info : " << info << std::endl;
 
     if (command == "Load All Accounts")
     {
@@ -249,6 +238,194 @@ int main()
         AccountCSV::Load(accarr, accountCountq, cusarr, &customerCountq);
 
         EmployeeController::ChangeAccountStatus(accarr, accountCountq, j["info"].get<string>(), j["object"]["newStatus"].get<string>());
+    }
+    else if (command == "load Interest Rate Evolution")
+    {
+        std::cout << timeLineCSV::stringifyInterestRateAsArray() << endl;
+    }
+    else if (command == "load Accounts Number Evolution")
+    {
+        std::cout << timeLineCSV::stringifyAccountsNumberAsArray() << endl;
+    }
+    else if (command == "load Employees Number Evolution")
+    {
+        std::cout << timeLineCSV::stringifyEmployeesNumberAsArray() << endl;
+    }
+
+    else if (command == "load loans Statistics")
+    {
+        int loanCountq = 0;
+        Loan::Loan loansarr[50];
+        LoanCSV::Load(loansarr, loanCountq);
+        int totalNumberOfLoans = StatisticsController::TotalLoans(loansarr,loanCountq);
+        int*types = StatisticsController::LoansByType(loansarr,loanCountq);
+        int buisness = types[0];
+        int car = types[1];
+        int home = types[2];
+        int student = types[3];
+        int general = types[4];
+
+
+        delete[] types ;
+
+        int*status = StatisticsController::LoansByStatus(loansarr,loanCountq);
+        int active = status[0];
+        int completed = status[1];
+        int overdue = status[2];
+        int Requests = status[3];
+
+        delete[] status ;
+
+        std::cout<<StringifyLoanStatistics(totalNumberOfLoans,buisness,car,home,student,general,active,completed,overdue,Requests)<<endl ;
+
+    }
+    else if(command=="get Loans From Date"){
+        int loanCountq = 0;
+        Loan::Loan loansarr[50];
+        LoanCSV::Load(loansarr, loanCountq);
+        std::string startDate = j["object"]["startDate"].get<string>();
+        std::string endDate = j["object"]["endDate"].get<string>();
+
+
+
+        int nb = StatisticsController::ActiveLoansInDateRange(loansarr,loanCountq,startDate,endDate);
+        std::cout<<nb<<endl ;
+    }
+    else if(command=="get Employees From Branch"){
+        int employeeCountq = 0;
+        string*arr;
+        Employee::Employee emparr[50];
+        EmployeeCSV::Load(emparr, employeeCountq);
+
+        string br = j["info"].get<string>();
+
+
+
+        int nb = StatisticsController::EmployeesPerBranch(emparr,employeeCountq,stoi(br));
+        std::cout<<nb<<endl ;
+    }
+    else if (command == "load Customer Statistics"){
+        loadEverything();
+        
+
+        int totalAccountNb = StatisticsController::TotalNumberOfAccounts(accounts,accountCount);
+
+        string*arr = StatisticsController::AccountMostLoans(accounts,accountCount);
+        string MLCusId = arr[0];
+        string ML = arr[1];
+        string MLN = arr[2];
+
+        delete[] arr ;
+
+        arr = StatisticsController::CustomerHighestBalance(customers,customerCount);
+        string MBCusId = arr[0];
+        string MB = arr[1];
+        string MBN = arr[2];
+
+        delete[] arr;
+
+
+        arr = StatisticsController::CustomerLowestBalance(customers,customerCount);
+        string LBCusId = arr[0];
+        string LB = arr[1];
+        string LBN = arr[2];
+
+        delete[]arr;
+
+
+
+        std::cout<<StringifyCustomerStatistics(totalAccountNb,MLCusId,ML,MLN,MBCusId,MB,MBN,LBCusId,LB,LBN)<<endl ;
+
+
+    }
+    else if (command == "load Employee Statistics"){
+        int employeeCountq = 0;
+        string*arr;
+        Employee::Employee emparr[50];
+
+        EmployeeCSV::Load(emparr, employeeCountq);
+
+        int totalNbOfEmp = StatisticsController::TotalEmployees(emparr,employeeCountq);
+        arr = StatisticsController::HighestSalaryEmployee(emparr,employeeCountq);
+
+        string HSEI = arr[0];
+        string HSES = arr[1];
+        string HSESt = arr[2];
+
+        delete [] arr;
+
+        arr = StatisticsController::LowestSalaryEmployee(emparr,employeeCountq);
+
+        string LSEI = arr[0];
+        string LSES = arr[1];
+        string LSESt = arr[2];
+
+        delete[] arr;
+
+        std::cout<<StringifyEmployeeStatistics(totalNbOfEmp,HSEI,HSES,HSESt,LSEI,LSES,LSESt)<<endl ;
+
+    }
+
+
+    else if (command == "check new month")
+    {
+        string inf = j["info"].get<string>();
+        int oldMonth = stoi(timeLineCSV::getLastMonth());
+        int newMonth = stoi(inf);
+        int diff = Utils::monthDifference(oldMonth, newMonth);
+        if(diff<=0){return -1;}
+        else if (diff >=1)
+        {
+            if(diff > 1){
+                for (int i = 0; i < diff - 1; i++) {
+                    timeLineCSV::addNewMonth(stoi(timeLineCSV::getCurrentInterestRate()), stoi(timeLineCSV::getCurrentMonthAccountsNumber()), stoi(timeLineCSV::getCurrentMonthEmployeesNumber()), stoi(timeLineCSV::getlastMonthLoansNumber()));
+                }
+            }
+
+            int loanCountq = 0;
+            Loan::Loan loansarr[50];
+            LoanCSV::Load(loansarr, loanCountq);
+            int totalNumberOfLoans = StatisticsController::TotalLoans(loansarr,loanCountq);
+
+            int employeeCountq = 0;
+            Employee::Employee emparr[50];
+            EmployeeCSV::Load(emparr, employeeCountq);
+            int totalNbOfEmp = StatisticsController::TotalEmployees(emparr,employeeCountq);
+
+            loadEverything();
+            int totalAccountNb = StatisticsController::TotalNumberOfAccounts(accounts,accountCount);
+
+            timeLineCSV::addNewMonth(stoi(timeLineCSV::getCurrentInterestRate()), totalAccountNb , totalNbOfEmp , totalNumberOfLoans);
+            timeLineCSV::updateLastMonth(newMonth);
+        }
+    }
+    else if (command == "Check CusId Existence")
+    {
+        int customerCountq = 0;
+        Customer::Customer cusarr[50];
+        CustomerCSV::Load(cusarr, customerCountq);
+        Customer::Customer *cus;
+        cus = CustomerController::FindCustomer(cusarr, customerCountq, info);
+        if (cus)
+        {
+            std::cout << "true";
+        }
+        else
+        {
+            std::cout << "false";
+        }
+    }
+    else if (command == "Create Customer"){
+        string name = j["object"]["name"].get<string>();
+        string lastName = j["object"]["lastName"].get<string>();
+        string adress = j["object"]["adress"].get<string>();
+        string phoneNumber = j["object"]["phoneNumber"].get<string>();
+
+        int customerCountq = 0;
+        Customer::Customer cusarr[50];
+        CustomerCSV::Load(cusarr, customerCountq);
+        CustomerController::CreateCustomer(cusarr,customerCountq,name,lastName,adress,phoneNumber);
+
     }
 
     return 0;

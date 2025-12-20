@@ -97,6 +97,7 @@ namespace LoanCSV {
             loans[count].RemainingAmount = remaining;
             loans[count].EndDate = endDate;
 
+
             // Link to account if provided | Liga ao account se fornecido
             if (accounts != nullptr) {
                 for (int i = 0; i < accountCount; ++i) {
@@ -106,11 +107,12 @@ namespace LoanCSV {
                     }
                 }
             }
+                
+            
 
             ++count;
             if (count >= 100000) break; // Safety limit | Limite de segurança
         }
-
         file.close();
     }
 

@@ -10,124 +10,108 @@
 #include <iostream>
 #include <string>
 
+
 namespace StatisticsController {
 
     // Total number of loans | Total de loans
-    inline void TotalLoans(Customer::Customer customers[], int customerCount) {
-        int total = 0;
-        for (int i = 0; i < customerCount; i++) {
-            auto accountNode = customers[i].Accounts.Head;
-            while (accountNode) {
-                total += accountNode->Data.Loans.Size;
-                accountNode = accountNode->Next;
-            }
-        }
-        std::cout << "Total Loans: " << total << "\n";
+    inline int TotalLoans(Loan::Loan loan[], int loanCount) {
+        return loanCount ;
     }
 
     // Number of loans by type | Número de loans por tipo
-    inline void LoansByType(Customer::Customer customers[], int customerCount) {
+    inline int*LoansByType(Loan::Loan loan[], int loanCount) {
+        string type ;
         int car = 0, home = 0, student = 0, business = 0, general = 0;
-        for (int i = 0; i < customerCount; i++) {
-            auto accountNode = customers[i].Accounts.Head;
-            while (accountNode) {
-                auto loanNode = accountNode->Data.Loans.Head;
-                while (loanNode) {
-                    std::string type = loanNode->Data.type;
-                    if (type == "car") car++;
-                    else if (type == "home") home++;
-                    else if (type == "student") student++;
-                    else if (type == "business") business++;
-                    else if (type == "general") general++;
-                    loanNode = loanNode->Next;
-                }
-                accountNode = accountNode->Next;
-            }
+        for (int i = 0; i < loanCount; i++) {
+            type = loan[i].type;
+            if (std::toupper(type[0]) == 'C') car++;
+            else if (std::toupper(type[0]) == 'H') home++;
+            else if (std::toupper(type[0]) == 'S') student++;
+            else if (std::toupper(type[0]) == 'B') business++;
+            else if (std::toupper(type[0]) == 'G') general++;
         }
-        std::cout << "Car Loans: " << car << "\n";
-        std::cout << "Home Loans: " << home << "\n";
-        std::cout << "Student Loans: " << student << "\n";
-        std::cout << "Business Loans: " << business << "\n";
-        std::cout << "General Loans: " << general << "\n";
+        
+        int*res = new int[5]{business,car,home,student,general} ;// remember to free memory !!!
+        return res ;
     }
 
     // Number of loans by status | Número de loans por status
-    inline void LoansByStatus(Customer::Customer customers[], int customerCount) {
-        int active = 0, completed = 0, overdue = 0;
-        for (int i = 0; i < customerCount; i++) {
-            auto accountNode = customers[i].Accounts.Head;
-            while (accountNode) {
-                auto loanNode = accountNode->Data.Loans.Head;
-                while (loanNode) {
-                    std::string status = loanNode->Data.Status;
-                    if (status == "active") active++;
-                    else if (status == "completed") completed++;
-                    else if (status == "overdue") overdue++;
-                    loanNode = loanNode->Next;
-                }
-                accountNode = accountNode->Next;
-            }
+    inline int*LoansByStatus(Loan::Loan loan[], int loanCount) {
+        int active = 0, completed = 0, overdue = 0 , request = 0 ;
+        string status ;
+        for (int i = 0; i < loanCount; i++) {
+            status = loan[i].Status;
+            if (status == "active") active++;
+            else if (status == "completed") completed++;
+            else if (status == "overdue") overdue++;
+            else if (status[0] == 'W') request++;
         }
-        std::cout << "Active Loans: " << active << "\n";
-        std::cout << "Completed Loans: " << completed << "\n";
-        std::cout << "Overdue Loans: " << overdue << "\n";
+        int*res = new int[4]{active,completed,overdue,request} ;// remember to free memory !!!
+        return res ;
     }
 
     // Active loans in date range | Loans ativos dentro de um intervalo de datas
-    inline void ActiveLoansInDateRange(Customer::Customer customers[], int customerCount) {
+    inline int ActiveLoansInDateRange(Loan::Loan loan[], int loanCount, string startDate , string endDate) { // work on it
         int day1, month1, year1, day2, month2, year2;
-        std::cout << "Enter start date (dd mm yyyy): ";
-        std::cin >> day1 >> month1 >> year1;
-        std::cout << "Enter end date (dd mm yyyy): ";
-        std::cin >> day2 >> month2 >> year2;
+        int*arr1 = Utils::parseDate(startDate);
+        int*arr2 = Utils::parseDate(endDate);
+
+
+        day1 = arr1[0];
+        month1 = arr1[1];
+        year1 = arr1[2];
+
+        day2 = arr2[0];
+        month2 = arr2[1];
+        year2 = arr2[2];
+
+
+        delete[]arr1;
+        delete[]arr2;
 
         Date::Date start{day1, month1, year1};
         Date::Date end{day2, month2, year2};
 
         int count = 0;
-        for (int i = 0; i < customerCount; i++) {
-            auto accountNode = customers[i].Accounts.Head;
-            while (accountNode) {
-                auto loanNode = accountNode->Data.Loans.Head;
-                while (loanNode) {
-                    Loan::Loan& L = loanNode->Data;
-                    if (L.Status == "active") {
-                        if ((L.StartDate.Year > start.Year || (L.StartDate.Year == start.Year && L.StartDate.Month > start.Month) ||
-                            (L.StartDate.Year == start.Year && L.StartDate.Month == start.Month && L.StartDate.Day >= start.Day)) &&
-                            (L.EndDate.Year < end.Year || (L.EndDate.Year == end.Year && L.EndDate.Month < end.Month) ||
-                            (L.EndDate.Year == end.Year && L.EndDate.Month == end.Month && L.EndDate.Day <= end.Day))) {
-                            count++;
-                        }
-                    }
-                    loanNode = loanNode->Next;
+        for (int i = 0; i < loanCount; i++) {
+
+            if (loan[i].Status == "active") {
+                if ((loan[i].StartDate.Year > start.Year || (loan[i].StartDate.Year == start.Year && loan[i].StartDate.Month > start.Month) ||
+                    (loan[i].StartDate.Year == start.Year && loan[i].StartDate.Month == start.Month && loan[i].StartDate.Day >= start.Day)) &&
+                    (loan[i].EndDate.Year < end.Year || (loan[i].EndDate.Year == end.Year && loan[i].EndDate.Month < end.Month) ||
+                    (loan[i].EndDate.Year == end.Year && loan[i].EndDate.Month == end.Month && loan[i].EndDate.Day <= end.Day))) {
+                    count++;
                 }
-                accountNode = accountNode->Next;
             }
+                    
+            
         }
-        std::cout << "Active loans in the given date range: " << count << "\n";
+        return count ;
+    }
+
+    inline int TotalNumberOfAccounts(Account::Account Acc[] , int AccountCount){
+        return AccountCount ;
     }
 
     // Customer with highest number of loans | Customer com mais loans
-    inline void CustomerMostLoans(Customer::Customer customers[], int customerCount) {
+    inline string*AccountMostLoans(Account::Account accarr[], int accCount) {
         int maxLoans = -1;
-        Customer::Customer* best = nullptr;
-        for (int i = 0; i < customerCount; i++) {
-            int loanCount = 0;
-            auto accountNode = customers[i].Accounts.Head;
-            while (accountNode) {
-                loanCount += accountNode->Data.Loans.Size;
-                accountNode = accountNode->Next;
+        Account::Account* best = nullptr;
+        string accId ;
+        for (int i = 0; i < accCount; i++) {
+            if(accarr[i].Loans.Size > maxLoans ){
+                maxLoans = accarr[i].Loans.Size ; 
+                best = &accarr[i];
             }
-            if (loanCount > maxLoans) {
-                maxLoans = loanCount;
-                best = &customers[i];
-            }
+            
         }
-        if (best) std::cout << "Customer with most loans: " << best->Name << " " << best->LastName << " (" << maxLoans << " loans)\n";
+        string*arr = new string[3]{best->AccountNumber,to_string(maxLoans),(best->HolderName)};
+        return arr;
+        
     }
 
     // Customer with highest balance | Customer com maior saldo
-    inline void CustomerHighestBalance(Customer::Customer customers[], int customerCount) {
+    inline string*CustomerHighestBalance(Customer::Customer customers[], int customerCount) {
         double maxBalance = -1;
         Customer::Customer* richest = nullptr;
         for (int i = 0; i < customerCount; i++) {
@@ -142,12 +126,13 @@ namespace StatisticsController {
                 richest = &customers[i];
             }
         }
-        if (richest) std::cout << "Customer with highest balance: " << richest->Name << " " << richest->LastName << " (" << maxBalance << " TND)\n";
+        string*arr = new string[3]{richest->Id,to_string(maxBalance),(richest->Name+" "+richest->LastName)};
+        return arr;
     }
 
     // Customer with lowest balance | Customer com menor saldo
-    inline void CustomerLowestBalance(Customer::Customer customers[], int customerCount) {
-        double minBalance = 1e9;
+    inline string*CustomerLowestBalance(Customer::Customer customers[], int customerCount) {
+        double minBalance = 1e12;
         Customer::Customer* poorest = nullptr;
         for (int i = 0; i < customerCount; i++) {
             auto accountNode = customers[i].Accounts.Head;
@@ -161,41 +146,54 @@ namespace StatisticsController {
                 poorest = &customers[i];
             }
         }
-        if (poorest) std::cout << "Customer with lowest balance: " << poorest->Name << " " << poorest->LastName << " (" << minBalance << " TND)\n";
+        string*arr = new string[3]{poorest->Id,to_string(minBalance),(poorest->Name+" "+poorest->LastName)};
+        return arr;
     }
 
     // Total number of employees | Total de employees
-    inline void TotalEmployees(Employee::Employee employees[], int employeeCount) {
-        std::cout << "Total employees: " << employeeCount << "\n";
+    inline int TotalEmployees(Employee::Employee employees[], int employeeCount) {
+        return employeeCount;
     }
 
     // Number of employees per branch | Número de employees por branch
-    inline void EmployeesPerBranch(Employee::Employee employees[], int employeeCount) {
-        struct BranchCount { std::string Branch; int Count; };
-        BranchCount branches[50];
-        int branchCount = 0;
-
-        for (int i = 0; i < employeeCount; i++) {
-            std::string branch = employees[i].BranchCode;
-            bool found = false;
-            for (int j = 0; j < branchCount; j++) {
-                if (branches[j].Branch == branch) {
-                    branches[j].Count++;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found && branchCount < 50) {
-                branches[branchCount].Branch = branch;
-                branches[branchCount].Count = 1;
-                branchCount++;
-            }
+    inline int EmployeesPerBranch(Employee::Employee employees[], int employeeCount , int br) {
+        int acc = 0 ;
+        for(int i = 0 ; i < employeeCount ; i++){
+            if( stoi(employees[i].BranchCode) == br){acc++;}
         }
+        return acc;
+    }
 
-        std::cout << "Employees per branch:\n";
-        for (int i = 0; i < branchCount; i++) {
-            std::cout << "Branch " << branches[i].Branch << ": " << branches[i].Count << "\n";
+    inline string*HighestSalaryEmployee(Employee::Employee emp[], int empC) {
+        int maxSal = -1;
+        Employee::Employee*chosen = nullptr;
+        string accId ;
+        for (int i = 0; i < empC; i++) {
+            if(emp[i].Salary > maxSal ){
+                maxSal = emp[i].Salary ;
+                chosen = &emp[i];
+            }
+            
         }
+        string*arr = new string[3]{chosen->Id,to_string(chosen->Salary),chosen->Status};
+        return arr;
+        
+    }
+
+    inline string*LowestSalaryEmployee(Employee::Employee emp[], int empC) {
+        int minSal = emp[0].Salary;
+        Employee::Employee*chosen = nullptr;
+        string accId ;
+        for (int i = 0; i < empC; i++) {
+            if(emp[i].Salary < minSal ){
+                minSal = emp[i].Salary ;
+                chosen = &emp[i];
+            }
+            
+        }
+        string*arr = new string[3]{chosen->Id,to_string(chosen->Salary),chosen->Status};
+        return arr;
+        
     }
 
 }

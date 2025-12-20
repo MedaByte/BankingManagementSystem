@@ -12,6 +12,7 @@
 #include "../../CSV/EmployeeCSV.h"
 #include "../../CSV/TransactionCSV.h" 
 #include "../../CSV/LoanCSV.h" 
+#include "../../CSV/timeLineCSV.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -36,6 +37,7 @@ namespace EmployeeController {
 
 
         employees[employeeCount++] = Employee::Create(name, lastName, address, salary, branch);
+        timeLineCSV::updateEmployeeNumber(employeeCount);
         EmployeeCSV::Write(employees, employeeCount); // Persist employees | Persistir empregados
     }
 
@@ -78,6 +80,7 @@ namespace EmployeeController {
             employees[j] = employees[j+1];
         }
         employeeCount--;
+        timeLineCSV::updateEmployeeNumber(employeeCount);
         EmployeeCSV::Write(employees, employeeCount); // Update CSV | Atualizar CSV
     }
 
@@ -112,17 +115,21 @@ namespace EmployeeController {
             if (customers[i].Id == CustomerId) { 
                 std::cerr << "kos om sisi";
                 customer = &customers[i]; break; }
-            std::cerr << "CustomerId: " << customers[i].Id << "|" << CustomerId << "\n";
+          
         }
-        if (!customer) { std::cerr << "Customer not found!1\n"; return; }
+        if (!customer) { return; }
 
-        if (accountCount >= 200) { std::cerr << "Account array full!\n"; return; }
+        if (accountCount >= 200) { return; }
 
 
         accounts[accountCount] = Account::Create(HolderName, Type, Branch, "active", CustomerId , Note);
         Account::Account* accPtr = &accounts[accountCount];
         accountCount++;
 
+
+
+
+        timeLineCSV::updateAccountNumber(accountCount);
         Customer::AddAccount(customer, *accPtr);
         AccountCSV::Write(accounts, accountCount); // Persist account | Persistir conta
     }
@@ -162,6 +169,7 @@ namespace EmployeeController {
                 ++i;
             }
         }
+        timeLineCSV::updateAccountNumber(accountCount);
         AccountCSV::Write(accounts, accountCount); // Update CSV | Atualizar CSV;
     }
 

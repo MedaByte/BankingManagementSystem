@@ -200,6 +200,7 @@
       async function main(){        
         res = await Load('Load All Employees') ;
         allEmployees = JSON.parse(res.result) ;
+        console.log(allEmployees)
       }
       function validateEmployeeId(id){
 

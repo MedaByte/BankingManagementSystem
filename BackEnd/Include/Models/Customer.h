@@ -26,6 +26,7 @@ namespace Customer {
         const std::string& Phone,
         std::string Id = Utils::GenerateId(Utils::GetOriginFolder() + "/BackEnd/Data/last_customer_id.txt", "CUS")
     ) {
+        
         Customer NewCustomer{
             Id,
             Name,

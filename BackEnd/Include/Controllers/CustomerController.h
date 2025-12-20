@@ -12,6 +12,7 @@
 #include "../../CSV/AccountCSV.h"
 #include "../../CSV/TransactionCSV.h"
 
+
 namespace CustomerController
 {
 
@@ -35,12 +36,13 @@ namespace CustomerController
     {
         if (customerCount >= 100)
         {
-            std::cout << "Customer limit reached!\n";
+            std::cerr << "Customer limit reached!\n";
             throw std::runtime_error("Overflow");
         }
 
         Customer::Customer C = Customer::Create(name, lastName, address, phone);
         customers[customerCount] = C;
+        std::cout<<C.Id<<std::endl ;
 
         CustomerCSV::Write(customers, customerCount + 1); // Save customer array to CSV | Salvar array de clientes no CSV
 
@@ -59,7 +61,7 @@ namespace CustomerController
     {
         if (accountCount >= 200)
         {
-            std::cout << "Account limit reached!\n";
+            std::cerr << "Account limit reached!\n";
             throw std::runtime_error("Overflow");
         }
 

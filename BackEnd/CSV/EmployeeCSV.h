@@ -91,7 +91,6 @@ namespace EmployeeCSV {
         file << "Id,Name,LastName,Address,Salary,HireDate,BranchCode,Status\n";
         for (int i = 0; i < count; ++i) {
             const auto& E = employees[i];
-            std::cerr << i;
             file << E.Id << ","
                     << E.Name << ","
                     << E.LastName << ","

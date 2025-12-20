@@ -11,11 +11,10 @@
     <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,300,500&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="css/styles.css"/>
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
   </head>
   <body class="antialiased bg-body text-body font-body">
     <div>
-      <section x-data="{ mobileNavOpen: false }">
+      <section>
         <div class="container px-4 mx-auto headder special" >
           <div class="flex items-center justify-between pt-5 pb-2.5 -m-2" style="padding: 0 calc(2.5vh + 2.5vw); padding-top:calc(1vh + 1vw) ;padding-bottom: calc(1vh + 1vw);">            <div class="w-auto p-2">
               <div class="flex flex-wrap items-center">
@@ -73,10 +72,11 @@
                     <div class="st-point">
                       <div class="st-pt-an"></div>
                     </div>
-                    <select class="select-account-type status-active" id="s-loan-status" style="outline: none;font-size: none;width:auto ; padding : 0  ;margin-top: 0px;height: 0%;">
+                    <select class="select-account-type status-active" id="s-loan-status" style="outline: none;font-size: none;width:auto ; padding : 0  ;margin-top: 0px;height: 0%;" disabled>
                       <option class="option-account-type status-active">Active</option>
                       <option class="option-account-type status-completed">Completed</option>
                       <option class="option-account-type status-overdue">Overdue</option>
+                      <option class="option-account-type status-Request">Request</option>
                     </select> 
                     loans :
                   </div>
@@ -94,11 +94,12 @@
                     <div class="st-point">
                       <div class="st-pt-an"></div>
                     </div>
-                    <select class="select-account-type"  id="s-loan-type" style="outline: none;font-size: none;width:auto ; padding : 0  ;margin-top: 0px;height: 0%;">
+                    <select class="select-account-type"  id="s-loan-type" style="outline: none;font-size: none;width:auto ; padding : 0  ;margin-top: 0px;height: 0%;" disabled>
                       <option class="option-account-type unit">buisness</option>
                       <option class="option-account-type unit">car</option>
                       <option class="option-account-type unit">home</option>
                       <option class="option-account-type unit">student</option>
+                      <option class="option-account-type unit">general</option>
                     </select> 
                     loans :
                   </div>
@@ -148,11 +149,11 @@
                     <div class="st-point">
                       <div class="st-pt-an"></div>
                     </div>
-                     Total nb of Customers :
+                     Total nb of Accounts :
                   </div>
                   <div  class="st-holder">
                     <div id="total-number-of-Cus">0</div>
-                    <div class="unit">Customers</div>
+                    <div class="unit">Account</div>
                   </div>
                   <div class="st-b-g">
                     <div  id="diff-Total-C" >▲ 0</div>% Last Month
@@ -164,14 +165,14 @@
                     <div class="st-point">
                       <div class="st-pt-an"></div>
                     </div>
-                     Cus With Most Loans :
+                     Acc With Most Loans :
                   </div>
                   <div  class="st-holder">
-                    <div id="cus-most-loan">CUS0000</div>
-                    <div class="unit" id="most-loan-for-cus">57 Loans</div>
+                    <div id="cus-most-loan">ACC0000</div>
+                    <div class="unit" id="most-loan-for-cus">0 Loans</div>
                   </div>
                   <div id="acc-of-most-loan-of-cus">
-                    ACC0000
+                    Pending...
                   </div>
                 </div>
 
@@ -187,7 +188,7 @@
                     <div class="unit" id="most-balance-for-cus">0 TND</div>
                   </div>
                   <div  id="acc-of-most-balance-of-cus">
-                    ACC0000
+                    Pending...
                   </div>
                 </div>
 
@@ -203,7 +204,7 @@
                     <div class="unit" id="least-balance-for-cus">0 TND</div>
                   </div>
                   <div id="acc-of-least-balance-of-cus">
-                    ACC0000
+                    Pending...
                   </div>
                 </div>
 
@@ -266,8 +267,8 @@
                     <div id="emp-most-salary">EMP0000</div>
                     <div class="unit" id="most-salary-for-emp">0 TND</div>
                   </div>
-                  <div  class="status-active" style="letter-spacing: 0.5px;font-size: calc(0.5vh + 0.5vw);" id="emp-most-salary-status">
-                    Active
+                  <div  style="letter-spacing: 0.5px;font-size: calc(0.5vh + 0.5vw);" id="emp-most-salary-status">
+                    Pending...
                   </div>
                 </div>
 
@@ -282,8 +283,8 @@
                     <div   id="emp-least-salary">EMP0000</div>
                     <div class="unit" id="least-salary-for-emp">0 TND</div>
                   </div>
-                  <div  class="status-vacation" style="letter-spacing: 0.5px;font-size: calc(0.5vh + 0.5vw);" id="emp-least-salary-status">
-                    Vacation
+                  <div   style="letter-spacing: 0.5px;font-size: calc(0.5vh + 0.5vw);" id="emp-least-salary-status">
+                    Pending...
                   </div>
                 </div>
 
@@ -384,6 +385,15 @@
         'Sep', 'Oct', 'Nov', 'Dec'
       ];
       let last6months = generateLast6Months();
+      el = document.getElementById('s-loan-status');
+      el2 = document.getElementById('s-loan-type');
+      setTimeout(()=>el.disabled=true,10);
+      setTimeout(()=>el2.disabled=true,10);
+
+      let AI = 3000 ;
+
+      let FA = 1000 ;
+      
 
       function generateLast6Months(){
         let month = new Date().getMonth()  ;
@@ -395,91 +405,97 @@
           month++;
           if(month==12){month=0}
         }
-        console.log(arr.map((val)=>allMonths[val]));
         return arr.map((val)=>allMonths[val])
       }
       main();
       async function main(){
         // res = await Load('Load All Employees');
         // allEmployees = JSON.parse(res.result);
-        window.scrollTo(0,0);
+        window.scrollTo(0,0);     
         updateLoanStatus();
         updateLoanType();
         updateLoanDate();
         updateEmplyeeBranch();
-        loanStatistics = {
-          totalNbOfLoans : 157 ,
-          ActiveLoans : 90 ,
-          CompletedLoans:25,
-          OverdueLoans:42 ,
-          buisnessLoans : 57 ,
-          carLoans : 23 , 
-          homeLoans :60 , 
-          studentLoans : 17
-        };
-        loanPercentage = {
-          totalNbOfLoans : 17.7 ,
-          ActiveLoans : 8.3 ,
-          CompletedLoans:42.9,
-          OverdueLoans:31.5 ,
-          buisnessLoans : 23.5 ,
-          carLoans : 83.04 , 
-          homeLoans :17 , 
-          studentLoans : 1.7
-        }
+        
+        
 
-        CustomersStatistics = {
-          totalNbOfCustomers : 177 ,
-          mostLoans : {CusNb : "CUS0001" , AccNb:"ACC0001",loanNb:7} ,
-          highestBalance : {CusNb : "CUS0018" , AccNb:"ACC0009",balance:175000} ,
-          lowestBalance : {CusNb : "CUS0001" , AccNb:"ACC0001",balance:95} 
-
-        };
-
-        CustomersPercentage = {
-          totalNbOfCustomers : 1.7 
-        }
-
-        EmployeesStatistics = {
-          totalNbOfEmployees : 23 ,
-          highestSalary : {EmpNb : "EMP0001" ,salary:2175000} ,
-          lowestSalary : {EmpNb : "EMP0003" ,salary:1500} 
-        };
-
-        EmployeesPercentage = {
-          totalNbOfEmployees : -8.7 ,
-          highestSalary :'Active',
-          lowestSalary :'Vacation'
-        }
-
-
-        interestRateEvelution=[2.55,2.53,2.54,2.47,2.5,2.5];
-        nbOfCustomersEvelution=[1302,984,842,1021,1441,1542];
-        nbOfEmployeesEvelution=[102,121,112,134,200,221];
+        
 
 
 
 
-      
+
+
+        let interestRateEvelution ;
+        let nbOfCustomersEvelution ;
+        let nbOfEmployeesEvelution ;
+        let LoansSdata ;
+        let CustomersStatistics ;
+        let EmployeesStatistics ; 
+        let res ;
+
+
+        res = await Load('load Interest Rate Evolution');
+        interestRateEvelution = JSON.parse(res.result).map((val)=>{
+          return (val/100).toFixed(2);
+        });
+
+        res = await Load('load Accounts Number Evolution');
+        nbOfCustomersEvelution = JSON.parse(res.result);
+
+        res = await Load('load Employees Number Evolution');
+        nbOfEmployeesEvelution = JSON.parse(res.result);
+
+
+        res = await Load('load loans Statistics');
+        LoansSdata = JSON.parse(res.result);
+
+        res = await Load('load Customer Statistics');
+        CustomersStatistics = JSON.parse(res.result);
+
+        res = await Load('load Employee Statistics');
+        EmployeesStatistics = JSON.parse(res.result);
+
+
+
+
+
+
+
+
+
+
+      setTimeout(()=>el.disabled=false,AI + 75); // putted after all awaits
+      setTimeout(()=>el2.disabled=false,AI + 75);
+
 
         
 
         
         function updateLoanStatus(){
           let el = document.getElementById('s-loan-status') ;
+          
           el.addEventListener('change',()=>{
             el.className = "select-account-type status-"+el.value ;
+            if(LoansSdata[0][el.value+"Loans"] != 0){
+              el.disabled = true ;
+              setTimeout(()=>{el.disabled=false;},FA+75)
+            }
             document.getElementById('hellnah').className = 'st-b-n status-'+el.value ;
-            liveStatisticsAnimation(Math.abs(loanPercentage[el.value+"Loans"]),0.01,1000,document.getElementById('diff-Status-L'));
-            liveStatisticsAnimation(loanStatistics[el.value+"Loans"],1,1000,document.getElementById('nb-loans-by-status'));
+            liveStatisticsAnimation(Math.abs(LoansSdata[1][el.value+"Loans"]),0.01,FA,document.getElementById('diff-Status-L'));
+            liveStatisticsAnimation(LoansSdata[0][el.value+"Loans"],1,FA,document.getElementById('nb-loans-by-status'));
           })
         }
 
         function updateLoanType(){
           let el = document.getElementById('s-loan-type') ;
           el.addEventListener('change',()=>{
-            liveStatisticsAnimation(Math.abs(loanPercentage[el.value+"Loans"]),0.01,1000,document.getElementById('diff-Type-L'));
-            liveStatisticsAnimation(loanStatistics[el.value+"Loans"],1,1000,document.getElementById('nb-loans-by-type'));
+            if(LoansSdata[0][el.value+"Loans"] != 0){
+              el.disabled = true ;
+              setTimeout(()=>{el.disabled=false;},FA+75)
+            }
+            liveStatisticsAnimation(Math.abs(LoansSdata[1][el.value+"Loans"]),0.01,FA,document.getElementById('diff-Type-L'));
+            liveStatisticsAnimation(LoansSdata[0][el.value+"Loans"],1,FA,document.getElementById('nb-loans-by-type'));
           })
         }
 
@@ -490,20 +506,18 @@
           let res ;
           el.addEventListener('keypress',async (ev)=>{
             if(ev.key=='Enter' && el.value && el2.value ){
-              // res = await Load('Load All Employees');
-              // allEmployees = JSON.parse(res.result);
-              res = 17 // default val to be cahnged !!
-              liveStatisticsAnimation(res,1,1500,document.getElementById('nb-of-loans-by-date'));
+              res = await Load('get Loans From Date',"10",{startDate:el.value,endDate:el2.value});
+              res = res.result ; 
+              liveStatisticsAnimation(res,1,(1.5)*FA,document.getElementById('nb-of-loans-by-date'));
               el.blur();
             }
           })
 
           el2.addEventListener('keypress',async (ev)=>{
             if(ev.key=='Enter' && el.value && el2.value){
-              //res = await Load('Load All Employees');
-              // allEmployees = JSON.parse(res.result);
-              res = 17 // default val to be cahnged !!
-              liveStatisticsAnimation(res,1,1500,document.getElementById('nb-of-loans-by-date'));
+              res = await Load('get Loans From Date',"10",{startDate:el.value,endDate:el2.value});
+              res = res.result ; 
+              liveStatisticsAnimation(res,1,(1.5)*FA,document.getElementById('nb-of-loans-by-date'));
               el2.blur();
             }
           })
@@ -513,16 +527,17 @@
         async function updateEmplyeeBranch(){
           let el = document.getElementById('nb-of-emp-by-branch-inp') ;
           let res ;
+          let br ;
           el.addEventListener('keyup',async (ev)=>{
             el.setCustomValidity('')
             if(ev.key=='Enter'){
               if (Number.isInteger(Number(el.value))){
-                // res = await Load('Load All Employees');
-                // allEmployees = JSON.parse(res.result);
-                res = 17 // default val to be cahnged !!
-                per  = 3.7  // default val to be cahnged !!
-                liveStatisticsAnimation(res,1,1500,document.getElementById('nb-of-emp-by-branch'));
-                liveStatisticsAnimation(per,0.1,1500,document.getElementById('diff-branch-E'));
+                br = el.value;
+                res = await Load("get Employees From Branch",br,{});
+                res = res.result ; 
+                per = (Math.round( (res*10000)/(EmployeesStatistics.totalNbOfEmployees) ))/100 ; 
+                liveStatisticsAnimation(res,1,(1.5)*FA,document.getElementById('nb-of-emp-by-branch'));
+                liveStatisticsAnimation(per,0.1,(1.5)*FA,document.getElementById('diff-branch-E'));
                 el.blur();}
               else{
                 el.setCustomValidity('invalid Branch Code')
@@ -533,6 +548,8 @@
           })
 
         }
+
+
 
 
 
@@ -582,7 +599,7 @@
             data: {
               labels: last6months,
               datasets: [{
-                label: 'Number Of Customers',
+                label: 'Number Of Accounts',
                 data: nbOfCustomersEvelution,
                 backgroundColor : 'rgba(74, 222, 128,.2)' ,
                 fill: true,            // area under curve
@@ -654,8 +671,10 @@
           });}
 
           function liveStatisticsAnimation(nb,step,time,el,addition=""){
+            if(nb==0){el.innerText=0 ; return}
             var i ;
             let val = 0;
+            el.innerText = 0 ;
             let add;
             if(time/(nb/step) < 4){
               step = (4*nb)/time ;
@@ -694,45 +713,55 @@
           }
 
         function loadAllStatisticAnimations(){
-          liveStatisticsAnimation(loanStatistics.totalNbOfLoans,1,3000,document.getElementById('t-n-loans'));
-          liveStatisticsAnimation(loanStatistics.ActiveLoans,1,3000,document.getElementById('nb-loans-by-status'));
-          liveStatisticsAnimation(loanStatistics.buisnessLoans,1,3000,document.getElementById('nb-loans-by-type'));
-          liveStatisticsAnimation(CustomersStatistics.totalNbOfCustomers,1,3000,document.getElementById('total-number-of-Cus'));
-          liveStatisticsAnimation(EmployeesStatistics.totalNbOfEmployees,1,3000,document.getElementById('total-number-of-emp'));
+          el = document.getElementById('s-loan-status');
+          el2 = document.getElementById('s-loan-type');
+          
+          setTimeout(()=>el.disabled=true,10);
+          setTimeout(()=>el2.disabled=true,10);
+          setTimeout(()=>el.disabled=false,AI+75);
+          setTimeout(()=>el2.disabled=false,AI+75);
+
+          liveStatisticsAnimation(LoansSdata[0].totalNbOfLoans,1,AI,document.getElementById('t-n-loans'));
+          liveStatisticsAnimation(LoansSdata[0].ActiveLoans,1,AI,document.getElementById('nb-loans-by-status'));
+          liveStatisticsAnimation(LoansSdata[0].buisnessLoans,1,AI,document.getElementById('nb-loans-by-type'));
+          liveStatisticsAnimation(CustomersStatistics.totalNbOfAccounts,1,AI,document.getElementById('total-number-of-Cus'));
+          liveStatisticsAnimation(EmployeesStatistics.totalNbOfEmployees,1,AI,document.getElementById('total-number-of-emp'));
 
 
 
           
-          liveStatisticsAnimation(Math.abs(loanPercentage.totalNbOfLoans),0.01,3000,document.getElementById('diff-Total-L'),increaseOrDecrease(loanPercentage.totalNbOfLoans,document.getElementById('diff-Total-L')));
-          liveStatisticsAnimation(Math.abs(loanPercentage.ActiveLoans),0.01,3000,document.getElementById('diff-Status-L'));
-          liveStatisticsAnimation(Math.abs(loanPercentage.buisnessLoans),0.01,3000,document.getElementById('diff-Type-L'));
-          liveStatisticsAnimation(Math.abs(CustomersPercentage.totalNbOfCustomers),0.01,3000,document.getElementById('diff-Total-C'),increaseOrDecrease(CustomersPercentage.totalNbOfCustomers,document.getElementById('diff-Total-C')));
-          liveStatisticsAnimation(Math.abs(EmployeesPercentage.totalNbOfEmployees),0.01,3000,document.getElementById('diff-Total-E'),increaseOrDecrease(EmployeesPercentage.totalNbOfEmployees,document.getElementById('diff-Total-E')));
+          liveStatisticsAnimation(Math.abs(LoansSdata[1].totalNbOfLoans),0.01,AI,document.getElementById('diff-Total-L'),increaseOrDecrease(LoansSdata[1].totalNbOfLoans,document.getElementById('diff-Total-L')));
+          liveStatisticsAnimation(Math.abs(LoansSdata[1].ActiveLoans),0.01,AI,document.getElementById('diff-Status-L'));
+          liveStatisticsAnimation(Math.abs(LoansSdata[1].buisnessLoans),0.01,AI,document.getElementById('diff-Type-L'));
+          liveStatisticsAnimation(Math.abs(CustomersStatistics.percentage),0.01,AI,document.getElementById('diff-Total-C'),increaseOrDecrease(CustomersStatistics.percentage,document.getElementById('diff-Total-C')));
+          liveStatisticsAnimation(Math.abs(EmployeesStatistics.percentage),0.01,AI,document.getElementById('diff-Total-E'),increaseOrDecrease(EmployeesStatistics.percentage,document.getElementById('diff-Total-E')));
 
         }
         function loadStatistics(){          
           loadAllStatisticAnimations();
           document.getElementById('cus-most-loan').innerText = CustomersStatistics.mostLoans.CusNb ;
           document.getElementById('most-loan-for-cus').innerText = formatNumber(CustomersStatistics.mostLoans.loanNb) + " Loans";
-          document.getElementById('acc-of-most-loan-of-cus').innerText = CustomersStatistics.mostLoans.AccNb ;
+          document.getElementById('acc-of-most-loan-of-cus').innerText = CustomersStatistics.mostLoans.fullName ;
 
           document.getElementById('cus-most-balance').innerText = CustomersStatistics.highestBalance.CusNb ;
           document.getElementById('most-balance-for-cus').innerText = formatNumber(CustomersStatistics.highestBalance.balance) + " TND";
-          document.getElementById('acc-of-most-balance-of-cus').innerText = CustomersStatistics.highestBalance.AccNb ;
+          document.getElementById('acc-of-most-balance-of-cus').innerText = CustomersStatistics.highestBalance.fullName ;
 
           document.getElementById('cus-least-balance').innerText = CustomersStatistics.lowestBalance.CusNb ;
           document.getElementById('least-balance-for-cus').innerText = formatNumber(CustomersStatistics.lowestBalance.balance) + " TND";
-          document.getElementById('acc-of-least-balance-of-cus').innerText = CustomersStatistics.lowestBalance.AccNb ;
+          document.getElementById('acc-of-least-balance-of-cus').innerText = CustomersStatistics.lowestBalance.fullName ;
 
 
           document.getElementById('emp-most-salary').innerText = EmployeesStatistics.highestSalary.EmpNb ;
           document.getElementById('most-salary-for-emp').innerText = formatNumber(EmployeesStatistics.highestSalary.salary) + " TND";
-          document.getElementById('emp-most-salary-status').innerText = EmployeesPercentage.highestSalary ;
+          document.getElementById('emp-most-salary-status').innerText = EmployeesStatistics.highestSalary.status ;
+          document.getElementById('emp-most-salary-status').className = "status-"+EmployeesStatistics.highestSalary.status ;
 
 
           document.getElementById('emp-least-salary').innerText = EmployeesStatistics.lowestSalary.EmpNb ;
           document.getElementById('least-salary-for-emp').innerText = formatNumber(EmployeesStatistics.lowestSalary.salary) + " TND";
-          document.getElementById('emp-least-salary-status').innerText = EmployeesPercentage.lowestSalary ;
+          document.getElementById('emp-least-salary-status').innerText = EmployeesStatistics.lowestSalary.status ;
+          document.getElementById('emp-least-salary-status').className = "status-"+EmployeesStatistics.lowestSalary.status ;
 
         }
         function formatNumber(n) {

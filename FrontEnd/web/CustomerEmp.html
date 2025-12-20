@@ -629,11 +629,12 @@
                     card.appendChild(row);
       }
 
-        window.afficheLoanDetails = function(Ltype,stD,enD,amount,ITR,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
+        window.afficheLoanDetails = function(Ltype,stD,enD,amount,ITR=2.5,id='',paidAmount='',RB='',status='Waiting For Response',fc = ()=>{}){// update allT , TIds , Balance , active when add.click
                 let bubble = createLoanDetailsBox(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status);
                 displayBox(bubble,fc);
             }
        window.createLoanDetailsBox = function(Ltype,stD,enD,amount,ITR,id,paidAmount,RB,status='Waiting For Response'){
+                ITR = 2.5;
                 let Del ;
                 let change ;
                 let RefuseRq ;

@@ -229,7 +229,7 @@
                     id="IBinp"
                     class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent"
                     type="text"
-                    placeholder="Enter your Branch"
+                    placeholder="Enter Customer Name"
                   />
                 </div>
 
@@ -241,75 +241,39 @@
                     id="AcN"
                     class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent"
                     type="text"
-                    placeholder="Account holder name"
+                    placeholder="Enter Customer Last Name"
                   />
                 </div>
 
-                <div
-                  class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl"
-                >
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
                   <input
                     autocomplete="off"
                     id="CN"
                     class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent"
                     type="text"
-                    placeholder="Customer Id"
+                    placeholder="Customer Adress"
                   />
                 </div>
 
-                <div
-                  class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl"
-                >
-                  <textarea
+                <div class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl">
+                  <input
                     autocomplete="off"
                     id="CD"
                     class="pl-6 pr-16 py-4 text-gray-300 w-full placeholder-gray-300 outline-none bg-transparent"
                     type="text"
-                    placeholder="Describe Yourself"
-                  ></textarea>
+                    placeholder="Customer Phone Number"
+                  />
                 </div>
 
-                <div
-                  class="mb-6 border border-gray-900 focus-within:border-white overflow-hidden rounded-3xl"
-                >
-                  <select class="select-account-type" id="SAT">
-                    <option
-                      class="option-account-type"
-                      selected
-                      disabled
-                      hidden
-                    >
-                      Account Type
-                    </option>
-                    <option class="option-account-type">
-                      Checking Account
-                    </option>
-                    <option class="option-account-type">Savings Account</option>
-                    <option class="option-account-type">Joint Account</option>
-                    <option class="option-account-type">
-                      Business Account
-                    </option>
-                  </select>
-                </div>
+                
 
                 <a
                   class="block mb-6 px-14 py-4 text-center font-medium tracking-2xl border-2 border-green-400 bg-green-400 hover:bg-green-500 text-black focus:ring-4 focus:ring-green-500 focus:ring-opacity-40 rounded-full transition duration-300"
                   style="cursor: pointer"
                   onclick="SignInClicked()"
-                  >Add Account</a
+                  >Add Customer</a
                 >
-                <button class="super-button hide" id="addNewCustomer" onclick="addNewCustomer()">
-                  <span>Add New Customer</span>
-                  <svg fill="none" viewBox="0 0 24 24" class="arrow">
-                    <path
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      d="M5 12h14M13 6l6 6-6 6"
-                    ></path>
-                  </svg>
-                </button>
+ 
                 
               </div>
             </div>
@@ -513,31 +477,13 @@
     <script src="Load.js"></script>
     <script>
       let params = new URLSearchParams(window.location.search);
-      let EnterInfo = JSON.parse(params.get("value"));
-      if(EnterInfo){
-        let el = document.getElementById('addNewCustomer');
-        el.className = "super-button";
-      }
-      
+      let EnterInfo = params.get("value");
       console.log(EnterInfo);
-
-      function addNewCustomer() {
-        window.open('addCustomer.html?value='+ (EnterInfo[0]),'_self')
-      }
 
       const i1 = document.getElementById("IBinp");
       const i2 = document.getElementById("AcN");
       const i3 = document.getElementById("CN");
       const i4 = document.getElementById("CD");
-      const s = document.getElementById("SAT");
-
-      if(EnterInfo && EnterInfo[1] && typeof(EnterInfo)!="string"){
-        i3.value=EnterInfo[1];
-      }
-
-      function validateBranch(iban) {
-        return Number.isInteger(Number(iban)) && iban;
-      }
 
       function validateName(name) {
         if (!name) return false;
@@ -547,78 +493,58 @@
         return /^[A-Za-z\s]+$/.test(name);
       }
 
-      function validateCustomerID(id) {
-        if (!id) return false;
-        id = id.trim().toUpperCase();
-
-        // Pattern: CUS + 4 digits
-        return /^CUS\d{4}$/.test(id) && true; // && customer exist ! addded later with c++
+      function validatePhone(phone) {
+        const cleaned = phone.replace(/\s|-/g, "");
+        const regex = /^\+?\d{8,15}$/;
+        return regex.test(cleaned);
       }
 
-      async function verifyCustomerExistence(CusId) {
-        res = await Load("Check CusId Existence", CusId);
-        console.log("res " , res.result);
-        return JSON.parse(res.result);
-      }
 
-      async function updateAccountsCpp(
-        Branch,
-        AccountName,
-        CustomerId,
-        AccountType,
-        note
+      async function updateCutomerCpp(
+        name,
+        lastName,
+        adress,
+        number
       ) {
-        await Load("createAccount", "d", {Branch,AccountName,CustomerId,note,AccountType});
-        if (EnterInfo) {
-          window.open("Employee.html?value=" +encodeURIComponent(JSON.stringify(EnterInfo)),"_self");
-        } else {
-          window.open("index.html?", "_self");
-        }
-        return 0;
+        res = await Load("Create Customer", "10", {name,lastName,adress,phoneNumber : number});
+        id = res.result ;
+        window.open("register.html?value=" +encodeURIComponent(JSON.stringify([EnterInfo,id])),"_self");
+        return ;
       }
 
       async function SignInClicked() {
         const val1 = i1.value;
         const val2 = i2.value;
         const val3 = i3.value;
-        const description = i4.value;
-        const val4 = s.value;
+        const val4 = i4.value;
         i1.addEventListener("keypress", () => i1.setCustomValidity(""));
         i2.addEventListener("keypress", () => i2.setCustomValidity(""));
         i3.addEventListener("keypress", () => i3.setCustomValidity(""));
-        s.addEventListener("click", () => s.setCustomValidity(""));
+        i4.addEventListener("click", () => i4.setCustomValidity(""));
 
-        if (!validateBranch(val1)) {
-            i1.setCustomValidity("Unvalid Branch");
+        if (!validateName(val1)) {
+            i1.setCustomValidity("Enter Customer Name !");
             i1.reportValidity();
             return ;
           } else if (!validateName(val2)) {
-            i2.setCustomValidity("Unvalid Account Holder Name");
+            i2.setCustomValidity("Enter Customer Last Name !");
             i2.reportValidity();
             return ;
-          } else if (!validateCustomerID(val3)) {
-            i3.setCustomValidity("Unvalid Customer Id");
+          } else if (!(val3)) {
+            i3.setCustomValidity("Enter Customer Adress !");
             i3.reportValidity();
             return ;
           }
           
-          else if (val4 == "Account Type") {
-            s.setCustomValidity("Account Type Not Selected Yet");
-            s.reportValidity();
+          else if (!validatePhone(val4)) {
+            i4.setCustomValidity("Unvalid Phone Number");
+            i4.reportValidity();
             return ;
           }
-
-          let exs = await verifyCustomerExistence(val3) ;
-
-          if (!exs ){
-            i3.setCustomValidity("Customer Doesn t exist !");
-            i3.reportValidity();
-            return ;
-          }
-          else {
-            updateAccountsCpp(val1, val2, val3, val4, description);
-            return ;
-          } 
+        else  {
+          updateCutomerCpp(val1, val2, val3, val4);
+          return ;
+        } 
           
         
       }

@@ -72,5 +72,6 @@
     "comments": false,
     "strings": true
   },
-  "editor.suggestOnTriggerCharacters": true
+  "editor.suggestOnTriggerCharacters": true,
+  "C_Cpp.errorSquiggles": "disabled"
 }

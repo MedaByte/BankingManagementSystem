@@ -383,7 +383,7 @@ int main()
         int oldMonth = stoi(timeLineCSV::getLastMonth());
         int newMonth = stoi(inf);
         int diff = Utils::monthDifference(oldMonth, newMonth);
-        if(diff<=0){return -1;}
+        if(diff<=0){return 0;}
         else if (diff >=1)
         {
             if(diff > 1){

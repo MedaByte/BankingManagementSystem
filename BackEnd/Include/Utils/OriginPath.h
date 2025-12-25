@@ -1,12 +1,18 @@
 #ifndef ORIGINPATH_H
 #define ORIGINPATH_H
 
-#include <windows.h> // Windows API for file paths | API do Windows para caminhos de arquivos
-#include <string>    // For std::string | Para std::string
+#include <string>
+#include <stdexcept>
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>   // For readlink
+    #include <limits.h>   // For PATH_MAX
+#endif
 
 namespace Utils
 {
-
     inline int monthDifference(int startMonth, int endMonth)
     {
         if (endMonth >= startMonth)
@@ -15,24 +21,34 @@ namespace Utils
             return (12 - startMonth) + endMonth;
     }
 
-    // Returns the root folder of the project | Retorna a pasta raiz do projeto
     inline std::string GetOriginFolder()
-    {
-        char buffer[MAX_PATH];                      // Buffer to store the executable path | Buffer para armazenar o caminho do executável
-        GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get the path of the running executable | Obtém o caminho do executável em execução
-        std::string path(buffer);                   // Convert to std::string | Converte para std::string
+{
+    std::string path;
 
-        // Look for the project folder name in the path | Procura o nome da pasta do projeto no caminho
-        size_t pos = path.find("BankingManagementSystem");
-        if (pos == std::string::npos)
-        {
-            // If folder not found, throw an error | Se a pasta não for encontrada, lança um erro
-            throw std::runtime_error("Origin folder not found in executable path");
-        }
+#ifdef _WIN32
+    char buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+    path = std::string(buffer);
+#else
+    char buffer[PATH_MAX];
+    ssize_t len = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
+    if (len == -1)
+        throw std::runtime_error("Unable to get executable path");
+    buffer[len] = '\0';
+    path = std::string(buffer);
+#endif
 
-        // Return the path up to the project folder | Retorna o caminho até a pasta do projeto
-        return path.substr(0, pos + std::string("BankingManagementSystem").length());
-    }
+    // Convert path to lowercase for comparison
+    std::string pathLower = path;
+    
+    std::string folderName = "DSA_Fn_save"; // lowercase
+    size_t pos = pathLower.find(folderName);
+    if (pos == std::string::npos)
+        throw std::runtime_error("Origin folder not found in executable path");
+
+    return path.substr(0, pos + folderName.length());
+}
+
 
 }
 

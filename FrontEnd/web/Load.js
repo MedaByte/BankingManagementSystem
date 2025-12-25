@@ -1,11 +1,16 @@
 async function Load(CMD,info="10",obj={}){
-        const response = await fetch('https://nonextensively-monodomous-juana.ngrok-free.dev/submit',
+        const response = await fetch('https://hidebanck-cloudserves.onrender.com/submit',
           {
             method : 'POST',
             headers:{'Content-Type':'application/json'},
             body : JSON.stringify({ command: CMD  , info : info , object : obj})
           }
         );
+
+        if (!response.ok) {
+          console.log(`Server error: ${response.status}`);
+        }
+
         let data = await response.json();
         return data ;
 

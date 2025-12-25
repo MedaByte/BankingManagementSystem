@@ -1,0 +1,20 @@
+Id,Name,LastName,Address,Salary,HireDate,BranchCode,Status
+EMP0001,Larissa,Moraes,São Paulo,18000,02/01/2020,1,active
+EMP0002,Rafael,Santos,Rio de Janeiro,22000,15/03/2021,2,retired
+EMP0003,Mariana,Alves,Belo Horizonte,19000,23/07/2021,3,break
+EMP0004,Gustavo,Cardoso,Salvador,21000,01/03/2020,4,vacation
+EMP0005,Bruna,Oliveira,Fortaleza,20000,01/03/2020,5,inactive
+EMP0006,Thiago,Pereira,São Paulo,23000,01/03/2020,6,vacation
+EMP0007,Beatriz,Ribeiro,Rio de Janeiro,20000,01/03/2020,1,active
+EMP0008,Felipe,Carvalho,Belo Horizonte,20500,07/12/2025,8,active
+EMP0010,Lucas,Ferreira,Fortaleza,6200,05/05/2020,5,active
+EMP0011,Camila,Lima,São Paulo,20000,08/08/2019,11,vacation
+EMP0012,Daniela,Barbosa,Rio de Janeiro,21000,11/11/2020,12,active
+EMP0013,Pedro,Rocha,Belo Horizonte,22000,01/04/2021,13,inactive
+EMP0014,Luis,Gomes,Salvador,19000,07/12/2020,14,active
+EMP0015,Carlos,Silva,Fortaleza,23000,15/07/2022,15,active
+EMP0015,Carlos,Silva,Fortaleza,75000,15/07/2022,15,retired
+EMP0017,Cresiano,Ronaldo,Rio de kalno,21000,23/02/2020,17,break
+EMP0018,Juliana,Teixeira,Belo Horizonte,22500,18/03/2021,18,inactive
+EMP0019,Sami,fkih,Belo Horizonte,72500,18/10/2015,18,vacation
+EMP0020,Larissa,Fonseca,Fortaleza,20500,01/05/2021,2,retired

@@ -1,0 +1,40 @@
+AccountNumber,AccountType,IBAN,BranchCode,HolderName,OpeningDate,Status,Balance,CustomerId,Note,Image
+ACC0001,GENERAL,TN001ACC0001,1,Zeineb Maazaoui,01/01/2025,active,2677,CUS0001,Primary general account used for daily transactions and salary deposits,default
+ACC0002,SAVINGS,TN001ACC0002,1,Nihed Bani,03/02/2025,active,560,CUS0001,Frozen due verification of personal documents,default
+ACC0003,BUSINESS,TN001ACC0003,1,Md Mnasria,05/03/2025,active,4500,CUS0001,Business account for freelance and contract payments,default
+ACC0004,GENERAL,TN002ACC0004,2,Mahdi Turki,10/01/2025,active,1300,CUS0002,Regular general account with moderate activity,default
+ACC0005,POUPANCA,TN002ACC0005,2,Mounira Dridi,15/03/2025,active,4010,CUS0002,Account temporarily frozen due to overdue charges,default
+ACC0006,BUSINESS,TN002ACC0006,2,Yassin Ouelati,17/02/2025,closed,2000,CUS0003,Business account for small personal projects and online sales,default
+ACC0008,CORRENTE,TN004ACC0008,4,Geovanna Souza,02/07/2025,active,780,CUS0004,Main checking account used for rent and utility payments,default
+ACC0009,GENERAL,TN002ACC0009,2,Bruno Almeida,17/12/2025,frozen,560,CUS0005,Frozen due verification,awaiting identification documents
+ACC0010,SAVINGS,TN002ACC0010,2,Bruno Almeida,22/11/2025,active,300,CUS0005,Savings account dedicated to emergency funds and short-term goals,default
+ACC0011,GENERAL,TN001ACC0011,1,Amira Rekik,05/06/2025,active,2300,CUS0006,Primary general account for regular expenses and salary deposits,default
+ACC0012,POUPANCA,TN002ACC0012,2,Rami Ben Salem,04/11/2025,active,16425,CUS0007,High-value account for business transactions and investments,default
+ACC0013,GENERAL,TN003ACC0013,3,João Pedro,12/12/2025,active,5000,CUS0008,Personal account for daily spending and subscription payments,default
+ACC0014,BUSINESS,TN006ACC0014,6,João Pedro,07/12/2025,active,0,CUS0008,Startup account with initial balance zero,default operations
+ACC0015,SAVINGS,TN002ACC0015,2,Gustavo Oliveira,02/07/2025,overdue,0,CUS0009,Overdraft account flagged for immediate attention,default
+ACC0016,GENERAL,TN002ACC0016,2,Leila Trabelsi,17/12/2025,active,158,CUS0010,Standard account used for utility and monthly expenses,default
+ACC0017,GENERAL,TN001ACC0017,1,Karim Ben Ali,01/03/2025,active,1200,CUS0011,Regular account used for routine payments and transactions,default
+ACC0018,SAVINGS,TN001ACC0018,1,Maria Souza,15/10/2025,frozen,560,CUS0012,Frozen account awaiting verification,default
+ACC0019,GENERAL,TN002ACC0019,2,Ali Frikha,07/12/2025,active,2300,CUS0013,Primary account for personal expenses and savings,default
+ACC0020,BUSINESS,TN002ACC0020,2,Fatima Mohamed,07/12/2025,active,0,CUS0014,New business account for upcoming projects and contracts,default
+ACC0021,CORRENTE,TN001ACC0021,1,Pedro Almeida,07/12/2025,active,560,CUS0015,Checking account for daily transactions and transfers,default
+ACC0022,SAVINGS,TN002ACC0022,2,Laila Haddad,07/12/2025,overdue,0,CUS0016,Account frozen due to overdue charges,default actions required
+ACC0023,GENERAL,TN001ACC0023,1,Carlos Silva,07/12/2025,active,2300,CUS0017,General account for regular income and bill payments,default
+ACC0024,GENERAL,TN002ACC0024,2,Sami Ben Youssef,07/12/2025,active,158,CUS0018,Standard account for personal finances,default
+ACC0025,POUPANCA,TN003ACC0025,3,Ana Oliveira,07/12/2025,frozen,560,CUS0019,Frozen account due to identification check,default
+ACC0026,GENERAL,TN001ACC0026,1,Nour Trabelsi,07/12/2025,active,1200,CUS0020,Primary account for daily and monthly expenses,default
+ACC0027,BUSINESS,TN001ACC0027,1,Rui Souza,07/12/2025,active,0,CUS0021,Business account for small-scale operations,default
+ACC0028,SAVINGS,TN002ACC0028,2,Youssef Hamdi,07/12/2025,active,300,CUS0022,Savings account for future investments and goals,default
+ACC0029,GENERAL,TN002ACC0029,2,Helena Almeida,07/12/2025,active,158,CUS0023,Regular account used for personal daily spending,default
+ACC0030,GENERAL,TN001ACC0030,1,Selim Ben Ali,07/12/2025,active,1200,CUS0024,Standard account for routine financial transactions,default
+ACC0031,POUPANCA,TN002ACC0031,2,Camila Souza,07/12/2025,frozen,560,CUS0025,Frozen account for verification purposes,default
+ACC0032,BUSINESS,TN003ACC0032,3,Khaled Trabelsi,07/12/2025,active,0,CUS0026,New business account opened for client projects,default
+ACC0033,GENERAL,TN001ACC0033,1,Isabella Silva,07/12/2025,active,2300,CUS0027,Primary account for general usage,default
+ACC0034,GENERAL,TN002ACC0034,2,Sarah Bn Youssef,07/12/2025,active,158,CUS0028,Regular account for daily expenses,default
+ACC0035,SAVINGS,TN003ACC0035,3,Tarek Frikha,07/12/2025,active,560,CUS0029,Savings account for emergency and long-term funds,default
+ACC0036,GENERAL,TN001ACC0036,1,Luana Oliveira,07/12/2025,active,1200,CUS0030,Standard general account with regular activity,default
+ACC0037,BUSINESS,TN002ACC0037,2,Md Mnasria,07/12/2025,active,0,CUS0001,Secondary business account for additional projects,default
+ACC0038,SAVINGS,TN003ACC0038,3,Mounira Dridi,07/12/2025,active,300,CUS0002,Extra savings account used for minor investments,default
+ACC0039,GENERAL,TN001ACC0039,1,Yassin Ouelati,07/12/2025,active,450,CUS0003,Additional general account for personal expenses,default
+ACC0040,BUSINESS,TN002ACC0040,2,Geovanna Souza,07/12/2025,active,0,CUS0004,Secondary business account for client contracts,default
